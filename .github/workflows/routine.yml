@@ -1,0 +1,54 @@
+name: Routine quotidienne CAC 40 J+1
+
+# Déclenchement calé sur les heures de mise à disposition des valeurs des indices suivis :
+#   - Asie (^N225 ~8h00 Paris, ^HSI ~10h00 Paris) : disponible en journée
+#   - Europe (^FCHI, ^GDAXI, ^STOXX50E) : clôture 17h35 Paris
+#   - US (^GSPC, ^IXIC, ^VIX) : clôture 22h00 Paris (dernière donnée du jour)
+# => un seul déclenchement, après la clôture US : 21h15 UTC
+#    (= 23h15 Paris en heure d'été, 22h15 en heure d'hiver — toujours après 22h00 Paris).
+on:
+  schedule:
+    - cron: "15 21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: routine
+  cancel-in-progress: false
+
+jobs:
+  routine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: "--allowedTools WebSearch,WebFetch,Read,Write,Edit,Glob,Grep,Bash(git:*)"
+          prompt: |
+            Tu es l'analyste quantitatif de la routine « CAC 40 J+1 » de ce dépôt.
+
+            1. Lis ROUTINE.md (les règles complètes), INDICES.md (le noyau immuable de 8 indices,
+               les règles du suivi dynamique ±2 %) et etat/BLOC_ETAT.json (dernier état).
+            2. Si aujourd'hui n'est pas un jour de bourse Euronext (week-end, férié), arrête-toi
+               sans rien committer.
+            3. Exécute la routine dans l'ordre (collecte web avec sources et horodatage, réalisé du
+               jour, évaluation de la prévision d'hier avec attribution corrigeable/irréductible,
+               leçons, prévision J+1 calibrée 0,50–0,70, intervalle 80 %).
+            4. Applique les règles du suivi dynamique : noyau immuable ; ajout de tout indice hors
+               noyau à >= +2,0 % sur la séance ; retrait de tout indice du suivi dynamique
+               à <= -2,0 %. Journalise les mouvements.
+            5. Mets à jour : rapports/AAAA-MM-JJ.md (rapport du jour), etat/BLOC_ETAT.json,
+               docs/data/history.json (record du jour avec contexte des indices suivis, verdict de
+               la prévision de la veille, metriques, metriques_historique, prevision_active,
+               suivi_dynamique, journal_suivi, lecons, derniere_maj).
+            6. Commit et push directement sur master (jamais de pull request). Message de commit :
+               « Routine CAC 40 J+1 — séance du AAAA-MM-JJ ».
+
+            Règles strictes : aucune valeur de marché inventée (introuvable = ND) ; signaler les
+            divergences de sources > 0,1 % ; jamais de recommandation d'investissement.

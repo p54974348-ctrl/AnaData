@@ -19,8 +19,12 @@ Cherche le dernier « BLOC ÉTAT — ROUTINE CAC 40 » : soit collé en fin de c
 
 ## ÉTAPE 1 — COLLECTE (recherche web obligatoire)
 
-1. CAC 40 : clôture du jour J, clôture de J-1, ouverture du jour J (pour décomposer gap overnight vs séance), volume si disponible.
-2. Contexte : S&P 500 (clôture du jour ou dernier niveau), VIX, EUR/USD, Brent, taux 10 ans (OAT ou Bund).
+1. CAC 40 (`^FCHI`) : clôture du jour J, clôture de J-1, ouverture du jour J (pour décomposer gap overnight vs séance), volume si disponible.
+2. Contexte — les 7 indices compagnons de la fiche `INDICES.md` (niveau + variation %), plus EUR/USD, Brent et taux 10 ans (OAT ou Bund) :
+   * Moteurs overnight US : S&P 500 (`^GSPC`), VIX (`^VIX`), Nasdaq Composite (`^IXIC`) — clôture du jour ou dernier niveau si la séance US est en cours.
+   * Co-mouvement européen : DAX 40 (`^GDAXI`, total return — ne pas comparer les performances brutes au CAC), Euro Stoxx 50 (`^STOXX50E`).
+   * Séance asiatique de la nuit : Nikkei 225 (`^N225`), Hang Seng (`^HSI`, canal Chine/luxe).
+   * Suivi dynamique (voir `INDICES.md` §5) : collecter aussi les indices actuellement dans la liste dynamique du bloc état, puis appliquer les règles automatiques — le noyau de 8 est immuable ; tout indice hors noyau à **≥ +2,0 %** sur la séance est ajouté au suivi dynamique ; tout indice du suivi dynamique à **≤ −2,0 %** en est retiré. Journaliser chaque ajout/retrait (date, variation, raison).
 3. Actualité du jour : 3 à 5 faits susceptibles d'avoir bougé le CAC (macro, BCE/Fed, résultats ou annonces de valeurs du CAC 40, géopolitique).
 4. Agenda de demain : publications macro, interventions de banques centrales, résultats de composantes du CAC 40.
 

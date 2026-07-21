@@ -173,6 +173,23 @@
     </section>
   </div>
 
+  <section class="card">
+    <h2>Contexte marchés — dernière séance</h2>
+    <p class="sub" id="contextSub">Variations quotidiennes des indices compagnons (fiche INDICES.md). DAX = total return : ne pas comparer sa performance brute à celle du CAC (indice prix).</p>
+    <div class="legend">
+      <span class="key"><span class="bar-pos"></span> Hausse</span>
+      <span class="key"><span class="bar-neg"></span> Baisse</span>
+    </div>
+    <div class="chart-wrap" id="chartContext"></div>
+    <div style="overflow-x:auto; margin-top:10px;"><table id="contextTable"></table></div>
+  </section>
+
+  <section class="card">
+    <h2>Indices suivis</h2>
+    <p class="sub">Noyau fixe de 8 indices (immuable) + suivi dynamique : ajout automatique sur séance ≥ +2 %, retrait automatique sur séance ≤ −2 %.</p>
+    <div id="watchlist"></div>
+  </section>
+
   <div class="grid2">
     <section class="card">
       <h2>Hit rate directionnel cumulé</h2>
@@ -263,8 +280,9 @@
     });
     const nlab = Math.max(1, Math.ceil(dates.length / Math.floor(iw / 52)));
     dates.forEach((d, i) => {
-      if (i % nlab === 0 || i === dates.length - 1)
-        el('text', { x: x(i), y: H - 8, 'text-anchor': 'middle', 'font-size': 10.5, fill: css('--text-muted') }, svg).textContent = dshort(d);
+      if (opts.rawLabels || i % nlab === 0 || i === dates.length - 1)
+        el('text', { x: x(i), y: H - 8, 'text-anchor': 'middle', 'font-size': 10.5, fill: css('--text-muted') }, svg)
+          .textContent = opts.rawLabels ? d : dshort(d);
     });
     if (opts.zero && lo < 0 && hi > 0)
       el('line', { x1: m.left, x2: W - m.right, y1: y(0), y2: y(0), stroke: css('--baseline'), 'stroke-width': 1 }, svg);
@@ -277,11 +295,19 @@
 
   let DATA = null;
 
+  // Reporting window: charts and table cover the last 30 days (KPI tiles stay cumulative).
+  const WINDOW_DAYS = 30;
+  function inWindow(all) {
+    if (!all.length) return all;
+    const ref = new Date(all[all.length - 1].date + 'T00:00:00');
+    return all.filter(r => (ref - new Date(r.date + 'T00:00:00')) / 86400000 <= WINDOW_DAYS);
+  }
+
   function render() {
     if (!DATA) return;
-    const d = DATA, recs = d.records || [];
+    const d = DATA, allRecs = d.records || [], recs = inWindow(allRecs);
     document.getElementById('lastUpdate').textContent =
-      d.indice + ' · dernière mise à jour : ' + (d.derniere_maj || '—');
+      d.indice + ' · dernière mise à jour : ' + (d.derniere_maj || '—') + ' · fenêtre : 30 derniers jours';
 
     // ---- KPI tiles
     const mtr = d.metriques || {};
@@ -407,8 +433,56 @@
       });
     }
 
+    // ---- Context indices (latest session) — core order first, then dynamic-watchlist keys
+    const NAMES = {
+      sp500: 'S&P 500', nasdaq: 'Nasdaq', dax: 'DAX', stoxx50: 'Stoxx 50',
+      nikkei: 'Nikkei', hangseng: 'Hang Seng', kospi: 'KOSPI', taiex: 'TAIEX',
+      dow: 'Dow Jones', russell2000: 'Russell 2000', ftse100: 'FTSE 100', csi300: 'CSI 300',
+      nifty: 'Nifty 50', asx200: 'ASX 200', ndx: 'Nasdaq-100'
+    };
+    const CORE_KEYS = ['sp500', 'nasdaq', 'dax', 'stoxx50', 'nikkei', 'hangseng'];
+    const lastRec = recs[recs.length - 1];
+    const ctxKeys = lastRec && lastRec.contexte
+      ? CORE_KEYS.filter(k => lastRec.contexte[k])
+          .concat(Object.keys(lastRec.contexte).filter(k => k !== 'vix' && !CORE_KEYS.includes(k)))
+      : [];
+    const CTX = ctxKeys.map(k => [k, NAMES[k] || k.toUpperCase()]);
+    const cx = document.getElementById('chartContext');
+    const last = recs[recs.length - 1];
+    const ctx = last && last.contexte;
+    if (!ctx) empty(cx, 'Pas encore de données de contexte.');
+    else {
+      document.getElementById('contextSub').textContent =
+        'Séance du ' + last.date + ' — variations quotidiennes des indices compagnons (fiche INDICES.md). DAX = total return : ne pas comparer sa performance brute à celle du CAC (indice prix).';
+      const items = [{ label: 'CAC 40', v: last.rendement_pct, note: 'clôture' }]
+        .concat(CTX.map(([k, label]) => ctx[k] && ctx[k].var_pct != null ? { label, v: ctx[k].var_pct, note: ctx[k].note } : null))
+        .filter(Boolean);
+      const labels = items.map(it => it.label), vals = items.map(it => it.v);
+      const f = frame(cx, labels, Math.min(...vals, -0.5), Math.max(...vals, 0.5), { zero: true, rawLabels: true, height: 200 });
+      const bw = Math.min(24, Math.max(10, f.iw / labels.length * 0.5));
+      const y0 = f.y(0);
+      items.forEach((it, i) => {
+        const up = it.v >= 0, yv = f.y(it.v), h = Math.max(2, Math.abs(yv - y0));
+        const bar = el('path', {
+          d: roundedBar(f.x(i) - bw / 2, up ? yv : y0, bw, h, 4, up),
+          fill: up ? css('--pos') : css('--neg')
+        }, f.svg);
+        bar.addEventListener('mousemove', ev => showTip(
+          `<div class="t-date">${it.label}</div><div class="t-row">Variation : <b>${pct(it.v, 2, true)}</b></div><div class="t-row">${it.note || ''}</div>`, ev));
+        bar.addEventListener('mouseleave', hideTip);
+      });
+      const tc = document.getElementById('contextTable');
+      tc.innerHTML = '<tr><th>Indice</th><th>Niveau</th><th>Variation</th><th>Note</th></tr>' +
+        `<tr><td>CAC 40</td><td>${fmt(last.cloture, 2)}</td><td>${pct(last.rendement_pct, 2, true)}</td><td style="text-align:left">clôture</td></tr>` +
+        CTX.map(([k, label]) => {
+          const c = ctx[k]; if (!c) return '';
+          return `<tr><td>${label}</td><td>${c.niveau != null ? fmt(c.niveau, 2) : '—'}</td><td>${c.var_pct != null ? pct(c.var_pct, 2, true) : '—'}</td><td style="text-align:left">${c.note || ''}</td></tr>`;
+        }).join('') +
+        (ctx.vix ? `<tr><td>VIX (niveau)</td><td>${ctx.vix.niveau != null ? fmt(ctx.vix.niveau, 2) : '—'}</td><td>${ctx.vix.var_pct != null ? pct(ctx.vix.var_pct, 2, true) : '—'}</td><td style="text-align:left">${ctx.vix.note || ''}</td></tr>` : '');
+    }
+
     // ---- Metrics evolution
-    const hist = d.metriques_historique || [];
+    const hist = inWindow(d.metriques_historique || []);
     const ch = document.getElementById('chartHitrate');
     if (hist.length < 1) empty(ch, 'Disponible après la première évaluation (J2).');
     else {
@@ -433,6 +507,23 @@
       el('text', { x: lx + 8, y: f.y(last.mae_pct) + 3, 'font-size': 10, fill: css('--text-primary'), 'font-weight': 600 }, f.svg).textContent = 'modèle';
       el('text', { x: lx + 8, y: f.y(last.mae_naif_pct) + 3, 'font-size': 10, fill: css('--text-muted') }, f.svg).textContent = 'naïf';
     }
+
+    // ---- Watchlist (core fixed + dynamic)
+    const CORE_LIST = [
+      ['^FCHI', 'CAC 40 (cible)'], ['^GSPC', 'S&P 500'], ['^VIX', 'VIX'], ['^IXIC', 'Nasdaq Composite'],
+      ['^GDAXI', 'DAX 40'], ['^STOXX50E', 'Euro Stoxx 50'], ['^N225', 'Nikkei 225'], ['^HSI', 'Hang Seng']
+    ];
+    const dyn = d.suivi_dynamique || [];
+    document.getElementById('watchlist').innerHTML =
+      '<div style="font-size:.8rem; color:var(--text-secondary); margin-bottom:6px;">Noyau (fixe)</div>' +
+      '<div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">' +
+      CORE_LIST.map(([t, n]) => `<span class="badge">${n} · ${t}</span>`).join('') + '</div>' +
+      '<div style="font-size:.8rem; color:var(--text-secondary); margin-bottom:6px;">Suivi dynamique (' + dyn.length + ')</div>' +
+      (dyn.length
+        ? '<div style="overflow-x:auto;"><table><tr><th>Indice</th><th>Ticker</th><th>Ajouté le</th><th>Var. à l\'ajout</th><th>Raison</th></tr>' +
+          dyn.map(w => `<tr><td>${w.nom}</td><td>${w.ticker}</td><td>${w.ajoute_le}</td><td>${pct(w.var_pct_ajout, 1, true)}</td><td style="text-align:left">${w.raison || ''}</td></tr>`).join('') +
+          '</table></div>'
+        : '<div class="empty">Aucun indice en suivi dynamique.</div>');
 
     // ---- Lessons
     const lessons = d.lecons || [];
