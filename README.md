@@ -15,7 +15,14 @@ La GitHub Page publie `docs/index.html` : rendement réalisé vs intervalle 80 %
 
 ## Déclenchement automatique
 
-La routine est intégrée comme la routine « Veille IA » : une **Routine Claude planifiée** (trigger `Routine CAC 40 J+1 quotidienne`, cron `15 21 * * 1-5` UTC) reprend chaque soir de semaine la session Claude liée à ce dépôt, après la mise à disposition de la dernière donnée du jour (clôture US à 22h00 Paris ; Europe 17h35 ; Asie en journée). Elle exécute la routine complète (collecte web, évaluation, prévision, règles de suivi dynamique ±2 %), committe directement sur `master` avec vérification du push (et repli API GitHub en secours), ce qui redéploie le tableau de bord.
+La routine est intégrée comme la routine « Veille IA », via deux **Routines Claude planifiées** (jours de semaine, heures calées sur la mise à disposition des valeurs) :
+
+| Trigger | Heure (UTC) | Rôle |
+|---|---|---|
+| Instantané européen | `48 16 * * 1-5` (après la clôture Euronext de 17h35 Paris) | Rafraîchit `docs/data/history.json` avec les clôtures définitives Europe/Asie et le contexte US « en séance ». Aucune prévision, aucune évaluation, aucun mouvement du suivi dynamique. |
+| Routine complète J+1 | `15 21 * * 1-5` (après la clôture US de 22h00 Paris) | Complète le record du jour (US définitif), évalue la prévision de la veille, met à jour métriques/leçons/suivi dynamique, émet la prévision J+1, écrit le rapport. |
+
+Chaque trigger committe directement sur `master` avec vérification du push (repli API GitHub en secours), ce qui redéploie le tableau de bord. Le record quotidien est unique : l'instantané le crée, la routine du soir le complète (jamais de doublon).
 
 En cas d'exécution manquée, relancer la routine à la main : demander l'exécution dans la session Claude liée au dépôt, ou coller `ROUTINE.md` + le dernier BLOC ÉTAT dans une nouvelle conversation.
 
