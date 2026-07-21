@@ -1,0 +1,39 @@
+{
+  "indice": "CAC 40 (PX1)",
+  "routine": "CAC40_J+1",
+  "derniere_maj": "2026-07-21",
+  "records": [
+    {
+      "date": "2026-07-21",
+      "cloture": 8363.14,
+      "rendement_pct": 0.28,
+      "gap_pct": 0.14,
+      "intra_pct": 0.14,
+      "prevision": null,
+      "verdict": null
+    }
+  ],
+  "prevision_active": {
+    "seance_cible": "2026-07-22",
+    "direction": "hausse",
+    "probabilite": 0.55,
+    "intervalle_80pct": [-1.2, 1.4],
+    "hypotheses": [
+      "H1 : Wall Street conserve son avance de mardi jusqu'à la clôture → gap positif mercredi",
+      "H2 : pas d'escalade majeure Iran/Ormuz dans la nuit",
+      "H3 : Brent reste sous ~93 $",
+      "H4 : attentisme avant Alphabet/Tesla (mercredi soir) et BCE (jeudi) → amplitude contenue",
+      "H5 : publications CAC de mercredi après clôture → impact limité sur la séance"
+    ]
+  },
+  "metriques": {
+    "n": 0,
+    "hit_rate": null,
+    "mae_pct": null,
+    "mae_naif_pct": null,
+    "couverture_intervalle": null,
+    "brier": null
+  },
+  "metriques_historique": [],
+  "lecons": []
+}

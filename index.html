@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CAC 40 J+1 — Prévision vs Réalisé</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;  /* réalisé / prévision (bleu) */
+    --pos:            #2a78d6;  /* pôle divergent + */
+    --neg:            #e34948;  /* pôle divergent - */
+    --status-good:    #0ca30c;
+    --status-crit:    #d03b3b;
+    --delta-good:     #006300;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --pos:            #3987e5;
+      --neg:            #e66767;
+      --status-good:    #0ca30c;
+      --status-crit:    #d03b3b;
+      --delta-good:     #0ca30c;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --pos:            #3987e5;
+    --neg:            #e66767;
+    --status-good:    #0ca30c;
+    --status-crit:    #d03b3b;
+    --delta-good:     #0ca30c;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.45;
+    padding: 24px 16px 64px;
+  }
+  main { max-width: 1080px; margin: 0 auto; }
+
+  header.top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  header.top h1 { font-size: 1.35rem; font-weight: 650; }
+  header.top .sub { color: var(--text-secondary); font-size: .9rem; }
+  #themeToggle {
+    margin-left: auto; border: 1px solid var(--border); background: var(--surface-1);
+    color: var(--text-secondary); border-radius: 8px; padding: 4px 10px; cursor: pointer; font-size: .8rem;
+  }
+  .disclaimer { color: var(--text-muted); font-size: .78rem; margin-bottom: 20px; }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .tile {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px;
+  }
+  .tile .label { font-size: .78rem; color: var(--text-secondary); }
+  .tile .value { font-size: 1.6rem; font-weight: 600; margin-top: 2px; }
+  .tile .hint { font-size: .72rem; color: var(--text-muted); margin-top: 2px; }
+  .tile .delta-good { color: var(--delta-good); font-weight: 600; }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; margin-bottom: 20px;
+  }
+  .card h2 { font-size: .95rem; font-weight: 650; margin-bottom: 2px; }
+  .card .sub { font-size: .8rem; color: var(--text-secondary); margin-bottom: 10px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: .78rem; color: var(--text-secondary); margin-bottom: 8px; }
+  .legend .key { display: inline-flex; align-items: center; gap: 6px; }
+  .key .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--series-1); display: inline-block; }
+  .key .band { width: 14px; height: 10px; border-radius: 2px; background: color-mix(in srgb, var(--series-1) 14%, var(--surface-1)); border: 1px solid color-mix(in srgb, var(--series-1) 40%, var(--surface-1)); display: inline-block; }
+  .key .bar-pos { width: 9px; height: 12px; border-radius: 2px 2px 0 0; background: var(--pos); display: inline-block; }
+  .key .bar-neg { width: 9px; height: 12px; border-radius: 0 0 2px 2px; background: var(--neg); display: inline-block; }
+
+  .chart-wrap { position: relative; width: 100%; overflow-x: auto; }
+  svg text { font-family: inherit; }
+  .empty { color: var(--text-muted); font-size: .85rem; padding: 24px 0; text-align: center; }
+
+  #tooltip {
+    position: fixed; pointer-events: none; z-index: 10; display: none;
+    background: var(--surface-1); color: var(--text-primary);
+    border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.18);
+    padding: 8px 10px; font-size: .78rem; max-width: 260px;
+  }
+  #tooltip .t-date { font-weight: 650; margin-bottom: 2px; }
+  #tooltip .t-row { color: var(--text-secondary); }
+
+  .forecast .dir { font-size: 1.1rem; font-weight: 650; }
+  .forecast ul { margin: 8px 0 0 18px; font-size: .82rem; color: var(--text-secondary); }
+  .badge {
+    display: inline-block; font-size: .74rem; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--text-secondary); margin-left: 6px;
+  }
+
+  table { border-collapse: collapse; width: 100%; font-size: .8rem; }
+  th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--text-secondary); font-weight: 600; }
+  .v-ok  { color: var(--status-good); font-weight: 600; }
+  .v-ko  { color: var(--status-crit); font-weight: 600; }
+  details summary { cursor: pointer; font-size: .85rem; color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>CAC 40 J+1 — Prévision vs Réalisé</h1>
+    <span class="sub" id="lastUpdate"></span>
+    <button id="themeToggle" type="button">☾ / ☀</button>
+  </header>
+  <p class="disclaimer">Exercice de suivi de modèle — benchmark : prévision naïve (0 %). Aucune recommandation d'investissement.</p>
+
+  <section class="tiles" id="tiles"></section>
+
+  <section class="card forecast" id="forecastCard"></section>
+
+  <section class="card">
+    <h2>Rendement réalisé vs intervalle prévu à 80 %</h2>
+    <p class="sub">Chaque séance : bande = intervalle annoncé la veille, point = rendement réalisé.</p>
+    <div class="legend">
+      <span class="key"><span class="band"></span> Intervalle 80 % prévu</span>
+      <span class="key"><span class="dot"></span> Rendement réalisé</span>
+    </div>
+    <div class="chart-wrap" id="chartInterval"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>Clôture CAC 40</h2>
+      <p class="sub">Niveau de clôture (points d'indice).</p>
+      <div class="chart-wrap" id="chartClose"></div>
+    </section>
+    <section class="card">
+      <h2>Rendements quotidiens</h2>
+      <p class="sub">Variation quotidienne en % (bleu = hausse, rouge = baisse).</p>
+      <div class="legend">
+        <span class="key"><span class="bar-pos"></span> Hausse</span>
+        <span class="key"><span class="bar-neg"></span> Baisse</span>
+      </div>
+      <div class="chart-wrap" id="chartReturns"></div>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>Hit rate directionnel cumulé</h2>
+      <p class="sub">Part de directions correctes ; repère : 50 % (pile ou face).</p>
+      <div class="chart-wrap" id="chartHitrate"></div>
+    </section>
+    <section class="card">
+      <h2>MAE — modèle vs naïf</h2>
+      <p class="sub">Erreur absolue moyenne (points de %) ; le naïf prédit toujours 0 %.</p>
+      <div class="chart-wrap" id="chartMae"></div>
+    </section>
+  </div>
+
+  <section class="card" id="lessonsCard">
+    <h2>Leçons actives</h2>
+    <div id="lessons"></div>
+  </section>
+
+  <section class="card">
+    <details open>
+      <summary>Données détaillées (vue table)</summary>
+      <div style="overflow-x:auto; margin-top:10px;"><table id="dataTable"></table></div>
+    </details>
+  </section>
+</main>
+<div id="tooltip"></div>
+
+<script>
+(function () {
+  const root = document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    const cur = root.dataset.theme || (dark ? 'dark' : 'light');
+    root.dataset.theme = cur === 'dark' ? 'light' : 'dark';
+    render();
+  });
+
+  const css = name => getComputedStyle(root).getPropertyValue(name).trim();
+  const fmt = (v, d = 2) => v == null ? '—' : v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (v, d = 2, signed = false) => v == null ? '—' : (signed && v > 0 ? '+' : '') + fmt(v, d) + ' %';
+  const dshort = iso => { const [y, m, dd] = iso.split('-'); return dd + '/' + m; };
+
+  const tooltip = document.getElementById('tooltip');
+  function showTip(html, ev) {
+    tooltip.innerHTML = html;
+    tooltip.style.display = 'block';
+    const pad = 14, w = tooltip.offsetWidth, h = tooltip.offsetHeight;
+    let x = ev.clientX + pad, y = ev.clientY + pad;
+    if (x + w > innerWidth - 8) x = ev.clientX - w - pad;
+    if (y + h > innerHeight - 8) y = ev.clientY - h - pad;
+    tooltip.style.left = x + 'px'; tooltip.style.top = y + 'px';
+  }
+  const hideTip = () => tooltip.style.display = 'none';
+
+  const NS = 'http://www.w3.org/2000/svg';
+  function el(tag, attrs, parent) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function niceTicks(min, max, count) {
+    if (min === max) { min -= 1; max += 1; }
+    const span = max - min, step0 = span / Math.max(1, count);
+    const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+    const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => span / s <= count) || 10 * mag;
+    const lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step;
+    const t = []; for (let v = lo; v <= hi + 1e-9; v += step) t.push(+v.toFixed(10));
+    return t;
+  }
+
+  // Generic frame: returns {svg, x(i), y(v), plot area, band width}
+  function frame(container, dates, vmin, vmax, opts = {}) {
+    container.innerHTML = '';
+    const W = Math.max(container.clientWidth || 480, Math.min(dates.length * 44 + 90, 2000));
+    const H = opts.height || 220;
+    const m = { top: 12, right: opts.right || 46, bottom: 26, left: 46 };
+    const svg = el('svg', { width: '100%', viewBox: `0 0 ${W} ${H}`, role: 'img' }, container);
+    const iw = W - m.left - m.right, ih = H - m.top - m.bottom;
+    const ticks = niceTicks(vmin, vmax, 4);
+    const lo = ticks[0], hi = ticks[ticks.length - 1];
+    const y = v => m.top + ih - (v - lo) / (hi - lo) * ih;
+    const x = i => m.left + (dates.length === 1 ? iw / 2 : i / (dates.length - 1) * iw);
+    ticks.forEach(t => {
+      el('line', { x1: m.left, x2: W - m.right, y1: y(t), y2: y(t), stroke: css('--grid'), 'stroke-width': 1 }, svg);
+      el('text', { x: m.left - 8, y: y(t) + 3.5, 'text-anchor': 'end', 'font-size': 10.5, fill: css('--text-muted') }, svg)
+        .textContent = t.toLocaleString('fr-FR');
+    });
+    const nlab = Math.max(1, Math.ceil(dates.length / Math.floor(iw / 52)));
+    dates.forEach((d, i) => {
+      if (i % nlab === 0 || i === dates.length - 1)
+        el('text', { x: x(i), y: H - 8, 'text-anchor': 'middle', 'font-size': 10.5, fill: css('--text-muted') }, svg).textContent = dshort(d);
+    });
+    if (opts.zero && lo < 0 && hi > 0)
+      el('line', { x1: m.left, x2: W - m.right, y1: y(0), y2: y(0), stroke: css('--baseline'), 'stroke-width': 1 }, svg);
+    return { svg, x, y, W, H, m, iw, ih, lo, hi };
+  }
+
+  function empty(container, msg) {
+    container.innerHTML = '<div class="empty">' + msg + '</div>';
+  }
+
+  let DATA = null;
+
+  function render() {
+    if (!DATA) return;
+    const d = DATA, recs = d.records || [];
+    document.getElementById('lastUpdate').textContent =
+      d.indice + ' · dernière mise à jour : ' + (d.derniere_maj || '—');
+
+    // ---- KPI tiles
+    const mtr = d.metriques || {};
+    const evaluated = recs.filter(r => r.verdict);
+    const tiles = [
+      { label: 'Séances évaluées', value: String(mtr.n ?? 0), hint: 'n prévisions confrontées au réalisé' },
+      { label: 'Hit rate directionnel', value: mtr.hit_rate == null ? '—' : Math.round(mtr.hit_rate * 100) + ' %', hint: 'repère naïf : 50 %' },
+      { label: 'MAE modèle', value: mtr.mae_pct == null ? '—' : fmt(mtr.mae_pct) + ' pt%', hint: mtr.mae_naif_pct == null ? 'naïf : —' : 'naïf : ' + fmt(mtr.mae_naif_pct) + ' pt%' },
+      { label: 'Couverture intervalle 80 %', value: mtr.couverture_intervalle == null ? '—' : Math.round(mtr.couverture_intervalle * 100) + ' %', hint: 'cible : ~80 %' },
+      { label: 'Score de Brier', value: mtr.brier == null ? '—' : fmt(mtr.brier, 3), hint: 'plus bas = mieux (0,25 = hasard)' },
+    ];
+    document.getElementById('tiles').innerHTML = tiles.map(t =>
+      `<div class="tile"><div class="label">${t.label}</div><div class="value">${t.value}</div><div class="hint">${t.hint}</div></div>`).join('');
+
+    // ---- Forecast card
+    const p = d.prevision_active;
+    const fc = document.getElementById('forecastCard');
+    if (p) {
+      const arrow = p.direction === 'hausse' ? '▲' : '▼';
+      fc.innerHTML = `
+        <h2>Prévision active — séance du ${p.seance_cible}</h2>
+        <p class="sub">Émise le ${d.derniere_maj} au soir ; hypothèses journalisées pour l'attribution de demain.</p>
+        <div class="dir">${arrow} ${p.direction.toUpperCase()}
+          <span class="badge">probabilité ${fmt(p.probabilite * 100, 0)} %</span>
+          <span class="badge">intervalle 80 % : ${pct(p.intervalle_80pct[0], 1, true)} à ${pct(p.intervalle_80pct[1], 1, true)}</span>
+        </div>
+        <ul>${(p.hypotheses || []).map(h => `<li>${h}</li>`).join('')}</ul>`;
+    } else {
+      fc.innerHTML = `<h2>Prévision active</h2><div class="empty">Aucune prévision en cours.</div>`;
+    }
+
+    // ---- Chart: interval vs realized
+    const ci = document.getElementById('chartInterval');
+    {
+      const dates = recs.map(r => r.date);
+      const vals = [];
+      recs.forEach(r => {
+        vals.push(r.rendement_pct);
+        if (r.prevision) vals.push(r.prevision.intervalle_80pct[0], r.prevision.intervalle_80pct[1]);
+      });
+      if (p) { dates.push(p.seance_cible); vals.push(p.intervalle_80pct[0], p.intervalle_80pct[1]); }
+      if (!dates.length) empty(ci, 'Pas encore de données.');
+      else {
+        const f = frame(ci, dates, Math.min(...vals, -0.5), Math.max(...vals, 0.5), { zero: true });
+        const bw = Math.min(24, Math.max(12, f.iw / dates.length * 0.5));
+        const seriesC = css('--series-1'), surf = css('--surface-1');
+        const band = (i, itv, dashed) => {
+          el('rect', {
+            x: f.x(i) - bw / 2, y: f.y(itv[1]), width: bw, height: Math.max(1, f.y(itv[0]) - f.y(itv[1])),
+            rx: 4, fill: seriesC, 'fill-opacity': 0.12,
+            stroke: seriesC, 'stroke-opacity': dashed ? 0.8 : 0.45, 'stroke-width': 1,
+            ...(dashed ? { 'stroke-dasharray': '3 3' } : {})
+          }, f.svg);
+        };
+        recs.forEach((r, i) => { if (r.prevision) band(i, r.prevision.intervalle_80pct, false); });
+        if (p) band(dates.length - 1, p.intervalle_80pct, true);
+        recs.forEach((r, i) => {
+          el('circle', { cx: f.x(i), cy: f.y(r.rendement_pct), r: 6, fill: surf }, f.svg);
+          el('circle', { cx: f.x(i), cy: f.y(r.rendement_pct), r: 4, fill: seriesC }, f.svg);
+        });
+        // hover targets (one per date column)
+        dates.forEach((dt, i) => {
+          const r = recs[i];
+          const hit = el('rect', { x: f.x(i) - 20, y: f.m.top, width: 40, height: f.ih, fill: 'transparent' }, f.svg);
+          hit.addEventListener('mousemove', ev => {
+            let html = `<div class="t-date">${dt}</div>`;
+            if (r) html += `<div class="t-row">Réalisé : <b>${pct(r.rendement_pct, 2, true)}</b></div>`;
+            const pv = r ? r.prevision : (i === dates.length - 1 ? p : null);
+            if (pv) html += `<div class="t-row">Prévu : ${pv.direction} (p=${fmt(pv.probabilite, 2)}), [${pct(pv.intervalle_80pct[0], 1, true)} ; ${pct(pv.intervalle_80pct[1], 1, true)}]</div>`;
+            if (r && r.verdict) html += `<div class="t-row">Direction ${r.verdict.direction_ok ? '✓ correcte' : '✗ incorrecte'} · ${r.verdict.dans_intervalle ? 'dans' : 'hors'} intervalle</div>`;
+            if (!r && pv) html += `<div class="t-row">Séance à venir (prévision active)</div>`;
+            showTip(html, ev);
+          });
+          hit.addEventListener('mouseleave', hideTip);
+        });
+      }
+    }
+
+    // ---- Chart: close line
+    const cc = document.getElementById('chartClose');
+    if (!recs.length) empty(cc, 'Pas encore de données.');
+    else {
+      const dates = recs.map(r => r.date), vals = recs.map(r => r.cloture);
+      const span = Math.max(...vals) - Math.min(...vals);
+      const pad = Math.max(span * 0.15, Math.max(...vals) * 0.004);
+      const f = frame(cc, dates, Math.min(...vals) - pad, Math.max(...vals) + pad, { right: 64 });
+      const seriesC = css('--series-1'), surf = css('--surface-1');
+      if (recs.length > 1) {
+        const path = recs.map((r, i) => (i ? 'L' : 'M') + f.x(i) + ' ' + f.y(r.cloture)).join(' ');
+        el('path', { d: path, fill: 'none', stroke: seriesC, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, f.svg);
+      }
+      const li = recs.length - 1;
+      el('circle', { cx: f.x(li), cy: f.y(vals[li]), r: 6, fill: surf }, f.svg);
+      el('circle', { cx: f.x(li), cy: f.y(vals[li]), r: 4, fill: seriesC }, f.svg);
+      el('text', { x: f.x(li) + 9, y: f.y(vals[li]) + 4, 'font-size': 11, 'font-weight': 600, fill: css('--text-primary') }, f.svg)
+        .textContent = fmt(vals[li], 2);
+      recs.forEach((r, i) => {
+        const hit = el('rect', { x: f.x(i) - 20, y: f.m.top, width: 40, height: f.ih, fill: 'transparent' }, f.svg);
+        hit.addEventListener('mousemove', ev => showTip(
+          `<div class="t-date">${r.date}</div><div class="t-row">Clôture : <b>${fmt(r.cloture, 2)}</b> pts</div><div class="t-row">Gap ${pct(r.gap_pct, 2, true)} · Intraséance ${pct(r.intra_pct, 2, true)}</div>`, ev));
+        hit.addEventListener('mouseleave', hideTip);
+      });
+    }
+
+    // ---- Chart: daily returns bars
+    const cr = document.getElementById('chartReturns');
+    if (!recs.length) empty(cr, 'Pas encore de données.');
+    else {
+      const dates = recs.map(r => r.date), vals = recs.map(r => r.rendement_pct);
+      const f = frame(cr, dates, Math.min(...vals, -0.5), Math.max(...vals, 0.5), { zero: true });
+      const bw = Math.min(24, Math.max(10, f.iw / dates.length * 0.5));
+      const y0 = f.y(0);
+      recs.forEach((r, i) => {
+        const v = r.rendement_pct, up = v >= 0;
+        const yv = f.y(v), h = Math.max(2, Math.abs(yv - y0));
+        const rect = el('path', {
+          d: roundedBar(f.x(i) - bw / 2, up ? yv : y0, bw, h, 4, up),
+          fill: up ? css('--pos') : css('--neg')
+        }, f.svg);
+        rect.addEventListener('mousemove', ev => showTip(
+          `<div class="t-date">${r.date}</div><div class="t-row">Rendement : <b>${pct(v, 2, true)}</b></div>`, ev));
+        rect.addEventListener('mouseleave', hideTip);
+      });
+    }
+
+    // ---- Metrics evolution
+    const hist = d.metriques_historique || [];
+    const ch = document.getElementById('chartHitrate');
+    if (hist.length < 1) empty(ch, 'Disponible après la première évaluation (J2).');
+    else {
+      const dates = hist.map(h => h.date);
+      const f = frame(ch, dates, 0, 100, { height: 190 });
+      el('line', { x1: f.m.left, x2: f.W - f.m.right, y1: f.y(50), y2: f.y(50), stroke: css('--baseline'), 'stroke-width': 1, 'stroke-dasharray': '3 3' }, f.svg);
+      el('text', { x: f.W - f.m.right + 4, y: f.y(50) + 3.5, 'font-size': 10, fill: css('--text-muted') }, f.svg).textContent = '50 %';
+      drawMetricLine(f, hist, h => h.hit_rate * 100, css('--series-1'), (h, ev) =>
+        showTip(`<div class="t-date">${h.date}</div><div class="t-row">Hit rate : <b>${Math.round(h.hit_rate * 100)} %</b> (n=${h.n})</div>`, ev));
+    }
+    const cm = document.getElementById('chartMae');
+    if (hist.length < 1) empty(cm, 'Disponible après la première évaluation (J2).');
+    else {
+      const dates = hist.map(h => h.date);
+      const vals = hist.flatMap(h => [h.mae_pct, h.mae_naif_pct]).filter(v => v != null);
+      const f = frame(cm, dates, 0, Math.max(...vals, 0.5) * 1.15, { height: 190 });
+      drawMetricLine(f, hist, h => h.mae_naif_pct, css('--text-muted'), (h, ev) =>
+        showTip(`<div class="t-date">${h.date}</div><div class="t-row">MAE naïf : <b>${fmt(h.mae_naif_pct)}</b> pt%</div>`, ev));
+      drawMetricLine(f, hist, h => h.mae_pct, css('--series-1'), (h, ev) =>
+        showTip(`<div class="t-date">${h.date}</div><div class="t-row">MAE modèle : <b>${fmt(h.mae_pct)}</b> pt%</div>`, ev));
+      const last = hist[hist.length - 1], lx = f.x(hist.length - 1);
+      el('text', { x: lx + 8, y: f.y(last.mae_pct) + 3, 'font-size': 10, fill: css('--text-primary'), 'font-weight': 600 }, f.svg).textContent = 'modèle';
+      el('text', { x: lx + 8, y: f.y(last.mae_naif_pct) + 3, 'font-size': 10, fill: css('--text-muted') }, f.svg).textContent = 'naïf';
+    }
+
+    // ---- Lessons
+    const lessons = d.lecons || [];
+    document.getElementById('lessons').innerHTML = lessons.length
+      ? '<ul style="margin-left:18px; font-size:.85rem;">' + lessons.map(l => {
+          const s = typeof l === 'string' ? { texte: l } : l;
+          const badge = s.statut ? ` <span class="badge">${s.statut}</span>` : '';
+          return `<li>${s.texte}${badge}</li>`;
+        }).join('') + '</ul>'
+      : '<div class="empty">Aucune leçon pour l\'instant (Jour 1).</div>';
+
+    // ---- Table
+    const tbl = document.getElementById('dataTable');
+    tbl.innerHTML = '<tr><th>Date</th><th>Clôture</th><th>Rendement</th><th>Gap</th><th>Intraséance</th><th>Prévu (p)</th><th>Intervalle 80 %</th><th>Direction</th><th>Intervalle</th><th>Erreur</th></tr>' +
+      recs.slice().reverse().map(r => {
+        const pv = r.prevision, v = r.verdict;
+        return `<tr><td>${r.date}</td><td>${fmt(r.cloture, 2)}</td><td>${pct(r.rendement_pct, 2, true)}</td>` +
+          `<td>${pct(r.gap_pct, 2, true)}</td><td>${pct(r.intra_pct, 2, true)}</td>` +
+          `<td>${pv ? pv.direction + ' (' + fmt(pv.probabilite, 2) + ')' : '—'}</td>` +
+          `<td>${pv ? '[' + pct(pv.intervalle_80pct[0], 1, true) + ' ; ' + pct(pv.intervalle_80pct[1], 1, true) + ']' : '—'}</td>` +
+          `<td>${v ? (v.direction_ok ? '<span class="v-ok">✓ correcte</span>' : '<span class="v-ko">✗ incorrecte</span>') : '—'}</td>` +
+          `<td>${v ? (v.dans_intervalle ? '<span class="v-ok">✓ dedans</span>' : '<span class="v-ko">✗ dehors</span>') : '—'}</td>` +
+          `<td>${v && v.erreur_pct != null ? fmt(v.erreur_pct) + ' pt%' : '—'}</td></tr>`;
+      }).join('');
+  }
+
+  function drawMetricLine(f, hist, get, color, tip) {
+    const surf = css('--surface-1');
+    if (hist.length > 1) {
+      const path = hist.map((h, i) => (i ? 'L' : 'M') + f.x(i) + ' ' + f.y(get(h))).join(' ');
+      el('path', { d: path, fill: 'none', stroke: color, 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }, f.svg);
+    }
+    hist.forEach((h, i) => {
+      el('circle', { cx: f.x(i), cy: f.y(get(h)), r: 6, fill: surf }, f.svg);
+      const c = el('circle', { cx: f.x(i), cy: f.y(get(h)), r: 4, fill: color }, f.svg);
+      const hit = el('circle', { cx: f.x(i), cy: f.y(get(h)), r: 12, fill: 'transparent' }, f.svg);
+      hit.addEventListener('mousemove', ev => tip(h, ev));
+      hit.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  // Bar with 4px rounded data-end, square baseline end.
+  function roundedBar(x, y, w, h, r, up) {
+    r = Math.min(r, w / 2, h);
+    if (up) return `M${x} ${y + h} L${x} ${y + r} Q${x} ${y} ${x + r} ${y} L${x + w - r} ${y} Q${x + w} ${y} ${x + w} ${y + r} L${x + w} ${y + h} Z`;
+    return `M${x} ${y} L${x + w} ${y} L${x + w} ${y + h - r} Q${x + w} ${y + h} ${x + w - r} ${y + h} L${x + r} ${y + h} Q${x} ${y + h} ${x} ${y + h - r} Z`;
+  }
+
+  fetch('data/history.json', { cache: 'no-store' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => { DATA = j; render(); })
+    .catch(e => {
+      document.getElementById('tiles').innerHTML =
+        '<div class="tile"><div class="label">Erreur</div><div class="value" style="font-size:1rem">Impossible de charger data/history.json (' + e.message + ')</div></div>';
+    });
+  addEventListener('resize', () => render());
+})();
+</script>
+</body>
+</html>
