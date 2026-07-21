@@ -60,6 +60,7 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
 4. Leçons actives — avec leur statut.
 5. Prévision J+1 — direction, probabilité, intervalle, hypothèses, risques.
 6. BLOC ÉTAT — ROUTINE CAC 40 — le JSON ci-dessous, mis à jour, dans un bloc de code, à recopier pour la prochaine exécution.
+7. Si l'exécution a accès au dépôt `AnaData` : mettre à jour `docs/data/history.json` (ajouter le record de la séance du jour avec la prévision qui la visait et son verdict, mettre à jour `metriques`, ajouter une entrée à `metriques_historique`, remplacer `prevision_active` et `lecons`), écrire le rapport dans `rapports/AAAA-MM-JJ.md`, mettre à jour `etat/BLOC_ETAT.json`, puis commiter et pousser directement sur `master` (pas de PR). Le push redéploie automatiquement le tableau de bord GitHub Pages.
 
 Schéma du bloc état :
 
