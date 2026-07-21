@@ -117,6 +117,16 @@
   #tooltip .t-date { font-weight: 650; margin-bottom: 2px; }
   #tooltip .t-row { color: var(--text-secondary); }
 
+  .top-movers { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 12px; }
+  .top-movers .tm-label { font-size: .78rem; color: var(--text-secondary); align-self: center; }
+  .tm-chip {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px;
+    background: var(--surface-1); font-size: .82rem;
+  }
+  .tm-chip .tm-name { color: var(--text-primary); font-weight: 650; }
+  .tm-chip .tm-val { color: var(--delta-good); font-weight: 650; }
+
   .forecast .dir { font-size: 1.1rem; font-weight: 650; }
   .forecast ul { margin: 8px 0 0 18px; font-size: .82rem; color: var(--text-secondary); }
   .badge {
@@ -176,6 +186,7 @@
   <section class="card">
     <h2>Contexte marchés — dernière séance</h2>
     <p class="sub" id="contextSub">Variations quotidiennes des indices compagnons (fiche INDICES.md). DAX = total return : ne pas comparer sa performance brute à celle du CAC (indice prix).</p>
+    <div id="topMovers"></div>
     <div class="legend">
       <span class="key"><span class="bar-pos"></span> Hausse</span>
       <span class="key"><span class="bar-neg"></span> Baisse</span>
@@ -456,7 +467,17 @@
         'Séance du ' + last.date + ' — variations quotidiennes des indices compagnons (fiche INDICES.md). DAX = total return : ne pas comparer sa performance brute à celle du CAC (indice prix).';
       const items = [{ label: 'CAC 40', v: last.rendement_pct, note: 'clôture' }]
         .concat(CTX.map(([k, label]) => ctx[k] && ctx[k].var_pct != null ? { label, v: ctx[k].var_pct, note: ctx[k].note } : null))
-        .filter(Boolean);
+        .filter(Boolean)
+        .sort((a, b) => b.v - a.v);
+      // Fortes progressions (seuil du suivi dynamique) mises en avant : bandeau + étiquettes directes
+      const STRONG = 2.0;
+      const strong = items.filter(it => it.v >= STRONG);
+      const highlighted = strong.length ? strong : items.slice(0, 1);
+      document.getElementById('topMovers').innerHTML = strong.length
+        ? '<div class="top-movers"><span class="tm-label">Fortes progressions (≥ +2 %) :</span>' +
+          strong.map(it => `<span class="tm-chip"><span class="tm-name">▲ ${it.label}</span><span class="tm-val">${pct(it.v, 1, true)}</span></span>`).join('') +
+          '</div>'
+        : '';
       const labels = items.map(it => it.label), vals = items.map(it => it.v);
       const f = frame(cx, labels, Math.min(...vals, -0.5), Math.max(...vals, 0.5), { zero: true, rawLabels: true, height: 200 });
       const bw = Math.min(24, Math.max(10, f.iw / labels.length * 0.5));
@@ -470,13 +491,24 @@
         bar.addEventListener('mousemove', ev => showTip(
           `<div class="t-date">${it.label}</div><div class="t-row">Variation : <b>${pct(it.v, 2, true)}</b></div><div class="t-row">${it.note || ''}</div>`, ev));
         bar.addEventListener('mouseleave', hideTip);
+        // Étiquette directe réservée aux plus fortes progressions (emphase sélective)
+        if (highlighted.includes(it) && it.v > 0)
+          el('text', { x: f.x(i), y: yv - 6, 'text-anchor': 'middle', 'font-size': 10.5, 'font-weight': 600, fill: css('--text-primary') }, f.svg)
+            .textContent = pct(it.v, 1, true);
       });
+      // Table triée par variation décroissante ; fortes progressions marquées ▲
+      const rows = [{ label: 'CAC 40', niveau: last.cloture, v: last.rendement_pct, note: 'clôture' }]
+        .concat(CTX.map(([k, label]) => ctx[k] ? { label, niveau: ctx[k].niveau, v: ctx[k].var_pct, note: ctx[k].note } : null))
+        .filter(Boolean)
+        .sort((a, b) => (b.v ?? -Infinity) - (a.v ?? -Infinity));
       const tc = document.getElementById('contextTable');
       tc.innerHTML = '<tr><th>Indice</th><th>Niveau</th><th>Variation</th><th>Note</th></tr>' +
-        `<tr><td>CAC 40</td><td>${fmt(last.cloture, 2)}</td><td>${pct(last.rendement_pct, 2, true)}</td><td style="text-align:left">clôture</td></tr>` +
-        CTX.map(([k, label]) => {
-          const c = ctx[k]; if (!c) return '';
-          return `<tr><td>${label}</td><td>${c.niveau != null ? fmt(c.niveau, 2) : '—'}</td><td>${c.var_pct != null ? pct(c.var_pct, 2, true) : '—'}</td><td style="text-align:left">${c.note || ''}</td></tr>`;
+        rows.map(r => {
+          const isStrong = r.v != null && r.v >= STRONG;
+          return `<tr><td>${isStrong ? '<b>▲ ' + r.label + '</b>' : r.label}</td>` +
+            `<td>${r.niveau != null ? fmt(r.niveau, 2) : '—'}</td>` +
+            `<td>${r.v != null ? (isStrong ? '<span class="v-ok">' + pct(r.v, 2, true) + '</span>' : pct(r.v, 2, true)) : '—'}</td>` +
+            `<td style="text-align:left">${r.note || ''}</td></tr>`;
         }).join('') +
         (ctx.vix ? `<tr><td>VIX (niveau)</td><td>${ctx.vix.niveau != null ? fmt(ctx.vix.niveau, 2) : '—'}</td><td>${ctx.vix.var_pct != null ? pct(ctx.vix.var_pct, 2, true) : '—'}</td><td style="text-align:left">${ctx.vix.note || ''}</td></tr>` : '');
     }
