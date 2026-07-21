@@ -16,9 +16,9 @@ La GitHub Page publie `docs/index.html` : rendement réalisé vs intervalle 80 %
 
 ## Déclenchement automatique
 
-La routine se déclenche automatiquement via `.github/workflows/routine.yml`, calé sur les heures de mise à disposition des valeurs des indices suivis (fiche `INDICES.md`) : Asie disponible en journée, Europe à 17h35 (Paris), US à 22h00 (Paris) — dernière donnée du jour. Le workflow s'exécute donc chaque jour de semaine à 21h15 UTC (toujours après la clôture US), exécute la routine avec Claude Code (collecte web, évaluation, prévision, règles de suivi dynamique ±2 %), puis committe directement sur `master`, ce qui redéploie le tableau de bord.
+La routine est intégrée comme la routine « Veille IA » : une **Routine Claude planifiée** (trigger `Routine CAC 40 J+1 quotidienne`, cron `15 21 * * 1-5` UTC) reprend chaque soir de semaine la session Claude liée à ce dépôt, après la mise à disposition de la dernière donnée du jour (clôture US à 22h00 Paris ; Europe 17h35 ; Asie en journée). Elle exécute la routine complète (collecte web, évaluation, prévision, règles de suivi dynamique ±2 %), committe directement sur `master` avec vérification du push (et repli API GitHub en secours), ce qui redéploie le tableau de bord.
 
-**Prérequis (une fois)** : ajouter le secret `ANTHROPIC_API_KEY` dans Settings → Secrets and variables → Actions. Le workflow peut aussi être lancé à la main (onglet Actions → « Routine quotidienne CAC 40 J+1 » → Run workflow).
+`.github/workflows/routine.yml` est conservé uniquement comme **secours manuel** (Actions → Run workflow ; nécessite le secret `ANTHROPIC_API_KEY`) — sa planification est désactivée pour éviter les doubles exécutions.
 
 ## Avertissement
 
