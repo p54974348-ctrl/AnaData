@@ -64,7 +64,7 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
 4. Leçons actives — avec leur statut.
 5. Prévision J+1 — direction, probabilité, intervalle, hypothèses, risques.
 6. BLOC ÉTAT — ROUTINE CAC 40 — le JSON ci-dessous, mis à jour, dans un bloc de code, à recopier pour la prochaine exécution.
-7. Si l'exécution a accès au dépôt `AnaData` : mettre à jour `docs/data/history.json` (ajouter le record de la séance du jour avec la prévision qui la visait et son verdict, mettre à jour `metriques`, ajouter une entrée à `metriques_historique`, remplacer `prevision_active` et `lecons`), écrire le rapport dans `rapports/AAAA-MM-JJ.md`, mettre à jour `etat/BLOC_ETAT.json`, puis commiter et pousser directement sur `master` (pas de PR). Le push redéploie automatiquement le tableau de bord GitHub Pages.
+7. Si l'exécution a accès au dépôt `AnaData` : mettre à jour `docs/data/history.json` — **source unique de l'état** (ajouter le record de la séance du jour avec la prévision qui la visait et son verdict, mettre à jour `metriques`, ajouter une entrée à `metriques_historique`, remplacer `prevision_active`, `suivi_dynamique`, `journal_suivi` et `lecons`), écrire le rapport dans `rapports/AAAA-MM-JJ.md`, puis commiter et pousser directement sur `master` (pas de PR). Le push redéploie automatiquement le tableau de bord GitHub Pages.
 
 Schéma du bloc état :
 
@@ -98,4 +98,4 @@ Pour étendre le périmètre (SBF 120, Euro Stoxx 50, DAX…), duplique cette ro
 
 ## BLOC ÉTAT — ROUTINE CAC 40
 
-Coller ici la dernière version : voir `etat/BLOC_ETAT.json`.
+L'état complet vit dans `docs/data/history.json` (source unique). Pour une exécution manuelle hors dépôt, recopier le BLOC ÉTAT du dernier compte rendu de la routine.
