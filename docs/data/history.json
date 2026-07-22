@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-07-21",
+  "derniere_maj": "2026-07-22",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [
     { "ticker": "^KS11", "cle": "kospi", "nom": "KOSPI", "ajoute_le": "2026-07-21", "var_pct_ajout": 4.0, "raison": "rebond des semi-conducteurs coréens (règle ≥ +2 %)" },
@@ -30,6 +30,27 @@
         "hangseng": { "niveau": 25132.29, "var_pct": -0.04, "note": "clôture" },
         "kospi":    { "niveau": null, "var_pct": 4.0, "note": "clôture (~+4 %) ; ajouté au suivi dynamique" },
         "taiex":    { "niveau": null, "var_pct": 4.2, "note": "clôture ; ajouté au suivi dynamique" }
+      }
+    },
+    {
+      "date": "2026-07-22",
+      "cloture": 8447.79,
+      "rendement_pct": 1.01,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : ouverture exacte ND (+0,19 % à 10h15) ; verdict et prévision au run de 21h15 UTC. Airbus +7 % (perspectives 2029) tire la cote ; Brent > 93 $ (11e nuit de frappes US sur l'Iran), taux d'emprunts en forte hausse.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": 0.1, "note": "séance US en cours (~13h ET), avant Alphabet/Tesla ce soir" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture veille 17,05" },
+        "nasdaq":   { "niveau": null, "var_pct": -0.1, "note": "séance US en cours" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture introuvable à cette heure ; +0,29 % à 13h14 Paris" },
+        "stoxx50":  { "niveau": 6317, "var_pct": 0.54, "note": "clôture (Trading Economics)" },
+        "nikkei":   { "niveau": null, "var_pct": 1.5, "note": "clôture ≈ (Share Talk) ; +1,75 % au plus haut en séance" },
+        "hangseng": { "niveau": null, "var_pct": 1.0, "note": "clôture ≈ (Share Talk) ; divergence : −1,14 % en séance selon Boursorama matin" },
+        "kospi":    { "niveau": null, "var_pct": 3.0, "note": "clôture ≈ (Share Talk) ; +0,82 % en séance selon Boursorama matin — divergence à trancher au run du soir" },
+        "taiex":    { "niveau": null, "var_pct": 2.0, "note": "clôture ≈ (Share Talk)" }
       }
     }
   ],
