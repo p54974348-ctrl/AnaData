@@ -9,7 +9,8 @@
   ],
   "journal_suivi": [
     { "date": "2026-07-21", "action": "ajout", "ticker": "^KS11", "var_pct": 4.0 },
-    { "date": "2026-07-21", "action": "ajout", "ticker": "^TWII", "var_pct": 4.2 }
+    { "date": "2026-07-21", "action": "ajout", "ticker": "^TWII", "var_pct": 4.2 },
+    { "date": "2026-07-22", "action": "aucun", "ticker": null, "var_pct": null, "note": "aucun ajout (aucun indice hors noyau >= +2 % hors suivis existants), aucun retrait (KOSPI ~+3 %, TAIEX ~+2 %)" }
   ],
   "records": [
     {
@@ -34,47 +35,63 @@
     },
     {
       "date": "2026-07-22",
-      "cloture": 8447.79,
-      "rendement_pct": 1.01,
+      "cloture": 8437.89,
+      "rendement_pct": 0.89,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "Instantané européen (~19h Paris) : ouverture exacte ND (+0,19 % à 10h15) ; verdict et prévision au run de 21h15 UTC. Airbus +7 % (perspectives 2029) tire la cote ; Brent > 93 $ (11e nuit de frappes US sur l'Iran), taux d'emprunts en forte hausse.",
+      "prevision": {
+        "direction": "hausse",
+        "probabilite": 0.55,
+        "intervalle_80pct": [-1.2, 1.4]
+      },
+      "verdict": {
+        "direction_ok": true,
+        "dans_intervalle": true,
+        "erreur_pct": 0.79,
+        "type": null,
+        "cause": "Direction et intervalle corrects. H1 (gap positif via Wall Street) validée ; H3 (Brent < 93 $) invalidée sans conséquence directionnelle — le CAC a monté malgré le pétrole ; séance dominée par un facteur non anticipé : Airbus +7 % après ses perspectives 2029 (présentées mardi soir, hors agenda journalisé)."
+      },
+      "note": "Clôture retenue : Boursorama/Reuters 18h10 (8 437,89, +0,89 %). Divergence signalée > 0,1 % avec BFM Bourse (8 447,79, +1,01 %, chiffre de mi-séance repris en titre). Ouverture exacte ND → gap/intraséance non décomposés. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": 0.1, "note": "séance US en cours (~13h ET), avant Alphabet/Tesla ce soir" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture veille 17,05" },
-        "nasdaq":   { "niveau": null, "var_pct": -0.1, "note": "séance US en cours" },
-        "dax":      { "niveau": null, "var_pct": null, "note": "clôture introuvable à cette heure ; +0,29 % à 13h14 Paris" },
+        "sp500":    { "niveau": 7498.96, "var_pct": -0.14, "note": "clôture" },
+        "vix":      { "niveau": 16.84, "var_pct": -1.23, "note": "clôture" },
+        "nasdaq":   { "niveau": null, "var_pct": -0.5, "note": "clôture ; après Bourse : Alphabet bat le consensus (+1 % AH), Tesla manque (BPA 0,33 $)" },
+        "dax":      { "niveau": null, "var_pct": 0.65, "note": "clôture (Boursorama/Reuters 18h10)" },
         "stoxx50":  { "niveau": 6317, "var_pct": 0.54, "note": "clôture (Trading Economics)" },
-        "nikkei":   { "niveau": null, "var_pct": 1.5, "note": "clôture ≈ (Share Talk) ; +1,75 % au plus haut en séance" },
-        "hangseng": { "niveau": null, "var_pct": 1.0, "note": "clôture ≈ (Share Talk) ; divergence : −1,14 % en séance selon Boursorama matin" },
-        "kospi":    { "niveau": null, "var_pct": 3.0, "note": "clôture ≈ (Share Talk) ; +0,82 % en séance selon Boursorama matin — divergence à trancher au run du soir" },
+        "nikkei":   { "niveau": null, "var_pct": 1.5, "note": "clôture ≈ (Share Talk, récap overnight)" },
+        "hangseng": { "niveau": null, "var_pct": 1.0, "note": "clôture ≈ ; divergence avec lecture en séance du matin (−1,14 %) tranchée en faveur du récap de clôture" },
+        "kospi":    { "niveau": null, "var_pct": 3.0, "note": "clôture ≈ (Share Talk)" },
         "taiex":    { "niveau": null, "var_pct": 2.0, "note": "clôture ≈ (Share Talk)" }
       }
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-07-22",
-    "direction": "hausse",
-    "probabilite": 0.55,
-    "intervalle_80pct": [-1.2, 1.4],
+    "seance_cible": "2026-07-23",
+    "direction": "baisse",
+    "probabilite": 0.53,
+    "intervalle_80pct": [-1.4, 1.2],
     "hypotheses": [
-      "H1 : Wall Street conserve son avance de mardi jusqu'à la clôture → gap positif mercredi",
-      "H2 : pas d'escalade majeure Iran/Ormuz dans la nuit",
-      "H3 : Brent reste sous ~93 $",
-      "H4 : attentisme avant Alphabet/Tesla (mercredi soir) et BCE (jeudi) → amplitude contenue",
-      "H5 : publications CAC de mercredi après clôture → impact limité sur la séance"
+      "H1 : gap d'ouverture légèrement négatif — Wall Street a clôturé en repli (S&P −0,14 %, Nasdaq −0,5 %) et Tesla a manqué le consensus après Bourse (Alphabet beat en contrepoids, +1 % AH)",
+      "H2 : BCE 14h15 Paris — statu quo attendu ; un ton hawkish de Lagarde (hausse septembre anticipée) pèserait sur les actions",
+      "H3 : Brent reste sous ~97 $ et pas de fermeture d'Ormuz overnight (12e nuit de frappes US)",
+      "H4 : l'effet résultats européens (Airbus +7 %) s'estompe ; pas de nouveau catalyseur idiosyncratique identifié à l'agenda",
+      "H5 : consolidation probable après deux séances de hausse (+0,28 %, +0,89 %)"
     ]
   },
   "metriques": {
-    "n": 0,
-    "hit_rate": null,
-    "mae_pct": null,
-    "mae_naif_pct": null,
-    "couverture_intervalle": null,
-    "brier": null
+    "n": 1,
+    "hit_rate": 1.0,
+    "mae_pct": 0.79,
+    "mae_naif_pct": 0.89,
+    "couverture_intervalle": 1.0,
+    "brier": 0.2025,
+    "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % (ici +0,1 %) pour le calcul de la MAE"
   },
-  "metriques_historique": [],
-  "lecons": []
+  "metriques_historique": [
+    { "date": "2026-07-22", "n": 1, "hit_rate": 1.0, "mae_pct": 0.79, "mae_naif_pct": 0.89, "couverture": 1.0, "brier": 0.2025 }
+  ],
+  "lecons": [
+    { "texte": "Recenser les capital markets days et présentations de perspectives des poids lourds du CAC : l'annonce Airbus (mardi soir, hors agenda journalisé) a dominé la séance du 22/07 (+7 %, premier contributeur de l'indice).", "statut": "OBSERVÉE ×1" },
+    { "texte": "Ne pas surpondérer le canal pétrole : une hausse du Brent (jusqu'à ~94,9 $ en séance) n'a pas suffi à faire baisser le CAC face à un momentum résultats/tech positif.", "statut": "OBSERVÉE ×1" }
+  ]
 }
