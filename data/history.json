@@ -3,9 +3,7 @@
   "routine": "CAC40_J+1",
   "derniere_maj": "2026-07-29",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
-  "suivi_dynamique": [
-    { "ticker": "^TWII", "cle": "taiex", "nom": "TAIEX", "ajoute_le": "2026-07-21", "var_pct_ajout": 4.2, "raison": "rebond des semi-conducteurs, TSMC +3,9 % (règle ≥ +2 %)" }
-  ],
+  "suivi_dynamique": [],
   "journal_suivi": [
     { "date": "2026-07-21", "action": "ajout", "ticker": "^KS11", "var_pct": 4.0 },
     { "date": "2026-07-21", "action": "ajout", "ticker": "^TWII", "var_pct": 4.2 },
@@ -13,7 +11,8 @@
     { "date": "2026-07-23", "action": "aucun", "ticker": null, "var_pct": null, "note": "aucun mouvement : KOSPI +4,4 % (déjà suivi), TAIEX ND ce jour (règle non applicable sans donnée), rien d'autre >= +2 % hors noyau vérifié" },
     { "date": "2026-07-24", "action": "retrait", "ticker": "^KS11", "var_pct": -5.7, "note": "KOSPI −5,7 % <= −2 % (sell-off IA) → retiré du suivi dynamique ; TAIEX ND 2e jour consécutif (aucune action possible) ; aucun ajout" },
     { "date": "2026-07-27", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX −0,1 % (donnée revenue, reste suivi) ; aucun ajout (Shanghai +1,2 %, KOSPI +1,0 %, Sensex +1,1 % — tous < +2 %)" },
-    { "date": "2026-07-28", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX ND ce jour (règle non applicable) malgré le sell-off des semis — à surveiller ; aucun ajout (rien >= +2 % hors noyau vérifié)" }
+    { "date": "2026-07-28", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX ND ce jour (règle non applicable) malgré le sell-off des semis — à surveiller ; aucun ajout (rien >= +2 % hors noyau vérifié)" },
+    { "date": "2026-07-29", "action": "retrait", "ticker": "^TWII", "var_pct": -3.8, "note": "TAIEX −3,8 % <= −2 % (sell-off des puces) → retiré du suivi dynamique (ajouté le 21/07 à +4,2 %) ; liste dynamique désormais vide ; aucun ajout (Hang Seng +1,8 % < +2 %)" }
   ],
   "records": [
     {
@@ -193,19 +192,29 @@
     },
     {
       "date": "2026-07-29",
-      "cloture": 8481,
-      "rendement_pct": 0.26,
+      "cloture": 8408.27,
+      "rendement_pct": -0.60,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "⚠️ INSTANTANÉ AVEC DIVERGENCE NON RÉSOLUE sur la clôture : Trading Economics donne +0,3 % à 8 481 (4e hausse consécutive, plus haut de 3 semaines) alors que BFM Bourse titrait « le CAC 40 reperd du terrain » (−0,5 % à 8 414,54 à la mi-séance, Hermès −10 % vs −2,5 % selon TE) — le run du soir DOIT re-vérifier la clôture avec les articles post-18h. Séance : reprise des hostilités Iran-US (attaque iranienne interceptée, fin de l'accalmie — Deutsche Bank), pétrole en re-hausse, salve de résultats (Kering +11/+13 %, Bureau Veritas +7 %, Danone), Fed à 20h00 Paris.",
+      "prevision": {
+        "direction": "hausse",
+        "probabilite": 0.53,
+        "intervalle_80pct": [-1.2, 1.2]
+      },
+      "verdict": {
+        "direction_ok": false,
+        "dans_intervalle": true,
+        "erreur_pct": 0.60,
+        "type": "mixte : irréductible dominant, composante corrigeable",
+        "cause": "Irréductible : reprise des hostilités Iran-US dans la nuit (attaque iranienne interceptée, fin de l'accalmie) — imprévisible mardi soir, H5 invalidée ; l'Asie a replongé (H3). Corrigeable : Hermès −11 % après ses résultats du matin — la publication d'un poids lourd était à l'agenda et le risque « déception poids lourd » listé mais sous-pondéré (leçon L1, 2e observation)."
+      },
+      "note": "DIVERGENCE RÉSOLUE au run du soir : clôture retenue 8 408,27 (−0,60 %) — article de clôture Boursorama/Reuters 17h56/18h09 ; le chiffre Trading Economics de l'instantané (+0,3 % à 8 481) était erroné (page/cache d'un autre jour) et a été corrigé. Séance : reprise des hostilités Iran-US, pétrole en re-hausse, Hermès −11,03 % (déception S1) vs Kering +16,91 % (Gucci meilleur qu'attendu), FTSE 100 seul en hausse (+0,24 %, record 10 951). Fed 20h00 Paris : statu quo 3,50–3,75 % (3 dissidents pro-hausse), Warsh « watchful thinking » ; Wall Street a dévissé APRÈS la clôture de Paris. Ouverture exacte ND. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; décision Fed à 14h00 ET (20h00 Paris)" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture veille 18,21" },
-        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours" },
-        "dax":      { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure (« Europe sans direction claire »)" },
-        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "sp500":    { "niveau": 7316.15, "var_pct": -1.52, "note": "clôture post-Fed ; Dow −2,19 % (pire séance depuis avril 2025), taux longs au plus haut de ~20 ans" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "clôture ND ce soir (en hausse probable avec le sell-off, niveau non vérifié)" },
+        "nasdaq":   { "niveau": 24442.94, "var_pct": -1.74, "note": "clôture post-Fed ; résultats des géants tech publiés après clôture" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture en baisse (« l'Europe hormis Londres finit en baisse »), % exact ND" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture en baisse, % exact ND ; FTSE 100 +0,24 % (record 10 951)" },
         "nikkei":   { "niveau": 61434.19, "var_pct": -1.5, "note": "clôture — divergence AP entre mises à jour : −1,5 % (61 434,19) vs −1,8 % (61 038,63)" },
         "hangseng": { "niveau": 25762.80, "var_pct": 1.8, "note": "clôture (AP)" },
         "taiex":    { "niveau": null, "var_pct": -3.8, "note": "clôture (AP) — ≤ −2 % : règle de RETRAIT à appliquer par la routine du soir" },
@@ -214,25 +223,25 @@
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-07-29",
-    "direction": "hausse",
-    "probabilite": 0.53,
-    "intervalle_80pct": [-1.2, 1.2],
+    "seance_cible": "2026-07-30",
+    "direction": "baisse",
+    "probabilite": 0.60,
+    "intervalle_80pct": [-2.2, 0.8],
     "hypotheses": [
-      "H1 : attentisme pré-Fed — la décision tombe à 20h00 Paris, APRÈS la clôture Euronext → séance d'amplitude contenue, l'impact Fed portera sur jeudi",
-      "H2 (L4 confirmée) : pétrole stable ou en décrue (Brent < ~90 $) → soutien ; re-hausse > +4 %/jour → direction invalidée",
-      "H3 : stabilisation de l'Asie après le krach IA de mardi ; une 2e séance de panique (Nikkei/semis) se propagerait à l'Europe et invaliderait la direction",
-      "H4 : le flux de résultats européens reste porteur (rotation hors tech vers cycliques/défensives, comme le Dow +1,03 %)",
-      "H5 : la détente géopolitique tient (discussions de cessez-le-feu en cours)"
+      "H1 : gap d'ouverture nettement négatif — Wall Street a dévissé APRÈS la clôture de Paris (S&P −1,52 %, Dow −2,19 %, pire séance depuis avril 2025)",
+      "H2 : taux longs US au plus haut de ~20 ans (lecture « Fed derrière la courbe », 3 dissidents pro-hausse) → pression sur les valorisations",
+      "H3 (L4) : hostilités Iran-US reprises → pétrole re-orienté à la hausse = pression supplémentaire",
+      "H4 : réaction aux résultats des géants tech US publiés mercredi soir — inconnue à l'heure de la prévision : un très bon résultat pourrait amortir le gap (principal risque haussier)",
+      "H5 (L2) : borne basse élargie — choc de taux + géopolitique en cours de matérialisation"
     ]
   },
   "metriques": {
-    "n": 5,
-    "hit_rate": 0.8,
-    "mae_pct": 0.93,
-    "mae_naif_pct": 0.89,
-    "couverture_intervalle": 0.8,
-    "brier": 0.2358,
+    "n": 6,
+    "hit_rate": 0.667,
+    "mae_pct": 0.87,
+    "mae_naif_pct": 0.84,
+    "couverture_intervalle": 0.833,
+    "brier": 0.2433,
     "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE"
   },
   "metriques_historique": [
@@ -240,10 +249,11 @@
     { "date": "2026-07-23", "n": 2, "hit_rate": 1.0, "mae_pct": 1.17, "mae_naif_pct": 1.27, "couverture": 0.5, "brier": 0.2117 },
     { "date": "2026-07-24", "n": 3, "hit_rate": 0.667, "mae_pct": 1.20, "mae_naif_pct": 1.14, "couverture": 0.667, "brier": 0.2457 },
     { "date": "2026-07-27", "n": 4, "hit_rate": 0.75, "mae_pct": 1.00, "mae_naif_pct": 0.95, "couverture": 0.75, "brier": 0.2419 },
-    { "date": "2026-07-28", "n": 5, "hit_rate": 0.8, "mae_pct": 0.93, "mae_naif_pct": 0.89, "couverture": 0.8, "brier": 0.2358 }
+    { "date": "2026-07-28", "n": 5, "hit_rate": 0.8, "mae_pct": 0.93, "mae_naif_pct": 0.89, "couverture": 0.8, "brier": 0.2358 },
+    { "date": "2026-07-29", "n": 6, "hit_rate": 0.667, "mae_pct": 0.87, "mae_naif_pct": 0.84, "couverture": 0.833, "brier": 0.2433 }
   ],
   "lecons": [
-    { "texte": "Recenser les capital markets days et présentations de perspectives des poids lourds du CAC : l'annonce Airbus (mardi soir, hors agenda journalisé) a dominé la séance du 22/07 (+7 %, premier contributeur de l'indice).", "statut": "OBSERVÉE ×1" },
+    { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) peuvent dominer la séance : Airbus +7 % le 22/07 (annonce hors agenda journalisé), Hermès −11 % le 29/07 (résultats à l'agenda mais risque sous-pondéré). Pondérer explicitement ce facteur dans la prévision quand un poids lourd publie.", "statut": "OBSERVÉE ×2 (22/07, 29/07)" },
     { "texte": "Quand un risque de queue identifié est en cours de matérialisation (Brent +8 % sur 3 séances), élargir la borne exposée de l'intervalle au-delà du seul ajustement événementiel (BCE) : le −1,64 % du 23/07 est sorti d'une borne à −1,4 %.", "statut": "OBSERVÉE ×1" },
     { "texte": "Canal pétrole : raisonner en VARIATION (momentum, ±4 %/jour) et non en niveau — 23/07 : flambée → CAC −1,64 % ; 24/07 : repli −4 % → +0,88 % ; 27/07 : chute −6,3 % → +0,40 %. À appliquer systématiquement. L'agenda doit aussi recenser les publications macro du matin.", "statut": "CONFIRMÉE (×3 : 23, 24, 27/07)" }
   ]
