@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-07-28",
+  "derniere_maj": "2026-07-29",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [
     { "ticker": "^TWII", "cle": "taiex", "nom": "TAIEX", "ajoute_le": "2026-07-21", "var_pct_ajout": 4.2, "raison": "rebond des semi-conducteurs, TSMC +3,9 % (règle ≥ +2 %)" }
@@ -189,6 +189,27 @@
         "hangseng": { "niveau": 25310, "var_pct": 0.4, "note": "clôture (+103 pts)" },
         "taiex":    { "niveau": null, "var_pct": null, "note": "ND à cette heure" },
         "kospi":    { "niveau": null, "var_pct": -10.9, "note": "« jusqu'à −10,9 % » en séance, 9e coupe-circuit, plus bas depuis mi-avril (India TV) — hors suivi, pour information ; clôture exacte ND" }
+      }
+    },
+    {
+      "date": "2026-07-29",
+      "cloture": 8481,
+      "rendement_pct": 0.26,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "⚠️ INSTANTANÉ AVEC DIVERGENCE NON RÉSOLUE sur la clôture : Trading Economics donne +0,3 % à 8 481 (4e hausse consécutive, plus haut de 3 semaines) alors que BFM Bourse titrait « le CAC 40 reperd du terrain » (−0,5 % à 8 414,54 à la mi-séance, Hermès −10 % vs −2,5 % selon TE) — le run du soir DOIT re-vérifier la clôture avec les articles post-18h. Séance : reprise des hostilités Iran-US (attaque iranienne interceptée, fin de l'accalmie — Deutsche Bank), pétrole en re-hausse, salve de résultats (Kering +11/+13 %, Bureau Veritas +7 %, Danone), Fed à 20h00 Paris.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; décision Fed à 14h00 ET (20h00 Paris)" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture veille 18,21" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure (« Europe sans direction claire »)" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "nikkei":   { "niveau": 61434.19, "var_pct": -1.5, "note": "clôture — divergence AP entre mises à jour : −1,5 % (61 434,19) vs −1,8 % (61 038,63)" },
+        "hangseng": { "niveau": 25762.80, "var_pct": 1.8, "note": "clôture (AP)" },
+        "taiex":    { "niveau": null, "var_pct": -3.8, "note": "clôture (AP) — ≤ −2 % : règle de RETRAIT à appliquer par la routine du soir" },
+        "kospi":    { "niveau": null, "var_pct": -7.0, "note": "≈ −6 à −8 % selon l'heure (AP) — hors suivi, pour information ; vente massive des valeurs puces" }
       }
     }
   ],
