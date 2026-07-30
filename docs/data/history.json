@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-07-29",
+  "derniere_maj": "2026-07-30",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -219,6 +219,25 @@
         "hangseng": { "niveau": 25762.80, "var_pct": 1.8, "note": "clôture (AP)" },
         "taiex":    { "niveau": null, "var_pct": -3.8, "note": "clôture (AP) — ≤ −2 % : règle de RETRAIT à appliquer par la routine du soir" },
         "kospi":    { "niveau": null, "var_pct": -7.0, "note": "≈ −6 à −8 % selon l'heure (AP) — hors suivi, pour information ; vente massive des valeurs puces" }
+      }
+    },
+    {
+      "date": "2026-07-30",
+      "cloture": 8485.64,
+      "rendement_pct": 0.92,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : rendement calculé sur clôtures vérifiées (8 485,64 vs 8 408,27 ; ABC Bourse arrondit à 0,9 %) ; ouverture exacte ND ; verdict et prévision au run de 21h15 UTC. Avalanche de résultats bien accueillis : Schneider Electric +11 % (perspectives 2026 relevées), Bouygues +7,1 %, L'Oréal ; Stellantis −4,3 %. Espoirs de reprise des négociations US-Iran. Big Tech de mercredi soir : Microsoft bat nettement (+14,8 % pré-marché) vs Meta mitigé (−8,5 %) — rebond US en cours (Nasdaq futures +1,4 %).",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; rebond mené par Microsoft et les puces (BNN/AP)" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "a repassé les 20 en séance (BFM) ; clôture ND à cette heure" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +1,4 % avant l'ouverture (Microsoft beat, Meta −8,5 %)" },
+        "dax":      { "niveau": 25418, "var_pct": null, "note": "−41 pts (~−0,2 %) en séance ; clôture exacte ND" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND ; Stoxx 600 « stable » à 10h25 GMT" },
+        "nikkei":   { "niveau": 61867.43, "var_pct": 0.7, "note": "clôture (AP) — rebond partiel" },
+        "hangseng": { "niveau": 25858.88, "var_pct": 0.2, "note": "clôture (AP)" }
       }
     }
   ],
