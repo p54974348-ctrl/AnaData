@@ -12,7 +12,8 @@
     { "date": "2026-07-24", "action": "retrait", "ticker": "^KS11", "var_pct": -5.7, "note": "KOSPI −5,7 % <= −2 % (sell-off IA) → retiré du suivi dynamique ; TAIEX ND 2e jour consécutif (aucune action possible) ; aucun ajout" },
     { "date": "2026-07-27", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX −0,1 % (donnée revenue, reste suivi) ; aucun ajout (Shanghai +1,2 %, KOSPI +1,0 %, Sensex +1,1 % — tous < +2 %)" },
     { "date": "2026-07-28", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX ND ce jour (règle non applicable) malgré le sell-off des semis — à surveiller ; aucun ajout (rien >= +2 % hors noyau vérifié)" },
-    { "date": "2026-07-29", "action": "retrait", "ticker": "^TWII", "var_pct": -3.8, "note": "TAIEX −3,8 % <= −2 % (sell-off des puces) → retiré du suivi dynamique (ajouté le 21/07 à +4,2 %) ; liste dynamique désormais vide ; aucun ajout (Hang Seng +1,8 % < +2 %)" }
+    { "date": "2026-07-29", "action": "retrait", "ticker": "^TWII", "var_pct": -3.8, "note": "TAIEX −3,8 % <= −2 % (sell-off des puces) → retiré du suivi dynamique (ajouté le 21/07 à +4,2 %) ; liste dynamique désormais vide ; aucun ajout (Hang Seng +1,8 % < +2 %)" },
+    { "date": "2026-07-30", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,7 %, Hang Seng +0,2 % — rien >= +2 % hors noyau vérifié)" }
   ],
   "records": [
     {
@@ -211,7 +212,7 @@
       "note": "DIVERGENCE RÉSOLUE au run du soir : clôture retenue 8 408,27 (−0,60 %) — article de clôture Boursorama/Reuters 17h56/18h09 ; le chiffre Trading Economics de l'instantané (+0,3 % à 8 481) était erroné (page/cache d'un autre jour) et a été corrigé. Séance : reprise des hostilités Iran-US, pétrole en re-hausse, Hermès −11,03 % (déception S1) vs Kering +16,91 % (Gucci meilleur qu'attendu), FTSE 100 seul en hausse (+0,24 %, record 10 951). Fed 20h00 Paris : statu quo 3,50–3,75 % (3 dissidents pro-hausse), Warsh « watchful thinking » ; Wall Street a dévissé APRÈS la clôture de Paris. Ouverture exacte ND. Volume ND.",
       "contexte": {
         "sp500":    { "niveau": 7316.15, "var_pct": -1.52, "note": "clôture post-Fed ; Dow −2,19 % (pire séance depuis avril 2025), taux longs au plus haut de ~20 ans" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "clôture ND ce soir (en hausse probable avec le sell-off, niveau non vérifié)" },
+        "vix":      { "niveau": 20.66, "var_pct": 13.45, "note": "clôture (complétée le 30/07 : +13,45 % post-Fed à 20,66 — cohérent avec « le VIX repasse les 20 »)" },
         "nasdaq":   { "niveau": 24442.94, "var_pct": -1.74, "note": "clôture post-Fed ; résultats des géants tech publiés après clôture" },
         "dax":      { "niveau": null, "var_pct": null, "note": "clôture en baisse (« l'Europe hormis Londres finit en baisse »), % exact ND" },
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture en baisse, % exact ND ; FTSE 100 +0,24 % (record 10 951)" },
@@ -227,40 +228,50 @@
       "rendement_pct": 0.92,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "Instantané européen (~19h Paris) : rendement calculé sur clôtures vérifiées (8 485,64 vs 8 408,27 ; ABC Bourse arrondit à 0,9 %) ; ouverture exacte ND ; verdict et prévision au run de 21h15 UTC. Avalanche de résultats bien accueillis : Schneider Electric +11 % (perspectives 2026 relevées), Bouygues +7,1 %, L'Oréal ; Stellantis −4,3 %. Espoirs de reprise des négociations US-Iran. Big Tech de mercredi soir : Microsoft bat nettement (+14,8 % pré-marché) vs Meta mitigé (−8,5 %) — rebond US en cours (Nasdaq futures +1,4 %).",
+      "prevision": {
+        "direction": "baisse",
+        "probabilite": 0.60,
+        "intervalle_80pct": [-2.2, 0.8]
+      },
+      "verdict": {
+        "direction_ok": false,
+        "dans_intervalle": false,
+        "erreur_pct": 1.62,
+        "type": "corrigeable (dominante), part irréductible",
+        "cause": "Double échec (direction + intervalle). Corrigeable : le risque haussier H4 (Big Tech) était identifié et s'est matérialisé dès le pré-marché (Microsoft +14,8 % AVANT l'ouverture de Paris) ; l'avalanche de résultats de poids lourds CAC (Schneider +11 %, L'Oréal, Bouygues) était à l'agenda — schéma de la leçon L1 (3e observation → CONFIRMÉE) ; le PIB zone euro > attendu est tombé le matin. p=0,60 et borne haute +0,8 trop agressifs face à des catalyseurs binaires non résolus au moment de la prévision (→ nouvelle leçon L5). Irréductible : accalmie/espoirs de reprise des négociations US-Iran apparus jeudi."
+      },
+      "note": "Rendement calculé sur clôtures vérifiées (8 485,64 vs 8 408,27 ; sources arrondissent à 0,9 %). Avalanche de résultats bien accueillis : Schneider Electric +11 % (perspectives relevées), Bouygues +7,1 %, L'Oréal ; Stellantis −4,3 %. PIB zone euro T2 : +0,4 % (> attendu, Eurostat flash). Espoirs de reprise des négociations US-Iran (accalmie). Big Tech : Microsoft +16 % (gain de valeur en 1 jour record), Meta en baisse ; tech US +5 % (meilleure séance depuis avril 2025) ; Apple et Amazon publient jeudi soir après clôture US. Ouverture exacte ND. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; rebond mené par Microsoft et les puces (BNN/AP)" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "a repassé les 20 en séance (BFM) ; clôture ND à cette heure" },
-        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +1,4 % avant l'ouverture (Microsoft beat, Meta −8,5 %)" },
-        "dax":      { "niveau": 25418, "var_pct": null, "note": "−41 pts (~−0,2 %) en séance ; clôture exacte ND" },
-        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND ; Stoxx 600 « stable » à 10h25 GMT" },
+        "sp500":    { "niveau": 7437.64, "var_pct": 1.7, "note": "clôture ; Dow +1,2 % (52 208,06) — rebond post-Fed" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "clôture de jeudi ND (la valeur 20,66/+13,45 % circulant correspond à la clôture post-Fed de mercredi ; baisse attendue avec le rebond, non vérifiée)" },
+        "nasdaq":   { "niveau": 25122.18, "var_pct": 2.8, "note": "clôture ; fin d'une série de 6 baisses ; Microsoft +16 %" },
+        "dax":      { "niveau": null, "var_pct": 0.45, "note": "clôture (Boursorama/Reuters 18h20)" },
+        "stoxx50":  { "niveau": null, "var_pct": 1.53, "note": "clôture ; Stoxx 600 +0,77 %" },
         "nikkei":   { "niveau": 61867.43, "var_pct": 0.7, "note": "clôture (AP) — rebond partiel" },
         "hangseng": { "niveau": 25858.88, "var_pct": 0.2, "note": "clôture (AP)" }
       }
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-07-30",
-    "direction": "baisse",
-    "probabilite": 0.60,
-    "intervalle_80pct": [-2.2, 0.8],
+    "seance_cible": "2026-07-31",
+    "direction": "hausse",
+    "probabilite": 0.55,
+    "intervalle_80pct": [-1.3, 1.5],
     "hypotheses": [
-      "H1 : gap d'ouverture nettement négatif — Wall Street a dévissé APRÈS la clôture de Paris (S&P −1,52 %, Dow −2,19 %, pire séance depuis avril 2025)",
-      "H2 : taux longs US au plus haut de ~20 ans (lecture « Fed derrière la courbe », 3 dissidents pro-hausse) → pression sur les valorisations",
-      "H3 (L4) : hostilités Iran-US reprises → pétrole re-orienté à la hausse = pression supplémentaire",
-      "H4 : réaction aux résultats des géants tech US publiés mercredi soir — inconnue à l'heure de la prévision : un très bon résultat pourrait amortir le gap (principal risque haussier)",
-      "H5 (L2) : borne basse élargie — choc de taux + géopolitique en cours de matérialisation"
+      "H1 : gap positif — Wall Street a fortement rebondi APRÈS la clôture de Paris (S&P +1,7 %, Nasdaq +2,8 %, Microsoft +16 %, tech +5 %)",
+      "H2 (L5) : Apple et Amazon publiés jeudi soir : réaction inconnue au moment de la prévision → probabilité plafonnée à 0,55 et intervalle gardé large des deux côtés",
+      "H3 : inflation flash de juillet (grandes économies européennes) vendredi matin : une surprise haussière (effet pétrole) pèserait et pourrait invalider la direction",
+      "H4 (L4) : pas de nouvelle poussée du pétrole (accalmie Iran, espoirs de négociations) → pas de vent contraire",
+      "H5 (L1) : des poids lourds CAC peuvent publier vendredi (agenda détaillé ND ce soir) — facteur potentiellement dominant dans les deux sens"
     ]
   },
   "metriques": {
-    "n": 6,
-    "hit_rate": 0.667,
-    "mae_pct": 0.87,
-    "mae_naif_pct": 0.84,
-    "couverture_intervalle": 0.833,
-    "brier": 0.2433,
+    "n": 7,
+    "hit_rate": 0.571,
+    "mae_pct": 0.98,
+    "mae_naif_pct": 0.85,
+    "couverture_intervalle": 0.714,
+    "brier": 0.26,
     "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE"
   },
   "metriques_historique": [
@@ -269,11 +280,13 @@
     { "date": "2026-07-24", "n": 3, "hit_rate": 0.667, "mae_pct": 1.20, "mae_naif_pct": 1.14, "couverture": 0.667, "brier": 0.2457 },
     { "date": "2026-07-27", "n": 4, "hit_rate": 0.75, "mae_pct": 1.00, "mae_naif_pct": 0.95, "couverture": 0.75, "brier": 0.2419 },
     { "date": "2026-07-28", "n": 5, "hit_rate": 0.8, "mae_pct": 0.93, "mae_naif_pct": 0.89, "couverture": 0.8, "brier": 0.2358 },
-    { "date": "2026-07-29", "n": 6, "hit_rate": 0.667, "mae_pct": 0.87, "mae_naif_pct": 0.84, "couverture": 0.833, "brier": 0.2433 }
+    { "date": "2026-07-29", "n": 6, "hit_rate": 0.667, "mae_pct": 0.87, "mae_naif_pct": 0.84, "couverture": 0.833, "brier": 0.2433 },
+    { "date": "2026-07-30", "n": 7, "hit_rate": 0.571, "mae_pct": 0.98, "mae_naif_pct": 0.85, "couverture": 0.714, "brier": 0.26 }
   ],
   "lecons": [
-    { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) peuvent dominer la séance : Airbus +7 % le 22/07 (annonce hors agenda journalisé), Hermès −11 % le 29/07 (résultats à l'agenda mais risque sous-pondéré). Pondérer explicitement ce facteur dans la prévision quand un poids lourd publie.", "statut": "OBSERVÉE ×2 (22/07, 29/07)" },
+    { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) dominent les séances : Airbus +7 % (22/07), Hermès −11 % (29/07), Schneider +11 %/L'Oréal/Bouygues (30/07). Pondérer explicitement ce facteur quand un poids lourd publie — dans les deux sens.", "statut": "CONFIRMÉE (×3 : 22, 29, 30/07)" },
     { "texte": "Quand un risque de queue identifié est en cours de matérialisation (Brent +8 % sur 3 séances), élargir la borne exposée de l'intervalle au-delà du seul ajustement événementiel (BCE) : le −1,64 % du 23/07 est sorti d'une borne à −1,4 %.", "statut": "OBSERVÉE ×1" },
-    { "texte": "Canal pétrole : raisonner en VARIATION (momentum, ±4 %/jour) et non en niveau — 23/07 : flambée → CAC −1,64 % ; 24/07 : repli −4 % → +0,88 % ; 27/07 : chute −6,3 % → +0,40 %. À appliquer systématiquement. L'agenda doit aussi recenser les publications macro du matin.", "statut": "CONFIRMÉE (×3 : 23, 24, 27/07)" }
+    { "texte": "Canal pétrole : raisonner en VARIATION (momentum, ±4 %/jour) et non en niveau — 23/07 : flambée → CAC −1,64 % ; 24/07 : repli −4 % → +0,88 % ; 27/07 : chute −6,3 % → +0,40 %. À appliquer systématiquement. L'agenda doit aussi recenser les publications macro du matin.", "statut": "CONFIRMÉE (×3 : 23, 24, 27/07)" },
+    { "texte": "Calibration : une prévision émise la veille au soir ne voit pas le pré-marché du lendemain. Quand des catalyseurs binaires connus restent NON RÉSOLUS au moment de la prévision (résultats publiés après la clôture US, poids lourds CAC à l'agenda du matin, statistique majeure), plafonner la probabilité à ~0,55 et garder l'intervalle large des deux côtés — le 30/07 (p=0,60, borne haute +0,8) a été doublement démenti (+0,92 %).", "statut": "OBSERVÉE ×1" }
   ]
 }
