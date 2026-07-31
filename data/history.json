@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-07-30",
+  "derniere_maj": "2026-07-31",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -249,6 +249,25 @@
         "stoxx50":  { "niveau": null, "var_pct": 1.53, "note": "clôture ; Stoxx 600 +0,77 %" },
         "nikkei":   { "niveau": 61867.43, "var_pct": 0.7, "note": "clôture (AP) — rebond partiel" },
         "hangseng": { "niveau": 25858.88, "var_pct": 0.2, "note": "clôture (AP)" }
+      }
+    },
+    {
+      "date": "2026-07-31",
+      "cloture": 8509.64,
+      "rendement_pct": 0.28,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : rendement calculé sur clôtures vérifiées (8 509,64 vs 8 485,64 ; ABC Bourse arrondit à 0,3 %) ; ouverture exacte ND ; verdict et prévision au run de 21h15 UTC. Dernière séance de juillet : retour au-dessus des 8 500 pts — Saint-Gobain +6,9 % (S1), Euronext, Engie, Crédit Agricole salués ; Vivendi −19,5 % (résultats UMG). Semaine : +1,64 % ; juillet : +1,26 %. Big Tech de jeudi soir : Amazon en forte hausse (AWS +37 %), Apple en forte baisse (services décevants) — réactions divergentes en séance US. Inflation flash zone euro : résultat ND à cette heure.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; ouverture en hausse — Amazon +10 à +14 %, Apple −7 à −9 % (lectures divergentes selon l'heure)" },
+        "dax":      { "niveau": 25805, "var_pct": null, "note": "+193 pts (~+0,8 %) en séance ; clôture exacte ND" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND ; Stoxx 600 +0,8 % en début de séance" },
+        "nikkei":   { "niveau": 64362, "var_pct": 4.0, "note": "clôture — rebond puissant (+2 494 pts) ; indice du noyau, pas d'action de suivi" },
+        "hangseng": { "niveau": 25884, "var_pct": 0.1, "note": "clôture (+25 pts)" }
       }
     }
   ],
