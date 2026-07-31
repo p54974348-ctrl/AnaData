@@ -13,7 +13,8 @@
     { "date": "2026-07-27", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX −0,1 % (donnée revenue, reste suivi) ; aucun ajout (Shanghai +1,2 %, KOSPI +1,0 %, Sensex +1,1 % — tous < +2 %)" },
     { "date": "2026-07-28", "action": "aucun", "ticker": null, "var_pct": null, "note": "TAIEX ND ce jour (règle non applicable) malgré le sell-off des semis — à surveiller ; aucun ajout (rien >= +2 % hors noyau vérifié)" },
     { "date": "2026-07-29", "action": "retrait", "ticker": "^TWII", "var_pct": -3.8, "note": "TAIEX −3,8 % <= −2 % (sell-off des puces) → retiré du suivi dynamique (ajouté le 21/07 à +4,2 %) ; liste dynamique désormais vide ; aucun ajout (Hang Seng +1,8 % < +2 %)" },
-    { "date": "2026-07-30", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,7 %, Hang Seng +0,2 % — rien >= +2 % hors noyau vérifié)" }
+    { "date": "2026-07-30", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,7 %, Hang Seng +0,2 % — rien >= +2 % hors noyau vérifié)" },
+    { "date": "2026-07-31", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +4 % = noyau ; rien >= +2 % hors noyau vérifié)" }
   ],
   "records": [
     {
@@ -257,13 +258,23 @@
       "rendement_pct": 0.28,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "Instantané européen (~19h Paris) : rendement calculé sur clôtures vérifiées (8 509,64 vs 8 485,64 ; ABC Bourse arrondit à 0,3 %) ; ouverture exacte ND ; verdict et prévision au run de 21h15 UTC. Dernière séance de juillet : retour au-dessus des 8 500 pts — Saint-Gobain +6,9 % (S1), Euronext, Engie, Crédit Agricole salués ; Vivendi −19,5 % (résultats UMG). Semaine : +1,64 % ; juillet : +1,26 %. Big Tech de jeudi soir : Amazon en forte hausse (AWS +37 %), Apple en forte baisse (services décevants) — réactions divergentes en séance US. Inflation flash zone euro : résultat ND à cette heure.",
+      "prevision": {
+        "direction": "hausse",
+        "probabilite": 0.55,
+        "intervalle_80pct": [-1.3, 1.5]
+      },
+      "verdict": {
+        "direction_ok": true,
+        "dans_intervalle": true,
+        "erreur_pct": 0.18,
+        "type": null,
+        "cause": "Direction et intervalle corrects — meilleure erreur du cycle (0,18 pt%) et modèle devant le naïf sur la séance (0,18 vs 0,28). H1 validée (gap positif via le rebond US), H2/L5 validée par les faits (Apple −8 % vs Amazon +15 % : le catalyseur binaire s'est bien résolu dans les deux sens, la calibration prudente p=0,55 était la bonne), H3 validée (inflation flash 2,9 % conforme aux attentes), H4 validée (pétrole calme), H5 validée (Saint-Gobain +6,9 % a porté)."
+      },
+      "note": "Rendement calculé sur clôtures vérifiées (8 509,64 vs 8 485,64 ; sources arrondissent à 0,3 %). Dernière séance de juillet : retour au-dessus des 8 500 pts — Saint-Gobain +6,9 %, Euronext, Engie, Crédit Agricole salués ; Vivendi −19,5 % (UMG). Semaine : +1,64 % ; juillet : +1,26 %. Inflation flash zone euro juillet : 2,9 % (vs 2,8 %), CONFORME aux attentes ; cœur 2,5 %. Big Tech : Amazon +15 % (AWS +37 %) / Apple −8 % ; Alphabet +6 %. Ouverture exacte ND. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
-        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; ouverture en hausse — Amazon +10 à +14 %, Apple −7 à −9 % (lectures divergentes selon l'heure)" },
+        "sp500":    { "niveau": 7489.72, "var_pct": 0.7, "note": "clôture ; Dow +0,53 % (52 485,03), 4e mois de hausse consécutif du Dow" },
+        "vix":      { "niveau": 17.09, "var_pct": null, "note": "clôture — retombé du pic post-Fed (20,66 mercredi)" },
+        "nasdaq":   { "niveau": 25373.85, "var_pct": 1.0, "note": "clôture ; Amazon +15 %, Apple −8 %, Alphabet +6 %" },
         "dax":      { "niveau": 25805, "var_pct": null, "note": "+193 pts (~+0,8 %) en séance ; clôture exacte ND" },
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND ; Stoxx 600 +0,8 % en début de séance" },
         "nikkei":   { "niveau": 64362, "var_pct": 4.0, "note": "clôture — rebond puissant (+2 494 pts) ; indice du noyau, pas d'action de suivi" },
@@ -272,25 +283,25 @@
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-07-31",
+    "seance_cible": "2026-08-03",
     "direction": "hausse",
-    "probabilite": 0.55,
-    "intervalle_80pct": [-1.3, 1.5],
+    "probabilite": 0.54,
+    "intervalle_80pct": [-1.4, 1.4],
     "hypotheses": [
-      "H1 : gap positif — Wall Street a fortement rebondi APRÈS la clôture de Paris (S&P +1,7 %, Nasdaq +2,8 %, Microsoft +16 %, tech +5 %)",
-      "H2 (L5) : Apple et Amazon publiés jeudi soir : réaction inconnue au moment de la prévision → probabilité plafonnée à 0,55 et intervalle gardé large des deux côtés",
-      "H3 : inflation flash de juillet (grandes économies européennes) vendredi matin : une surprise haussière (effet pétrole) pèserait et pourrait invalider la direction",
-      "H4 (L4) : pas de nouvelle poussée du pétrole (accalmie Iran, espoirs de négociations) → pas de vent contraire",
-      "H5 (L1) : des poids lourds CAC peuvent publier vendredi (agenda détaillé ND ce soir) — facteur potentiellement dominant dans les deux sens"
+      "H1 : pas d'escalade au Moyen-Orient pendant le week-end (accalmie fragile, discussions en cours) → gap lundi neutre à positif (Wall Street a fini fort vendredi : S&P +0,7 %, Nasdaq +1,0 %)",
+      "H2 (L4) : pétrole sans poussée > +4 %/jour ; sinon direction invalidée",
+      "H3 : le momentum résultats/tech se prolonge (Amazon +15 %, Alphabet +6 %) sans rechute IA/semis",
+      "H4 : agenda lundi : ISM manufacturier US (16h00 Paris) ; poids lourds CAC publiant lundi ND ce soir (L1 : à vérifier)",
+      "H5 (L5) : gap de deux jours de week-end → intervalle maintenu large et symétrique malgré un VIX retombé (17,09)"
     ]
   },
   "metriques": {
-    "n": 7,
-    "hit_rate": 0.571,
-    "mae_pct": 0.98,
-    "mae_naif_pct": 0.85,
-    "couverture_intervalle": 0.714,
-    "brier": 0.26,
+    "n": 8,
+    "hit_rate": 0.625,
+    "mae_pct": 0.88,
+    "mae_naif_pct": 0.78,
+    "couverture_intervalle": 0.75,
+    "brier": 0.2528,
     "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE"
   },
   "metriques_historique": [
@@ -300,12 +311,13 @@
     { "date": "2026-07-27", "n": 4, "hit_rate": 0.75, "mae_pct": 1.00, "mae_naif_pct": 0.95, "couverture": 0.75, "brier": 0.2419 },
     { "date": "2026-07-28", "n": 5, "hit_rate": 0.8, "mae_pct": 0.93, "mae_naif_pct": 0.89, "couverture": 0.8, "brier": 0.2358 },
     { "date": "2026-07-29", "n": 6, "hit_rate": 0.667, "mae_pct": 0.87, "mae_naif_pct": 0.84, "couverture": 0.833, "brier": 0.2433 },
-    { "date": "2026-07-30", "n": 7, "hit_rate": 0.571, "mae_pct": 0.98, "mae_naif_pct": 0.85, "couverture": 0.714, "brier": 0.26 }
+    { "date": "2026-07-30", "n": 7, "hit_rate": 0.571, "mae_pct": 0.98, "mae_naif_pct": 0.85, "couverture": 0.714, "brier": 0.26 },
+    { "date": "2026-07-31", "n": 8, "hit_rate": 0.625, "mae_pct": 0.88, "mae_naif_pct": 0.78, "couverture": 0.75, "brier": 0.2528 }
   ],
   "lecons": [
     { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) dominent les séances : Airbus +7 % (22/07), Hermès −11 % (29/07), Schneider +11 %/L'Oréal/Bouygues (30/07). Pondérer explicitement ce facteur quand un poids lourd publie — dans les deux sens.", "statut": "CONFIRMÉE (×3 : 22, 29, 30/07)" },
     { "texte": "Quand un risque de queue identifié est en cours de matérialisation (Brent +8 % sur 3 séances), élargir la borne exposée de l'intervalle au-delà du seul ajustement événementiel (BCE) : le −1,64 % du 23/07 est sorti d'une borne à −1,4 %.", "statut": "OBSERVÉE ×1" },
     { "texte": "Canal pétrole : raisonner en VARIATION (momentum, ±4 %/jour) et non en niveau — 23/07 : flambée → CAC −1,64 % ; 24/07 : repli −4 % → +0,88 % ; 27/07 : chute −6,3 % → +0,40 %. À appliquer systématiquement. L'agenda doit aussi recenser les publications macro du matin.", "statut": "CONFIRMÉE (×3 : 23, 24, 27/07)" },
-    { "texte": "Calibration : une prévision émise la veille au soir ne voit pas le pré-marché du lendemain. Quand des catalyseurs binaires connus restent NON RÉSOLUS au moment de la prévision (résultats publiés après la clôture US, poids lourds CAC à l'agenda du matin, statistique majeure), plafonner la probabilité à ~0,55 et garder l'intervalle large des deux côtés — le 30/07 (p=0,60, borne haute +0,8) a été doublement démenti (+0,92 %).", "statut": "OBSERVÉE ×1" }
+    { "texte": "Calibration : une prévision émise la veille au soir ne voit pas le pré-marché du lendemain. Quand des catalyseurs binaires connus restent NON RÉSOLUS au moment de la prévision (résultats publiés après la clôture US, poids lourds CAC à l'agenda du matin, statistique majeure), plafonner la probabilité à ~0,55 et garder l'intervalle large des deux côtés — le 30/07 (p=0,60, borne haute +0,8) a été doublement démenti ; le 31/07 la règle appliquée (p=0,55) a bien couvert la résolution divergente Apple −8 %/Amazon +15 %.", "statut": "OBSERVÉE ×2 (30/07, 31/07)" }
   ]
 }
