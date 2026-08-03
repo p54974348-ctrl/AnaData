@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-07-31",
+  "derniere_maj": "2026-08-03",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -279,6 +279,25 @@
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND ; Stoxx 600 +0,8 % en début de séance" },
         "nikkei":   { "niveau": 64362, "var_pct": 4.0, "note": "clôture — rebond puissant (+2 494 pts) ; indice du noyau, pas d'action de suivi" },
         "hangseng": { "niveau": 25884, "var_pct": 0.1, "note": "clôture (+25 pts)" }
+      }
+    },
+    {
+      "date": "2026-08-03",
+      "cloture": 8622,
+      "rendement_pct": 1.32,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : clôture retenue 8 622 (+1,32 % calculé ; bdor arrondit à +1,30 %) — À CONFIRMER au run du soir avec un article de clôture Reuters/Boursorama (progression intraséance cohérente : +0,90 % à 09h40, +1,0 % à 10h15 ; le +0,67 % de MoneyVox est un article d'ouverture). Séance d'euphorie : Trump renonce à une offensive « sans précédent » contre l'Iran, cessez-le-feu de deux semaines et nouveau cycle de négociations → Brent −5 % (~83,9 $) ; bon PMI manufacturier zone euro ; intervention conjointe US-Japon pour soutenir le yen (Nikkei plombé).",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture vendredi 17,09" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "+1,3 % à 10h15 ; clôture exacte ND à cette heure" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "+0,8 % à 10h15 ; clôture exacte ND" },
+        "nikkei":   { "niveau": 63140.68, "var_pct": -1.9, "note": "clôture (AP) — yen soutenu par une intervention conjointe US-Japon, exportateurs pénalisés" },
+        "hangseng": { "niveau": 26038.92, "var_pct": 0.6, "note": "clôture (AP) — porté par le cessez-le-feu de deux semaines" }
       }
     }
   ],
