@@ -15,7 +15,8 @@
     { "date": "2026-07-29", "action": "retrait", "ticker": "^TWII", "var_pct": -3.8, "note": "TAIEX −3,8 % <= −2 % (sell-off des puces) → retiré du suivi dynamique (ajouté le 21/07 à +4,2 %) ; liste dynamique désormais vide ; aucun ajout (Hang Seng +1,8 % < +2 %)" },
     { "date": "2026-07-30", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,7 %, Hang Seng +0,2 % — rien >= +2 % hors noyau vérifié)" },
     { "date": "2026-07-31", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +4 % = noyau ; rien >= +2 % hors noyau vérifié)" },
-    { "date": "2026-08-03", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Hang Seng +0,6 %, KOSPI −4,5 % hors suivi — rien >= +2 % hors noyau vérifié)" }
+    { "date": "2026-08-03", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Hang Seng +0,6 %, KOSPI −4,5 % hors suivi — rien >= +2 % hors noyau vérifié)" },
+    { "date": "2026-08-04", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,3 %, Hang Seng −0,6 %, Shanghai +0,3 % — rien >= +2 % hors noyau vérifié)" }
   ],
   "records": [
     {
@@ -317,40 +318,50 @@
       "rendement_pct": 0.61,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "Instantané européen (~19h Paris) : clôture 8 666,63 (+0,61 % calculé ; ABC Bourse arrondit à 0,6 %) — NOUVEAU RECORD EN SÉANCE à 8 669,69 (le chiffre economiematin était le plus haut intraday, pas la clôture). Poursuite du rallye de désescalade : Scott Bessent (Trésor US) évoque une réouverture « imminente » du détroit d'Ormuz, Brent ~83-84 $ ; résultats de sociétés toujours porteurs. Verdict et prévision au run de 21h15 UTC.",
+      "prevision": {
+        "direction": "hausse",
+        "probabilite": 0.55,
+        "intervalle_80pct": [-1.3, 1.3]
+      },
+      "verdict": {
+        "direction_ok": true,
+        "dans_intervalle": true,
+        "erreur_pct": 0.61,
+        "type": null,
+        "cause": "Direction et intervalle corrects. H1 validée (gap positif hérité du rallye US), H2 validée (les négociations tiennent — Bessent : réouverture d'Ormuz « imminente »), H3/L4 validée (Brent stable ~83-84 $), H4 validée (amplitude modérée +0,61 % après +1,22 %, record en séance puis consolidation)."
+      },
+      "note": "Clôture 8 666,63 (+0,61 % calculé ; sources arrondissent à 0,6 %) — NOUVEAU RECORD EN SÉANCE à 8 669,69 (le chiffre economiematin était le plus haut intraday). Rallye de désescalade : Bessent évoque une réouverture « imminente » du détroit d'Ormuz, Brent ~83-84 $ ; résultats porteurs. Aux US : records en cascade après la clôture de Paris — S&P 500 premier record en 2 mois, Dow > 54 000 pour la première fois ; SpaceX et AMD publient mardi soir. Ouverture exacte ND. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures en hausse le matin, S&P visant un record" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
-        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +0,7 % le matin" },
-        "dax":      { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure (« le vert domine » en matinée)" },
-        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "sp500":    { "niveau": 7737, "var_pct": 1.79, "note": "clôture — RECORD (premier en 2 mois) ; Dow +1,71 % à 54 085,88 (> 54 000, première historique)" },
+        "vix":      { "niveau": 15.86, "var_pct": -0.8, "note": "clôture — retour au calme" },
+        "nasdaq":   { "niveau": 26584.99, "var_pct": 2.59, "note": "clôture ; SpaceX et AMD publient après Bourse" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture exacte ND (les % en circulation confondent avec lundi)" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture exacte ND ; Stoxx 600 ~652 (niveau proche du record)" },
         "nikkei":   { "niveau": 63957, "var_pct": 0.3, "note": "clôture (+202 pts, Investrade)" },
         "hangseng": { "niveau": 25852, "var_pct": -0.6, "note": "clôture (−156 pts, Investrade)" }
       }
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-08-04",
+    "seance_cible": "2026-08-05",
     "direction": "hausse",
     "probabilite": 0.55,
-    "intervalle_80pct": [-1.3, 1.3],
+    "intervalle_80pct": [-1.2, 1.2],
     "hypotheses": [
-      "H1 : gap positif — Wall Street a terminé au plus haut APRÈS la clôture de Paris (S&P +1,49 %, Nasdaq +2,08 %)",
-      "H2 (L5) : les négociations US-Iran entamées lundi ne déraillent pas overnight — risque binaire : un incident invaliderait la direction, d'où probabilité plafonnée",
-      "H3 (L4) : Brent stable ~80 $ ou en baisse → soutien ; re-hausse > +4 %/jour → direction invalidée",
-      "H4 : après +1,22 % et un record intraday, prises de bénéfices possibles → amplitude modérée attendue",
-      "H5 (L1) : poids lourds CAC publiant mardi ND ce soir — facteur dominant potentiel, à vérifier"
+      "H1 : gap positif — records US après la clôture de Paris (S&P +1,79 % à 7 737, Dow > 54 000, Nasdaq +2,59 %)",
+      "H2 (L5) : réactions aux résultats SpaceX et AMD (publiés mardi soir) inconnues au moment de la prévision → probabilité plafonnée",
+      "H3 : les négociations US-Iran progressent (Ormuz « imminent ») ; un accroc invaliderait la direction",
+      "H4 (L4) : Brent stable ou en baisse ; re-hausse > +4 %/jour → direction invalidée",
+      "H5 : rallye très étendu (4 hausses consécutives, records partout) → prises de bénéfices possibles, amplitude modérée attendue"
     ]
   },
   "metriques": {
-    "n": 9,
-    "hit_rate": 0.667,
-    "mae_pct": 0.92,
-    "mae_naif_pct": 0.83,
-    "couverture_intervalle": 0.778,
-    "brier": 0.2482,
+    "n": 10,
+    "hit_rate": 0.70,
+    "mae_pct": 0.89,
+    "mae_naif_pct": 0.81,
+    "couverture_intervalle": 0.80,
+    "brier": 0.2437,
     "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE"
   },
   "metriques_historique": [
@@ -362,7 +373,8 @@
     { "date": "2026-07-29", "n": 6, "hit_rate": 0.667, "mae_pct": 0.87, "mae_naif_pct": 0.84, "couverture": 0.833, "brier": 0.2433 },
     { "date": "2026-07-30", "n": 7, "hit_rate": 0.571, "mae_pct": 0.98, "mae_naif_pct": 0.85, "couverture": 0.714, "brier": 0.26 },
     { "date": "2026-07-31", "n": 8, "hit_rate": 0.625, "mae_pct": 0.88, "mae_naif_pct": 0.78, "couverture": 0.75, "brier": 0.2528 },
-    { "date": "2026-08-03", "n": 9, "hit_rate": 0.667, "mae_pct": 0.92, "mae_naif_pct": 0.83, "couverture": 0.778, "brier": 0.2482 }
+    { "date": "2026-08-03", "n": 9, "hit_rate": 0.667, "mae_pct": 0.92, "mae_naif_pct": 0.83, "couverture": 0.778, "brier": 0.2482 },
+    { "date": "2026-08-04", "n": 10, "hit_rate": 0.70, "mae_pct": 0.89, "mae_naif_pct": 0.81, "couverture": 0.80, "brier": 0.2437 }
   ],
   "lecons": [
     { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) dominent les séances : Airbus +7 % (22/07), Hermès −11 % (29/07), Schneider +11 %/L'Oréal/Bouygues (30/07). Pondérer explicitement ce facteur quand un poids lourd publie — dans les deux sens.", "statut": "CONFIRMÉE (×3 : 22, 29, 30/07)" },
