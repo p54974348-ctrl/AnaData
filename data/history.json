@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-08-03",
+  "derniere_maj": "2026-08-04",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -309,6 +309,25 @@
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture exacte ND ; Stoxx 600 +0,43 % (651,97) ; FTSE −0,16 % (énergie)" },
         "nikkei":   { "niveau": 63140.68, "var_pct": -1.9, "note": "clôture (AP) — yen soutenu par une intervention conjointe US-Japon, exportateurs pénalisés" },
         "hangseng": { "niveau": 26038.92, "var_pct": 0.6, "note": "clôture (AP) — porté par le cessez-le-feu de deux semaines" }
+      }
+    },
+    {
+      "date": "2026-08-04",
+      "cloture": 8666.63,
+      "rendement_pct": 0.61,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : clôture 8 666,63 (+0,61 % calculé ; ABC Bourse arrondit à 0,6 %) — NOUVEAU RECORD EN SÉANCE à 8 669,69 (le chiffre economiematin était le plus haut intraday, pas la clôture). Poursuite du rallye de désescalade : Scott Bessent (Trésor US) évoque une réouverture « imminente » du détroit d'Ormuz, Brent ~83-84 $ ; résultats de sociétés toujours porteurs. Verdict et prévision au run de 21h15 UTC.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures en hausse le matin, S&P visant un record" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +0,7 % le matin" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure (« le vert domine » en matinée)" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "nikkei":   { "niveau": 63957, "var_pct": 0.3, "note": "clôture (+202 pts, Investrade)" },
+        "hangseng": { "niveau": 25852, "var_pct": -0.6, "note": "clôture (−156 pts, Investrade)" }
       }
     }
   ],
