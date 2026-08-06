@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-08-05",
+  "derniere_maj": "2026-08-06",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -369,6 +369,25 @@
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
         "nikkei":   { "niveau": null, "var_pct": 3.7, "note": "clôture (AP) — envolée des semis (Advantest +8,8 %, Kioxia +4,2 %)" },
         "hangseng": { "niveau": null, "var_pct": 0.3, "note": "clôture (AP) ; Shanghai +1,5 %" }
+      }
+    },
+    {
+      "date": "2026-08-06",
+      "cloture": 8699.71,
+      "rendement_pct": 0.35,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : clôture 8 699,71 (+0,35 %) — RECORD ABSOLU EN SÉANCE à 8 742,53, premier passage au-dessus des 8 700 points. Le catalyseur binaire s'est résolu POSITIVEMENT mercredi soir : Téhéran annonce un accord avec Oman sur une nouvelle route de transit dans le détroit d'Ormuz. Hermès mène la danse ; fin de saison de résultats bien accueillie. « Un pied sur l'accélérateur, l'autre sur le frein » en attendant du concret. Verdict et prévision au run de 21h15 UTC.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance ; clôture veille 15,48" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours" },
+        "dax":      { "niveau": 26189, "var_pct": null, "note": "+62 pts (~+0,2 %) en séance ; clôture exacte ND" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "nikkei":   { "niveau": 65683, "var_pct": -0.9, "note": "clôture (−617 pts, Investrade) — respiration après +3,7 %" },
+        "hangseng": { "niveau": 25530, "var_pct": -1.5, "note": "clôture (−385 pts, Investrade)" }
       }
     }
   ],
