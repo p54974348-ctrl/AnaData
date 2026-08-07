@@ -18,7 +18,8 @@
     { "date": "2026-08-03", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Hang Seng +0,6 %, KOSPI −4,5 % hors suivi — rien >= +2 % hors noyau vérifié)" },
     { "date": "2026-08-04", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +0,3 %, Hang Seng −0,6 %, Shanghai +0,3 % — rien >= +2 % hors noyau vérifié)" },
     { "date": "2026-08-05", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei +3,7 % = noyau ; Shanghai +1,5 % < +2 % ; rien >= +2 % hors noyau vérifié)" },
-    { "date": "2026-08-06", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei −0,9 %, Hang Seng −1,5 % — rien >= +2 % hors noyau vérifié)" }
+    { "date": "2026-08-06", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; aucun ajout (Nikkei −0,9 %, Hang Seng −1,5 % — rien >= +2 % hors noyau vérifié)" },
+    { "date": "2026-08-07", "action": "aucun", "ticker": null, "var_pct": null, "note": "liste vide ; données Asie du jour ND (règle non applicable) ; aucun ajout vérifié" }
   ],
   "records": [
     {
@@ -403,44 +404,54 @@
     },
     {
       "date": "2026-08-07",
-      "cloture": 8731.37,
-      "rendement_pct": 0.36,
+      "cloture": 8714.93,
+      "rendement_pct": 0.17,
       "gap_pct": null,
       "intra_pct": null,
-      "prevision": null,
-      "verdict": null,
-      "note": "Instantané européen (~19h Paris) : cote quasi-clôture 8 731,37 (+0,36 %, relevée à 17h19 Paris — À CONFIRMER au run du soir avec un article de clôture) ; plus haut du jour 8 755,03 = probable nouveau record absolu en séance. Jour de NFP (consensus ~80-88k vs 57k en juin) : Paris a tenu ses gains après la publication de 14h30 (mi-séance pré-NFP : +0,17 %) — chiffres exacts du rapport à collecter ce soir. Semaine en route vers ~+2,7 %, meilleure depuis début avril. Verdict et prévision au run de 21h15 UTC.",
+      "prevision": {
+        "direction": "baisse",
+        "probabilite": 0.52,
+        "intervalle_80pct": [-1.3, 1.3]
+      },
+      "verdict": {
+        "direction_ok": false,
+        "dans_intervalle": true,
+        "erreur_pct": 0.17,
+        "type": "irréductible (dominante), pénalité limitée par L5 ; biais contrarien identifié → L7",
+        "cause": "Le NFP a surpris massivement (−23 000 emplois vs +83 000 attendus) mais dans le sens « bad news = good news » : la Fed restera on hold → rallye. Imprévisible jeudi soir ; H2 traitait bien le NFP en binaire (p plafonnée à 0,52, pénalité Brier limitée). H4 (prises de bénéfices) non matérialisée — 7e hausse consécutive. Constat récurrent : les 4 erreurs directionnelles depuis le 24/07 sont TOUTES des « baisse » prédites pendant le rallye → nouvelle leçon L7 (biais contrarien)."
+      },
+      "note": "DIVERGENCE RÉSOLUE au run du soir : clôture retenue 8 714,93 (+0,17 %) — article de clôture Boursorama/Reuters 18h40 ; la cote 8 731,37 de l'instantané (17h19) était un niveau pré-fixing, corrigée. RECORD EN CLÔTURE et RECORD ABSOLU EN SÉANCE à 8 755,03 ; 7e progression consécutive (série inédite depuis février 2025) ; semaine +2,41 %, meilleure depuis début avril. NFP juillet : −23 000 (vs +83 000 attendus), chômage 4,1 % — lu comme « Fed on hold », les marchés en profitent paradoxalement. Ouverture exacte ND. Volume ND.",
       "contexte": {
-        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours (post-NFP) ; futures quasi stables le matin" },
-        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
-        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +0,33 % le matin" },
-        "dax":      { "niveau": null, "var_pct": null, "note": "+0,32 % à 9h30 ; clôture ND à cette heure" },
-        "stoxx50":  { "niveau": null, "var_pct": null, "note": "+0,28 % à 9h30 ; clôture ND" },
-        "nikkei":   { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
-        "hangseng": { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" }
+        "sp500":    { "niveau": 7757.64, "var_pct": 0.62, "note": "clôture — RECORD ; +3,6 % sur la semaine ; Dow +0,28 % (54 036,93)" },
+        "vix":      { "niveau": 14.90, "var_pct": -1.65, "note": "clôture — régime très calme" },
+        "nasdaq":   { "niveau": 26690.62, "var_pct": 1.3, "note": "clôture ; +5,2 % sur la semaine" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "clôture en hausse (« avalanche de records en Europe »), % exact ND" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture en hausse, % exact ND" },
+        "nikkei":   { "niveau": null, "var_pct": null, "note": "clôture ND ce jour (non collectée)" },
+        "hangseng": { "niveau": null, "var_pct": null, "note": "clôture ND ce jour (non collectée)" }
       }
     }
   ],
   "prevision_active": {
-    "seance_cible": "2026-08-07",
-    "direction": "baisse",
-    "probabilite": 0.52,
-    "intervalle_80pct": [-1.3, 1.3],
+    "seance_cible": "2026-08-10",
+    "direction": "hausse",
+    "probabilite": 0.54,
+    "intervalle_80pct": [-1.2, 1.2],
     "hypotheses": [
-      "H1 : gap légèrement négatif — Wall Street en repli après la clôture de Paris (S&P −0,18 %, Dow −0,85 %, taux en hausse)",
-      "H2 (L5) : rapport emploi US (NFP juillet) vendredi 14h30 Paris = binaire majeur → probabilité proche de 0,50, intervalle élargi symétrique",
-      "H3 (L5) : finalisation possible de l'accord Ormuz (« in the works ») = binaire positif ; une annonce invaliderait la direction",
-      "H4 : 7 séances sans baisse et records en série → prises de bénéfices de fin de semaine probables",
-      "H5 (L4) : pétrole en légère re-hausse = facteur de prudence supplémentaire"
+      "H1 : pas d'incident géopolitique le week-end (négociations Ormuz en cours) → gap lundi neutre à positif (Wall Street au record vendredi soir, VIX 14,9)",
+      "H2 (L7) : ne pas prédire « baisse » contre un rallye sans signal négatif FORT — 7 hausses consécutives, records partout, NFP dovish : le momentum prime",
+      "H3 (L5) : week-end = binaire géopolitique de deux jours → probabilité plafonnée, intervalle symétrique",
+      "H4 (L4) : Brent bas/stable (~80 $) → soutien ; re-hausse > +4 %/jour → direction invalidée",
+      "H5 : lundi d'août à agenda macro léger (rien de vérifié) ; volumes réduits peuvent amplifier les mouvements"
     ]
   },
   "metriques": {
-    "n": 12,
-    "hit_rate": 0.667,
-    "mae_pct": 0.77,
-    "mae_naif_pct": 0.70,
-    "couverture_intervalle": 0.833,
-    "brier": 0.2425,
+    "n": 13,
+    "hit_rate": 0.615,
+    "mae_pct": 0.72,
+    "mae_naif_pct": 0.66,
+    "couverture_intervalle": 0.846,
+    "brier": 0.2446,
     "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE"
   },
   "metriques_historique": [
@@ -455,13 +466,15 @@
     { "date": "2026-08-03", "n": 9, "hit_rate": 0.667, "mae_pct": 0.92, "mae_naif_pct": 0.83, "couverture": 0.778, "brier": 0.2482 },
     { "date": "2026-08-04", "n": 10, "hit_rate": 0.70, "mae_pct": 0.89, "mae_naif_pct": 0.81, "couverture": 0.80, "brier": 0.2437 },
     { "date": "2026-08-05", "n": 11, "hit_rate": 0.727, "mae_pct": 0.81, "mae_naif_pct": 0.74, "couverture": 0.818, "brier": 0.2399 },
-    { "date": "2026-08-06", "n": 12, "hit_rate": 0.667, "mae_pct": 0.77, "mae_naif_pct": 0.70, "couverture": 0.833, "brier": 0.2425 }
+    { "date": "2026-08-06", "n": 12, "hit_rate": 0.667, "mae_pct": 0.77, "mae_naif_pct": 0.70, "couverture": 0.833, "brier": 0.2425 },
+    { "date": "2026-08-07", "n": 13, "hit_rate": 0.615, "mae_pct": 0.72, "mae_naif_pct": 0.66, "couverture": 0.846, "brier": 0.2446 }
   ],
   "lecons": [
     { "texte": "Les publications et événements des poids lourds du CAC (capital markets days, résultats) dominent les séances : Airbus +7 % (22/07), Hermès −11 % (29/07), Schneider +11 %/L'Oréal/Bouygues (30/07). Pondérer explicitement ce facteur quand un poids lourd publie — dans les deux sens.", "statut": "CONFIRMÉE (×3 : 22, 29, 30/07)" },
     { "texte": "Quand un risque de queue identifié est en cours de matérialisation (Brent +8 % sur 3 séances), élargir la borne exposée de l'intervalle au-delà du seul ajustement événementiel (BCE) : le −1,64 % du 23/07 est sorti d'une borne à −1,4 %.", "statut": "OBSERVÉE ×1" },
     { "texte": "Canal pétrole : raisonner en VARIATION (momentum, ±4 %/jour) et non en niveau — 23/07 : flambée → CAC −1,64 % ; 24/07 : repli −4 % → +0,88 % ; 27/07 : chute −6,3 % → +0,40 %. À appliquer systématiquement. L'agenda doit aussi recenser les publications macro du matin.", "statut": "CONFIRMÉE (×3 : 23, 24, 27/07)" },
     { "texte": "Calibration : une prévision émise la veille au soir ne voit pas le pré-marché du lendemain. Quand des catalyseurs binaires connus restent NON RÉSOLUS au moment de la prévision, plafonner la probabilité à ~0,55 et garder l'intervalle large des deux côtés — 30/07 : p=0,60 doublement démenti ; 31/07 : règle appliquée avec succès (Apple −8 %/Amazon +15 %) ; 05-06/08 : le plafonnement à 0,52 a limité la pénalité quand l'accord Ormuz a inversé la direction. Application systématique.", "statut": "CONFIRMÉE (×3 : 30/07, 31/07, 06/08)" },
-    { "texte": "Avant d'émettre la prévision (23h15 Paris), balayer les dépêches tombées entre la clôture US et l'exécution (annonces géopolitiques ou d'entreprises du soir) : l'accord Téhéran-Oman de mercredi soir (05/08) a été manqué par la collecte alors qu'il était peut-être déjà public.", "statut": "OBSERVÉE ×1" }
+    { "texte": "Avant d'émettre la prévision (23h15 Paris), balayer les dépêches tombées entre la clôture US et l'exécution (annonces géopolitiques ou d'entreprises du soir) : l'accord Téhéran-Oman de mercredi soir (05/08) a été manqué par la collecte alors qu'il était peut-être déjà public.", "statut": "OBSERVÉE ×1" },
+    { "texte": "Biais contrarien en régime de rallye : ne prédire « baisse » contre une série de hausses que sur signal négatif FORT (gap US < −0,5 %, choc identifié) — un simple essoufflement ou l'argument « prises de bénéfices » ne suffit pas. Les 4 erreurs directionnelles du cycle (24/07, 30/07, 06/08, 07/08) sont toutes des « baisse » prédites pendant le rallye.", "statut": "OBSERVÉE ×1 (formalisée le 07/08 sur 4 cas rétrospectifs)" }
   ]
 }
