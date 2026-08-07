@@ -1,7 +1,7 @@
 {
   "indice": "CAC 40 (PX1)",
   "routine": "CAC40_J+1",
-  "derniere_maj": "2026-08-06",
+  "derniere_maj": "2026-08-07",
   "suivi_noyau": ["^FCHI", "^GSPC", "^VIX", "^IXIC", "^GDAXI", "^STOXX50E", "^N225", "^HSI"],
   "suivi_dynamique": [],
   "journal_suivi": [
@@ -399,6 +399,25 @@
         "stoxx50":  { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
         "nikkei":   { "niveau": 65683, "var_pct": -0.9, "note": "clôture (−617 pts, Investrade) — respiration après +3,7 %" },
         "hangseng": { "niveau": 25530, "var_pct": -1.5, "note": "clôture (−385 pts, Investrade)" }
+      }
+    },
+    {
+      "date": "2026-08-07",
+      "cloture": 8731.37,
+      "rendement_pct": 0.36,
+      "gap_pct": null,
+      "intra_pct": null,
+      "prevision": null,
+      "verdict": null,
+      "note": "Instantané européen (~19h Paris) : cote quasi-clôture 8 731,37 (+0,36 %, relevée à 17h19 Paris — À CONFIRMER au run du soir avec un article de clôture) ; plus haut du jour 8 755,03 = probable nouveau record absolu en séance. Jour de NFP (consensus ~80-88k vs 57k en juin) : Paris a tenu ses gains après la publication de 14h30 (mi-séance pré-NFP : +0,17 %) — chiffres exacts du rapport à collecter ce soir. Semaine en route vers ~+2,7 %, meilleure depuis début avril. Verdict et prévision au run de 21h15 UTC.",
+      "contexte": {
+        "sp500":    { "niveau": null, "var_pct": null, "note": "séance US en cours (post-NFP) ; futures quasi stables le matin" },
+        "vix":      { "niveau": null, "var_pct": null, "note": "ND en séance" },
+        "nasdaq":   { "niveau": null, "var_pct": null, "note": "séance US en cours ; futures +0,33 % le matin" },
+        "dax":      { "niveau": null, "var_pct": null, "note": "+0,32 % à 9h30 ; clôture ND à cette heure" },
+        "stoxx50":  { "niveau": null, "var_pct": null, "note": "+0,28 % à 9h30 ; clôture ND" },
+        "nikkei":   { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" },
+        "hangseng": { "niveau": null, "var_pct": null, "note": "clôture ND à cette heure" }
       }
     }
   ],
