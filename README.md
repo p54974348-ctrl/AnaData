@@ -37,7 +37,9 @@ Ce qu'il fait :
 - **évaluation mécanique** : si la prévision active vise la séance collectée, il la consomme et calcule le verdict (direction, intervalle, erreur) et recalcule métriques et benchmarks — l'attribution corrigeable/irréductible, les leçons, le suivi dynamique et la prévision J+1 restent du ressort exclusif de la routine IA ;
 - committe sur `master` et redéploie Pages directement (un push `GITHUB_TOKEN` ne déclenche pas le workflow Pages).
 
-Répartition des rôles : le collecteur garantit des **données fraîches et officielles** ; les routines Claude apportent la lecture de l'actualité, l'arbitrage des sources, l'attribution des erreurs, les leçons et la prévision J+1. Sans routine, le site reste vivant (cours, contexte, verdicts mécaniques) mais aucune nouvelle prévision n'est émise.
+- **prévision mécanique de secours** : si la prévision active est périmée et qu'aucune prévision IA n'a été émise, le collecteur en émet une lui-même en appliquant les règles codifiées par la routine — direction par persistance corrigée du signal US fort (L7), probabilité plafonnée à 0,55 (L5, binaires non analysables sans IA), intervalle 1,28 × σ20 élargi selon le régime VIX. Elle est marquée `source: mécanique` (badge « ⚙ sans IA » sur le tableau de bord et dans le record évalué) et la routine IA, dès qu'elle retourne, la remplace par sa prévision complète.
+
+Répartition des rôles : le collecteur garantit des **données fraîches et officielles** et une **continuité de prévision dégradée mais honnête** ; les routines Claude apportent la lecture de l'actualité, l'arbitrage des sources, l'attribution des erreurs, les leçons et la prévision J+1 informée. Sans routine, le cycle complet (collecte → prévision → verdict → métriques) continue en mode mécanique.
 
 ## Avertissement
 

@@ -185,6 +185,62 @@ def prev_of(bars, date):
     return bars[prior[-1]] if prior else None
 
 
+def next_business_day(iso):
+    d = dt.date.fromisoformat(iso) + dt.timedelta(days=1)
+    while d.weekday() >= 5:
+        d += dt.timedelta(days=1)
+    return d.isoformat()
+
+
+def mechanical_forecast(records, seance):
+    """Prévision J+1 de secours, appliquant les règles codifiées par la routine IA :
+    - direction : persistance (signe du jour), corrigée par le signal US fort
+      (S&P < −0,5 % ⇒ baisse autorisée ; S&P > +0,5 % ⇒ hausse) — conforme à L7 ;
+    - probabilité : plafonnée à 0,55 (L5 — les binaires du lendemain ne sont pas
+      analysables mécaniquement) ;
+    - intervalle 80 % : 1,28 × σ des ~20 derniers rendements, élargi selon le
+      régime VIX (détecteur de régime, décision « σ20 réalisé » de l'Étape 5).
+    """
+    rec = next(r for r in records if r["date"] == seance)
+    ret = rec.get("rendement_pct")
+    if ret is None:
+        return None
+    sp = ((rec.get("contexte") or {}).get("sp500") or {}).get("var_pct")
+    score = (1 if ret > 0 else -1 if ret < 0 else 0)
+    if sp is not None:
+        score += (1 if sp > 0.5 else -1 if sp < -0.5 else 0)
+    direction = "hausse" if score >= 0 else "baisse"
+    proba = {0: 0.52, 1: 0.54}.get(abs(score), 0.55)
+
+    rets = [r["rendement_pct"] for r in records if r.get("rendement_pct") is not None][-20:]
+    if len(rets) >= 5:
+        mean = sum(rets) / len(rets)
+        sigma = (sum((x - mean) ** 2 for x in rets) / (len(rets) - 1)) ** 0.5
+        half = 1.28 * sigma
+    else:
+        half = 1.0
+    vix = ((rec.get("contexte") or {}).get("vix") or {}).get("niveau")
+    widen = 1.8 if (vix or 0) >= 25 else 1.4 if (vix or 0) >= 20 else 1.25
+    half = max(0.8, round(half * widen, 1))
+
+    return {
+        "seance_cible": next_business_day(seance),
+        "direction": direction,
+        "probabilite": proba,
+        "intervalle_80pct": [-half, half],
+        "hypotheses": [
+            f"H1 (mécanique, persistance/L7) : rendement du jour {ret:+.2f} %"
+            + (f", S&P 500 {sp:+.2f} %" if sp is not None else "")
+            + f" → direction « {direction} »",
+            f"H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à {proba:.2f}",
+            f"H3 (σ20/VIX) : σ des {len(rets)} derniers rendements × 1,28, élargi ×{widen}"
+            + (f" (VIX {vix})" if vix is not None else " (VIX ND)")
+            + f" → ±{half} %",
+        ],
+        "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne",
+    }
+
+
 def mechanical_metrics(records):
     """Recalcule metriques/benchmarks depuis les records évalués. Déterministe."""
     ev = [r for r in records if r.get("verdict") and r.get("prevision")
@@ -323,6 +379,8 @@ def main():
         rec["prevision"] = {"direction": pa["direction"],
                             "probabilite": pa["probabilite"],
                             "intervalle_80pct": list(pa["intervalle_80pct"])}
+        if pa.get("source"):
+            rec["prevision"]["source"] = pa["source"]
         changed.append("prévision active consommée")
     if (rec.get("prevision") and rec.get("verdict") is None
             and rec.get("rendement_pct") is not None):
@@ -337,6 +395,20 @@ def main():
             "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine",
         }
         changed.append("verdict mécanique")
+
+    # -- Prévision mécanique de secours : uniquement si la prévision active est
+    # périmée (déjà consommée ou dépassée). La routine IA, si elle tourne,
+    # la remplacera par sa propre prévision au run suivant.
+    if pa is None or pa.get("seance_cible") <= seance:
+        mf = mechanical_forecast(records, seance)
+        # remplaçable : pas de prévision, prévision dépassée, ou prévision
+        # mécanique antérieure (une prévision IA à jour n'est jamais écrasée)
+        replaceable = (pa is None or pa.get("seance_cible") < mf["seance_cible"]
+                       or bool(pa.get("source"))) if mf else False
+        if mf and replaceable and pa != mf:
+            hist["prevision_active"] = mf
+            changed.append(f"prévision mécanique émise pour {mf['seance_cible']} "
+                           f"({mf['direction']} p={mf['probabilite']})")
 
     # -- Métriques : recalcul intégral déterministe
     m = mechanical_metrics(records)

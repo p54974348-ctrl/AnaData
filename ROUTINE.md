@@ -55,6 +55,7 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
 
 ## ÉTAPE 5 — PRÉVISION POUR J+1
 
+* Si `prevision_active` porte un champ `source` contenant « mécanique », c'est une prévision de secours émise par le collecteur automatique (persistance/L7, plafond L5, σ20×VIX) : la **remplacer** par la prévision IA complète de cette étape — l'analyse de l'actualité et de l'agenda prime toujours sur le modèle mécanique.
 * Direction (hausse/baisse) avec probabilité calibrée entre 0,50 et 0,70.
 * Intervalle d'amplitude à ~80 % : base = écart-type des ~20 derniers rendements quotidiens, élargi si VIX élevé ou événement majeur à l'agenda de demain, resserré sinon. Explique l'ajustement en une ligne. Tant que l'historique compte moins de 20 rendements, utiliser le proxy VIX ; **dès n=20, basculer sur le σ réalisé** des 20 derniers rendements de `docs/data/history.json` (le VIX surestime la volatilité réalisée d'une prime de risque et ne sert plus que de détecteur de régime).
 * Liste explicitement les 3–5 hypothèses qui fondent la prévision (elles serviront à l'attribution de demain).
