@@ -325,7 +325,8 @@
     const evaluated = recs.filter(r => r.verdict);
     const tiles = [
       { label: 'Séances évaluées', value: String(mtr.n ?? 0), hint: 'n prévisions confrontées au réalisé' },
-      { label: 'Hit rate directionnel', value: mtr.hit_rate == null ? '—' : Math.round(mtr.hit_rate * 100) + ' %', hint: 'repère naïf : 50 %' },
+      { label: 'Hit rate directionnel', value: mtr.hit_rate == null ? '—' : Math.round(mtr.hit_rate * 100) + ' %',
+        hint: mtr.benchmarks ? 'hasard 50 % · persistance ' + Math.round(mtr.benchmarks.hit_rate_persistance * 100) + ' % · touj. hausse ' + Math.round(mtr.benchmarks.hit_rate_toujours_hausse * 100) + ' %' : 'repère naïf : 50 %' },
       { label: 'MAE modèle', value: mtr.mae_pct == null ? '—' : fmt(mtr.mae_pct) + ' pt%', hint: mtr.mae_naif_pct == null ? 'naïf : —' : 'naïf : ' + fmt(mtr.mae_naif_pct) + ' pt%' },
       { label: 'Couverture intervalle 80 %', value: mtr.couverture_intervalle == null ? '—' : Math.round(mtr.couverture_intervalle * 100) + ' %', hint: 'cible : ~80 %' },
       { label: 'Score de Brier', value: mtr.brier == null ? '—' : fmt(mtr.brier, 3), hint: 'plus bas = mieux (0,25 = hasard)' },
