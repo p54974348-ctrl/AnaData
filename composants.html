@@ -123,8 +123,23 @@
   .c-nom .nom { font-weight: 650; font-size: .92rem; }
   .c-nom .tick { color: var(--text-muted); font-size: .74rem; margin-left: 6px; }
   .c-val { text-align: right; }
-  .c-val .px { font-weight: 650; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+  .c-val .px {
+    font-weight: 650; font-size: 1.02rem; font-variant-numeric: tabular-nums;
+    cursor: help; border-bottom: 1px dotted var(--text-muted);
+  }
   .c-val .dt { color: var(--text-muted); font-size: .7rem; }
+  #tooltip {
+    position: fixed; display: none; z-index: 10; pointer-events: none;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 10px;
+    padding: 10px 12px; font-size: .78rem; box-shadow: 0 4px 18px rgba(0,0,0,.18);
+    max-width: 280px;
+  }
+  #tooltip .t-title { font-weight: 650; margin-bottom: 4px; }
+  #tooltip .t-row { display: flex; justify-content: space-between; gap: 14px; font-variant-numeric: tabular-nums; }
+  #tooltip .t-row .k { color: var(--text-secondary); }
+  #tooltip .t-note { color: var(--text-muted); margin-top: 4px; font-size: .7rem; }
+  #tooltip .range { height: 6px; border-radius: 3px; background: var(--grid); position: relative; margin: 8px 0 2px; }
+  #tooltip .range .cur { position: absolute; top: -3px; width: 4px; height: 12px; border-radius: 2px; background: var(--series-1); }
   .c-per { text-align: right; font-variant-numeric: tabular-nums; font-size: .88rem; }
   .c-per .lbl { display: block; color: var(--text-muted); font-size: .68rem; font-weight: 400; }
   .c-per .ec { display: block; font-size: .74rem; color: var(--text-muted); margin-top: 1px; }
@@ -170,6 +185,7 @@
 
   <footer id="foot"></footer>
 </main>
+<div id="tooltip"></div>
 
 <script>
 (function () {
@@ -294,7 +310,7 @@
           return `<div class="row">` +
             `<span class="rank">${e.rang ?? '·'}</span>` +
             `<span class="c-nom"><span class="nom"><a href="https://finance.yahoo.com/quote/${encodeURIComponent(e.ticker)}" target="_blank" rel="noopener">${e.nom}</a></span><span class="tick">${e.ticker}</span></span>` +
-            `<span class="c-val"><span class="px">${last ? fmt(last.cloture) + ' €' : 'ND'}</span><br><span class="dt">${last ? last.date : ''}</span></span>` +
+            `<span class="c-val"><span class="px" data-t="${e.ticker}">${last ? fmt(last.cloture) + ' €' : 'ND'}</span><br><span class="dt">${last ? last.date : ''}</span></span>` +
             [['col-jour', 'jour'], ['col-sem', '1 sem.'], ['col-mois', '1 mois']].map(([cc, lbl], i) => {
               const p = per[i];
               return `<span class="c-per ${cc}"><span class="lbl">var. ${lbl}</span>` +
@@ -307,6 +323,50 @@
             `</div>`;
         }).join('');
     }).join('');
+
+    // Infobulle plus haut / plus bas 12 mois au survol ou clic du cours
+    const tooltip = document.getElementById('tooltip');
+    const byTicker = comp.composants;
+    function tipHtml(t) {
+      const e = byTicker[t];
+      const last = e.series[e.series.length - 1];
+      if (!e.haut_12m || !e.bas_12m || !last) {
+        return `<div class="t-title">${e.nom}</div><div class="t-note">Plus haut / plus bas 12 mois : disponibles après la prochaine collecte automatique.</div>`;
+      }
+      const h = e.haut_12m, b = e.bas_12m, cur = last.cloture;
+      const span = h.niveau - b.niveau;
+      const posPct = span > 0 ? Math.min(100, Math.max(0, (cur - b.niveau) / span * 100)) : 50;
+      const dH = (cur / h.niveau - 1) * 100, dB = (cur / b.niveau - 1) * 100;
+      return `<div class="t-title">${e.nom} — 12 derniers mois</div>` +
+        `<div class="t-row"><span class="k">Plus haut</span><span><b>${fmt(h.niveau)} €</b> (${h.date})</span></div>` +
+        `<div class="t-row"><span class="k">Plus bas</span><span><b>${fmt(b.niveau)} €</b> (${b.date})</span></div>` +
+        `<div class="range"><span class="cur" style="left:calc(${posPct.toFixed(1)}% - 2px)"></span></div>` +
+        `<div class="t-row"><span class="k">Cours actuel</span><span>${fmt(cur)} € · ${pct(dH, 1)} du haut · ${pct(dB, 1)} du bas</span></div>` +
+        (e.periode_12m ? `<div class="t-note">Extrêmes de séance (haut/bas officiels), période ${e.periode_12m[0]} → ${e.periode_12m[1]}.</div>` : '');
+    }
+    function showTip(t, x, y) {
+      tooltip.innerHTML = tipHtml(t);
+      tooltip.style.display = 'block';
+      const pad = 14, w = tooltip.offsetWidth, hh = tooltip.offsetHeight;
+      let px = x + pad, py = y + pad;
+      if (px + w > innerWidth - 8) px = x - w - pad;
+      if (py + hh > innerHeight - 8) py = y - hh - pad;
+      tooltip.style.left = px + 'px'; tooltip.style.top = py + 'px';
+    }
+    let pinned = null;
+    document.querySelectorAll('.c-val .px').forEach(el => {
+      const t = el.dataset.t;
+      el.addEventListener('mousemove', ev => { if (!pinned) showTip(t, ev.clientX, ev.clientY); });
+      el.addEventListener('mouseleave', () => { if (!pinned) tooltip.style.display = 'none'; });
+      el.addEventListener('click', ev => {
+        ev.preventDefault();
+        if (pinned === t) { pinned = null; tooltip.style.display = 'none'; }
+        else { pinned = t; showTip(t, ev.clientX, ev.clientY); }
+      });
+    });
+    document.addEventListener('click', ev => {
+      if (pinned && !ev.target.closest('.c-val .px')) { pinned = null; tooltip.style.display = 'none'; }
+    });
 
     document.getElementById('foot').innerHTML =
       `Ordre de l'indice approché par la capitalisation boursière officielle (le poids Euronext est en flottant plafonné), recalculée à chaque collecte` +
