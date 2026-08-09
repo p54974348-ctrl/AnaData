@@ -331,6 +331,9 @@ def update_composants(cac40_path, composants_path, seance):
                                 "date": lo.idxmin().date().isoformat()}
             entry["periode_12m"] = [sub.index[0].date().isoformat(),
                                     sub.index[-1].date().isoformat()]
+            # clôture de début de fenêtre : sert à la variation « 1 an » de la page
+            entry["cloture_12m_debut"] = {"date": sub.index[0].date().isoformat(),
+                                          "niveau": round(float(sub["Close"].iloc[0]), 2)}
         except Exception:
             pass
         have = {s["date"] for s in entry["series"]}

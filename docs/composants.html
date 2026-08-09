@@ -85,6 +85,24 @@
   .grp-title { font-size: 1.02rem; font-weight: 650; margin: 26px 0 10px; }
   .grp-title .badge { vertical-align: 2px; }
 
+  .movers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .movers { grid-template-columns: 1fr; } }
+  .movers h3 { font-size: .82rem; font-weight: 650; margin-bottom: 6px; color: var(--text-secondary); }
+  .mv { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--grid); font-size: .86rem; }
+  .mv:last-child { border-bottom: none; }
+  .mv .n { font-weight: 600; }
+  .mv a { color: var(--text-primary); }
+  .mv .v { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 650; }
+  .mv .px2 { color: var(--text-muted); font-size: .76rem; font-variant-numeric: tabular-nums; }
+
+  .flags { display: inline-flex; gap: 4px; margin-top: 2px; }
+  .flag {
+    font-size: .64rem; padding: 1px 6px; border-radius: 999px; border: 1px solid var(--border);
+    color: var(--text-muted); font-variant-numeric: tabular-nums;
+  }
+  .flag.up { color: var(--status-good); border-color: var(--status-good); font-weight: 650; }
+  .flag.dn { color: var(--status-crit); }
+
   .seg { display: inline-flex; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
   .seg button {
     border: none; background: var(--surface-1); color: var(--text-secondary);
@@ -169,6 +187,15 @@
   <section class="card" id="bannerCard">
     <h2>Écart au prévisionnel de l'indice</h2>
     <p class="sub" id="bannerSub">Chargement…</p>
+  </section>
+
+  <section class="card" id="moversCard" style="display:none">
+    <h2>Mouvements du mois</h2>
+    <p class="sub">Variations calendaires sur ~30 jours ; cliquer sur une valeur pour rejoindre sa fiche.</p>
+    <div class="movers">
+      <div><h3>▲ Plus fortes progressions (1 mois)</h3><div id="topUp"></div></div>
+      <div><h3>▼ Plus fortes chutes (1 mois)</h3><div id="topDown"></div></div>
+    </div>
   </section>
 
   <div class="toolbar">
@@ -274,6 +301,40 @@
         : `Aucune prévision d'indice enregistrée pour cette séance. `) +
       `L'<b>écart</b> de chaque valeur = sa variation − le prévisionnel de l'indice sur la même période : milieu de l'intervalle prévu à J-1 (jour), ou cumul des milieux prévus séance par séance (semaine, mois). Sur/sous-performance vs le prévisionnel — filtrable par périodicité ci-dessous.`;
 
+    // métriques par valeur : dernière séance, variations 1 sem. / 1 mois / 1 an
+    const metrics = {};
+    entries.forEach(e => {
+      const last = e.series[e.series.length - 1];
+      const deb = e.cloture_12m_debut;
+      metrics[e.ticker] = {
+        last,
+        rSem: varSince(e.series, 7),
+        rMois: varSince(e.series, 30),
+        vAn: last && deb && deb.niveau ? (last.cloture / deb.niveau - 1) * 100 : null
+      };
+    });
+
+    // Zone « Mouvements du mois » : top 5 hausses et top 5 chutes
+    const withMois = entries.filter(e => metrics[e.ticker].rMois);
+    const mvItem = e => {
+      const m = metrics[e.ticker];
+      return `<div class="mv"><span class="n"><a href="#c-${e.ticker}">${e.nom}</a></span>` +
+        `<span class="px2">${fmt(m.last.cloture)} €</span>` +
+        `<span class="v ${cls(m.rMois.v)}">${pct(m.rMois.v, 1)}</span></div>`;
+    };
+    const ups = withMois.filter(e => metrics[e.ticker].rMois.v > 0)
+      .sort((a, b) => metrics[b.ticker].rMois.v - metrics[a.ticker].rMois.v).slice(0, 5);
+    const downs = withMois.filter(e => metrics[e.ticker].rMois.v < 0)
+      .sort((a, b) => metrics[a.ticker].rMois.v - metrics[b.ticker].rMois.v).slice(0, 5);
+    if (ups.length || downs.length) {
+      document.getElementById('moversCard').style.display = '';
+      document.getElementById('topUp').innerHTML = ups.length ? ups.map(mvItem).join('') : '<div class="empty">Aucune progression sur le mois.</div>';
+      document.getElementById('topDown').innerHTML = downs.length ? downs.map(mvItem).join('') : '<div class="empty">Aucune baisse sur le mois.</div>';
+    }
+
+    const flag = (lbl, titre, v) =>
+      `<span class="flag ${v == null ? '' : v > 0 ? 'up' : 'dn'}" title="${titre} : ${v != null ? pct(v, 1) : 'ND'}">${lbl} ${v == null ? '·' : v > 0 ? '▲' : '▼'}</span>`;
+
     const groups = [];
     for (let i = 0; i < entries.length; i += 10) groups.push(entries.slice(i, i + 10));
     document.getElementById('groups').innerHTML = groups.map((g, gi) => {
@@ -293,9 +354,10 @@
               if (d > from && d <= to) { s += p.mid; n++; }
             return n ? s : null;
           };
+          const met = metrics[e.ticker];
           const per = [last && last.var_pct != null
               ? { v: last.var_pct, ec: ecart } : null]
-            .concat([varSince(e.series, 7), varSince(e.series, 30)].map(r => {
+            .concat([met.rSem, met.rMois].map(r => {
               if (!r) return null;
               const m = sumMid(r.from, r.to);
               return { v: r.v, ec: m != null ? r.v - m : null };
@@ -307,9 +369,10 @@
               `<td class="${cls(s.var_pct)}">${pct(s.var_pct)}</td>` +
               `<td class="${cls(ec)}">${ec != null ? pct(ec) : '—'}</td></tr>`;
           }).join('');
-          return `<div class="row">` +
+          return `<div class="row" id="c-${e.ticker}">` +
             `<span class="rank">${e.rang ?? '·'}</span>` +
-            `<span class="c-nom"><span class="nom"><a href="https://finance.yahoo.com/quote/${encodeURIComponent(e.ticker)}" target="_blank" rel="noopener">${e.nom}</a></span><span class="tick">${e.ticker}</span></span>` +
+            `<span class="c-nom"><span class="nom"><a href="https://finance.yahoo.com/quote/${encodeURIComponent(e.ticker)}" target="_blank" rel="noopener">${e.nom}</a></span><span class="tick">${e.ticker}</span><br>` +
+            `<span class="flags">${flag('S', 'Progression sur la semaine', met.rSem && met.rSem.v)}${flag('M', 'Progression sur le mois', met.rMois && met.rMois.v)}${flag('A', 'Progression sur un an', met.vAn)}</span></span>` +
             `<span class="c-val"><span class="px" data-t="${e.ticker}">${last ? fmt(last.cloture) + ' €' : 'ND'}</span><br><span class="dt">${last ? last.date : ''}</span></span>` +
             [['col-jour', 'jour'], ['col-sem', '1 sem.'], ['col-mois', '1 mois']].map(([cc, lbl], i) => {
               const p = per[i];
