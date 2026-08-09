@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composantes du CAC 40 — AnaData</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page:           #f9f9f7;
+    --surface-1:      #fcfcfb;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --pos:            #2a78d6;
+    --neg:            #e34948;
+    --status-good:    #0ca30c;
+    --status-crit:    #d03b3b;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page:           #0d0d0d;
+      --surface-1:      #1a1a19;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --baseline:       #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --pos:            #3987e5;
+      --neg:            #e66767;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --pos:            #3987e5;
+    --neg:            #e66767;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--page); color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.45; padding: 24px 16px 64px;
+  }
+  main { max-width: 1080px; margin: 0 auto; }
+  a { color: var(--series-1); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header.top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  header.top h1 { font-size: 1.35rem; font-weight: 650; }
+  header.top .sub { color: var(--text-secondary); font-size: .9rem; }
+  #themeToggle {
+    margin-left: auto; border: 1px solid var(--border); background: var(--surface-1);
+    color: var(--text-secondary); border-radius: 8px; padding: 4px 10px; cursor: pointer; font-size: .8rem;
+  }
+  .disclaimer { color: var(--text-muted); font-size: .78rem; margin-bottom: 20px; }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; margin-bottom: 20px;
+  }
+  .card h2 { font-size: .95rem; font-weight: 650; margin-bottom: 2px; }
+  .card .sub { font-size: .8rem; color: var(--text-secondary); margin-bottom: 10px; }
+  .badge {
+    display: inline-block; font-size: .74rem; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid var(--border); color: var(--text-secondary); margin-left: 6px;
+  }
+
+  .grp-title { font-size: 1.02rem; font-weight: 650; margin: 26px 0 10px; }
+  .grp-title .badge { vertical-align: 2px; }
+
+  .row {
+    display: grid; grid-template-columns: 34px minmax(150px, 1.4fr) minmax(110px, .9fr) minmax(90px, .6fr) minmax(120px, .8fr) 130px;
+    gap: 10px; align-items: center;
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 10px 14px; margin-bottom: 8px;
+  }
+  @media (max-width: 820px) {
+    .row { grid-template-columns: 30px 1fr auto; }
+    .row .c-ecart, .row .c-spark, .row .c-var { display: none; }
+  }
+  .rank {
+    width: 28px; height: 28px; border-radius: 8px; background: var(--page);
+    border: 1px solid var(--border); color: var(--text-secondary);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .78rem; font-weight: 650; font-variant-numeric: tabular-nums;
+  }
+  .c-nom .nom { font-weight: 650; font-size: .92rem; }
+  .c-nom .tick { color: var(--text-muted); font-size: .74rem; margin-left: 6px; }
+  .c-val { text-align: right; }
+  .c-val .px { font-weight: 650; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
+  .c-val .dt { color: var(--text-muted); font-size: .7rem; }
+  .c-var, .c-ecart { text-align: right; font-variant-numeric: tabular-nums; font-size: .88rem; }
+  .c-var .lbl, .c-ecart .lbl { display: block; color: var(--text-muted); font-size: .68rem; font-weight: 400; }
+  .v-up { color: var(--status-good); font-weight: 600; }
+  .v-dn { color: var(--status-crit); font-weight: 600; }
+  .v-nd { color: var(--text-muted); }
+
+  details.histo { grid-column: 1 / -1; }
+  details.histo summary { cursor: pointer; font-size: .78rem; color: var(--text-secondary); }
+  table { border-collapse: collapse; width: 100%; font-size: .8rem; margin-top: 8px; }
+  th, td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--text-secondary); font-weight: 600; }
+  .empty { color: var(--text-muted); font-size: .85rem; padding: 12px 0; }
+  footer { color: var(--text-muted); font-size: .74rem; margin-top: 28px; }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>Composantes du CAC 40</h1>
+    <span class="sub"><a href="index.html">← Tableau de bord de l'indice</a></span>
+    <button id="themeToggle" type="button">☾ / ☀</button>
+  </header>
+  <p class="disclaimer">Exercice de suivi de modèle — aucune recommandation d'investissement. Les 40 valeurs dans l'ordre de l'indice, par groupes de 10.</p>
+
+  <section class="card" id="bannerCard">
+    <h2>Écart au prévisionnel de l'indice</h2>
+    <p class="sub" id="bannerSub">Chargement…</p>
+  </section>
+
+  <div id="groups"><div class="empty">Chargement des composantes…</div></div>
+
+  <footer id="foot"></footer>
+</main>
+
+<script>
+(function () {
+  const root = document.documentElement;
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+    const cur = root.dataset.theme || (dark ? 'dark' : 'light');
+    root.dataset.theme = cur === 'dark' ? 'light' : 'dark';
+  });
+
+  const fmt = (v, d = 2) => v == null ? '—' : v.toLocaleString('fr-FR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  const pct = (v, d = 2) => v == null ? '—' : (v > 0 ? '+' : '') + fmt(v, d) + ' %';
+  const cls = v => v == null ? 'v-nd' : v > 0 ? 'v-up' : v < 0 ? 'v-dn' : '';
+
+  function spark(series) {
+    const pts = series.slice(-45).map(s => s.cloture).filter(v => v != null);
+    if (pts.length < 2) return '';
+    const min = Math.min(...pts), max = Math.max(...pts), span = (max - min) || 1;
+    const W = 120, H = 34;
+    const d = pts.map((v, i) => (i ? 'L' : 'M') + (i * W / (pts.length - 1)).toFixed(1) + ' ' + (H - 3 - (v - min) / span * (H - 6)).toFixed(1)).join(' ');
+    return `<svg class="c-spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">` +
+      `<path d="${d}" fill="none" stroke="var(--series-1)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+  }
+
+  Promise.all([
+    fetch('data/composants.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+    fetch('data/history.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+    fetch('data/cac40.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null)
+  ]).then(([comp, hist, cac]) => {
+    // prévision de l'indice par date de séance (émise la veille, J-1)
+    const prevByDate = {};
+    (hist && hist.records || []).forEach(r => {
+      if (r.prevision) prevByDate[r.date] = {
+        mid: (r.prevision.intervalle_80pct[0] + r.prevision.intervalle_80pct[1]) / 2,
+        dir: r.prevision.direction, p: r.prevision.probabilite,
+        lo: r.prevision.intervalle_80pct[0], hi: r.prevision.intervalle_80pct[1],
+        source: r.prevision.source || null
+      };
+    });
+
+    if (!comp || !comp.composants || !Object.keys(comp.composants).length) {
+      document.getElementById('groups').innerHTML =
+        '<div class="empty">Données des composantes pas encore collectées — elles apparaîtront après le premier passage du collecteur automatique (16h15 / 20h45 UTC les jours de bourse).</div>';
+      document.getElementById('bannerSub').textContent =
+        'L’écart affiché pour chaque valeur compare sa variation quotidienne au milieu de l’intervalle prévu la veille pour l’indice CAC 40.';
+      return;
+    }
+
+    const entries = Object.entries(comp.composants).map(([ticker, e]) => ({ ticker, ...e }));
+    // ordre de l'indice : rang (capitalisation officielle) ; repli alphabétique si rangs absents
+    const ranked = entries.every(e => e.rang == null);
+    entries.sort((a, b) => ranked ? a.nom.localeCompare(b.nom, 'fr') : (a.rang ?? 99) - (b.rang ?? 99));
+
+    const lastDate = entries.reduce((m, e) => {
+      const s = e.series[e.series.length - 1];
+      return s && s.date > m ? s.date : m;
+    }, '');
+    const pv = prevByDate[lastDate];
+    document.getElementById('bannerSub').innerHTML =
+      `Dernière séance collectée : <b>${lastDate || '—'}</b>. ` +
+      (pv
+        ? `Prévision émise la veille (J-1) pour l'indice : <b>${pv.dir}</b> (p=${fmt(pv.p, 2)}), intervalle 80 % [${pct(pv.lo, 1)} ; ${pct(pv.hi, 1)}], milieu ${pct(pv.mid, 2)}${pv.source ? ' <span class="badge">⚙ mécanique</span>' : ''}. `
+        : `Aucune prévision d'indice enregistrée pour cette séance. `) +
+      `L'<b>écart</b> de chaque valeur = sa variation du jour − le milieu de l'intervalle prévu à J-1 pour l'indice (sur/sous-performance vs le prévisionnel).`;
+
+    const groups = [];
+    for (let i = 0; i < entries.length; i += 10) groups.push(entries.slice(i, i + 10));
+    document.getElementById('groups').innerHTML = groups.map((g, gi) => {
+      const a = gi * 10 + 1, b = gi * 10 + g.length;
+      return `<div class="grp-title">Rangs ${a}–${b} de l'indice` +
+        (gi === 0 ? ' <span class="badge">poids les plus élevés</span>' : '') + `</div>` +
+        g.map(e => {
+          const rev = e.series.slice().reverse(); // dernière valeur en premier
+          const last = rev[0], prevS = rev[1];
+          const pvd = last ? prevByDate[last.date] : null;
+          const ecart = last && last.var_pct != null && pvd ? last.var_pct - pvd.mid : null;
+          const rows = rev.map(s => {
+            const p = prevByDate[s.date];
+            const ec = s.var_pct != null && p ? s.var_pct - p.mid : null;
+            return `<tr><td>${s.date}</td><td>${fmt(s.cloture)}</td>` +
+              `<td class="${cls(s.var_pct)}">${pct(s.var_pct)}</td>` +
+              `<td class="${cls(ec)}">${ec != null ? pct(ec) : '—'}</td></tr>`;
+          }).join('');
+          return `<div class="row">` +
+            `<span class="rank">${e.rang ?? '·'}</span>` +
+            `<span class="c-nom"><span class="nom"><a href="https://finance.yahoo.com/quote/${encodeURIComponent(e.ticker)}" target="_blank" rel="noopener">${e.nom}</a></span><span class="tick">${e.ticker}</span></span>` +
+            `<span class="c-val"><span class="px">${last ? fmt(last.cloture) + ' €' : 'ND'}</span><br><span class="dt">${last ? last.date : ''}</span></span>` +
+            `<span class="c-var"><span class="lbl">var. jour</span><span class="${cls(last && last.var_pct)}">${last ? pct(last.var_pct) : '—'}</span></span>` +
+            `<span class="c-ecart"><span class="lbl">écart vs prév. indice J-1</span><span class="${cls(ecart)}">${ecart != null ? pct(ecart) : '—'}</span></span>` +
+            spark(e.series) +
+            `<details class="histo"><summary>Historique (${rev.length} séances, la plus récente en premier)</summary>` +
+            `<div style="overflow-x:auto"><table><tr><th>Date</th><th>Clôture (€)</th><th>Var. jour</th><th>Écart vs prév. indice J-1</th></tr>${rows}</table></div></details>` +
+            `</div>`;
+        }).join('');
+    }).join('');
+
+    document.getElementById('foot').innerHTML =
+      `Ordre de l'indice approché par la capitalisation boursière officielle (le poids Euronext est en flottant plafonné), recalculée à chaque collecte` +
+      (comp.ordre_maj ? ` — rangs mis à jour le ${comp.ordre_maj}` : '') +
+      `. Composition : revue Euronext de décembre 2025${cac ? ' (' + cac.composants.length + ' valeurs)' : ''}. ` +
+      `Données : clôtures officielles (collecteur automatique). Exercice d'analyse — aucune recommandation d'investissement.`;
+  }).catch(e => {
+    document.getElementById('groups').innerHTML = '<div class="empty">Erreur de chargement : ' + e + '</div>';
+  });
+})();
+</script>
+</body>
+</html>
