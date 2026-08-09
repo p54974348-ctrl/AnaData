@@ -308,7 +308,8 @@ def update_composants(cac40_path, composants_path, seance):
     except FileNotFoundError:
         comp = {"maj": None, "note": cac40.get("note_ordre", ""), "composants": {}}
 
-    df = yf.download(tickers, period="2mo", interval="1d", group_by="ticker",
+    # 1 an de données : séries (45 dernières séances conservées) + extrêmes 12 mois
+    df = yf.download(tickers, period="1y", interval="1d", group_by="ticker",
                      auto_adjust=False, progress=False, threads=True)
     updated = 0
     for t in tickers:
@@ -319,6 +320,19 @@ def update_composants(cac40_path, composants_path, seance):
         entry = comp["composants"].setdefault(t, {"nom": noms[t], "cap": None,
                                                   "rang": None, "series": []})
         entry["nom"] = noms[t]
+        # plus haut / plus bas sur la fenêtre disponible (~12 mois glissants),
+        # sur les extrêmes de séance (High/Low), repli sur la clôture si absents
+        try:
+            hi = sub["High"].fillna(sub["Close"])
+            lo = sub["Low"].fillna(sub["Close"])
+            entry["haut_12m"] = {"niveau": round(float(hi.max()), 2),
+                                 "date": hi.idxmax().date().isoformat()}
+            entry["bas_12m"] = {"niveau": round(float(lo.min()), 2),
+                                "date": lo.idxmin().date().isoformat()}
+            entry["periode_12m"] = [sub.index[0].date().isoformat(),
+                                    sub.index[-1].date().isoformat()]
+        except Exception:
+            pass
         have = {s["date"] for s in entry["series"]}
         closes = [(idx.date().isoformat(), float(row["Close"])) for idx, row in sub.iterrows()]
         for i, (date, close) in enumerate(closes):
