@@ -19,7 +19,7 @@ Cherche le dernier « BLOC ÉTAT — ROUTINE CAC 40 » : soit collé en fin de c
 
 ## ÉTAPE 1 — COLLECTE (recherche web obligatoire)
 
-1. CAC 40 (`^FCHI`) : clôture du jour J, clôture de J-1, ouverture du jour J (pour décomposer gap overnight vs séance), volume si disponible.
+1. CAC 40 (`^FCHI`) : clôture du jour J, clôture de J-1, ouverture du jour J (pour décomposer gap overnight vs séance), volume si disponible. Si l'ouverture est introuvable dans les articles de presse, la chercher sur les pages de données historiques (Yahoo Finance `^FCHI` Historical Data, Investing.com) — la décomposition gap/intraséance est nécessaire pour auditer l'hypothèse « gap hérité de Wall Street ».
 2. Contexte — les 7 indices compagnons de la fiche `INDICES.md` (niveau + variation %), plus EUR/USD, Brent et taux 10 ans (OAT ou Bund) :
    * Moteurs overnight US : S&P 500 (`^GSPC`), VIX (`^VIX`), Nasdaq Composite (`^IXIC`) — clôture du jour ou dernier niveau si la séance US est en cours.
    * Co-mouvement européen : DAX 40 (`^GDAXI`, total return — ne pas comparer les performances brutes au CAC), Euro Stoxx 50 (`^STOXX50E`).
@@ -42,6 +42,8 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
   * CORRIGEABLE : un facteur connaissable hier soir a été ignoré ou mal pondéré. Lequel, précisément ? Reprends les hypothèses journalisées hier et dis laquelle a failli.
   * IRRÉDUCTIBLE : une information nouvelle, apparue aujourd'hui, imprévisible hier. Laquelle ?
 * Mets à jour les métriques cumulées : n, hit rate directionnel, MAE, MAE de la prévision naïve, taux de couverture de l'intervalle 80 %, score de Brier.
+* Mets aussi à jour les **benchmarks directionnels** (`metriques.benchmarks`) : hit rate de la **persistance** (prédire chaque jour le signe du rendement de la veille — seul benchmark directionnel implémentable ex ante) et hit rate du **« toujours hausse »** (référence du régime, ex post). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance.
+* Convention MAE : la prévision ponctuelle est le milieu de l'intervalle 80 %. Cette MAE est un **garde-fou d'amplitude**, pas une mesure de compétence directionnelle (le milieu étant proche de 0, elle suit mécaniquement la MAE naïve) — ne pas sur-interpréter son écart au naïf.
 
 ## ÉTAPE 4 — APPRENTISSAGE
 
@@ -52,7 +54,7 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
 ## ÉTAPE 5 — PRÉVISION POUR J+1
 
 * Direction (hausse/baisse) avec probabilité calibrée entre 0,50 et 0,70.
-* Intervalle d'amplitude à ~80 % : base = écart-type des ~20 derniers rendements quotidiens, élargi si VIX élevé ou événement majeur à l'agenda de demain, resserré sinon. Explique l'ajustement en une ligne.
+* Intervalle d'amplitude à ~80 % : base = écart-type des ~20 derniers rendements quotidiens, élargi si VIX élevé ou événement majeur à l'agenda de demain, resserré sinon. Explique l'ajustement en une ligne. Tant que l'historique compte moins de 20 rendements, utiliser le proxy VIX ; **dès n=20, basculer sur le σ réalisé** des 20 derniers rendements de `docs/data/history.json` (le VIX surestime la volatilité réalisée d'une prime de risque et ne sert plus que de détecteur de régime).
 * Liste explicitement les 3–5 hypothèses qui fondent la prévision (elles serviront à l'attribution de demain).
 * Risques identifiés : événements de l'agenda pouvant invalider la prévision.
 
