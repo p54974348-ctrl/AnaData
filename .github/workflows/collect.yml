@@ -28,6 +28,12 @@ jobs:
         with:
           ref: master
 
+      - name: Installer yfinance
+        # Source primaire : impersonation navigateur (curl_cffi) — indispensable
+        # car Yahoo limite agressivement les IP partagées des runners (429).
+        # En cas d'échec d'installation, le script retombe sur l'API brute/Stooq.
+        run: pip install --quiet yfinance || true
+
       - name: Collecter et fusionner les données
         run: python3 scripts/collect.py
 

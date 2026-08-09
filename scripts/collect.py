@@ -74,11 +74,38 @@ def http_text(url, tries=3):
             time.sleep(2 ** (i + 1))
 
 
+def fetch_yfinance(ticker):
+    """Source primaire : yfinance (impersonation navigateur — passe les 429
+    que Yahoo inflige aux IP des runners GitHub Actions)."""
+    import yfinance as yf
+    df = yf.Ticker(ticker).history(period="1mo", interval="1d", auto_adjust=False)
+    bars = {}
+    for idx, row in df.iterrows():
+        c = row.get("Close")
+        if c is None or c != c:  # NaN
+            continue
+        o = row.get("Open")
+        v = row.get("Volume")
+        bars[idx.date().isoformat()] = {
+            "open": None if o is None or o != o else float(o),
+            "close": float(c),
+            "volume": None if v is None or v != v or v == 0 else int(v),
+        }
+    return bars
+
+
 def fetch_yahoo(ticker):
     """Barres quotidiennes {date: {open, close, volume}} en date locale de la place."""
-    url = ("https://query1.finance.yahoo.com/v8/finance/chart/"
-           + urllib.request.quote(ticker) + "?range=1mo&interval=1d")
-    d = http_json(url)
+    last = None
+    for host in ("query1", "query2"):
+        try:
+            d = http_json("https://" + host + ".finance.yahoo.com/v8/finance/chart/"
+                          + urllib.request.quote(ticker) + "?range=1mo&interval=1d")
+            break
+        except Exception as e:
+            last = e
+    else:
+        raise last
     res = d["chart"]["result"][0]
     off = res["meta"].get("gmtoffset", 0)
     ts = res.get("timestamp") or []
@@ -99,18 +126,31 @@ def fetch_stooq(ticker):
     if not sym:
         return {}
     url = "https://stooq.com/q/d/l/?s=" + urllib.request.quote(sym) + "&i=d"
-    lines = [l for l in http_text(url).strip().splitlines() if l][1:]
+    text = http_text(url).strip()
+    lines = [l for l in text.splitlines() if l]
+    if not lines or not lines[0].lower().startswith("date,open"):
+        raise ValueError("réponse Stooq inattendue : " + text[:80].replace("\n", " "))
     bars = {}
     for l in lines[-25:]:
         p = l.split(",")
-        if len(p) >= 5 and p[4] not in ("", "N/D"):
+        try:
             bars[p[0]] = {"open": float(p[1]) if p[1] else None,
                           "close": float(p[4]),
                           "volume": int(float(p[5])) if len(p) > 5 and p[5] else None}
+        except (ValueError, IndexError):
+            continue
     return bars
 
 
 def fetch_bars(ticker):
+    try:
+        bars = fetch_yfinance(ticker)
+        if bars:
+            return bars, "yfinance"
+    except ImportError:
+        pass
+    except Exception as e:
+        print(f"  {ticker}: yfinance KO ({e}), essai API brute", file=sys.stderr)
     try:
         bars = fetch_yahoo(ticker)
         if bars:
@@ -200,7 +240,9 @@ def main():
         all_bars = {t: (mock.get(t, {}), "mock") for t in ["^FCHI"] + list(CONTEXT_TICKERS)}
     else:
         all_bars = {}
-        for t in ["^FCHI"] + list(CONTEXT_TICKERS):
+        for i, t in enumerate(["^FCHI"] + list(CONTEXT_TICKERS)):
+            if i:
+                time.sleep(1.5)  # espacer les requêtes (limites de débit Yahoo)
             all_bars[t] = fetch_bars(t)
             print(f"  {t}: {len(all_bars[t][0])} barres ({all_bars[t][1]})")
 
