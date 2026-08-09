@@ -40,13 +40,13 @@ jobs:
       - name: Commiter si changements
         id: commit
         run: |
-          if git diff --quiet docs/data/history.json; then
+          if git diff --quiet docs/data/ && [ -z "$(git status --porcelain docs/data/)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Aucun changement."
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add docs/data/history.json
+            git add docs/data/
             git commit -m "Collecte automatique — $(date -u +%F' '%H:%M) UTC"
             git pull --rebase origin master
             git push origin master

@@ -14,6 +14,8 @@ Suivi quotidien d'un exercice de prévision du rendement J+1 de l'indice CAC 40 
 
 La GitHub Page publie `docs/index.html` : rendement réalisé vs intervalle 80 % prévu, courbe de clôture, rendements quotidiens, hit rate cumulé vs 50 %, MAE modèle vs naïf, leçons et vue table. Chaque exécution quotidienne de la routine doit mettre à jour `docs/data/history.json` (nouveau record de séance, verdict de la prévision de la veille, métriques cumulées, prévision active).
 
+**Page « Composantes »** (`docs/composants.html`) : les 40 valeurs du CAC 40 dans l'ordre de l'indice (rang = capitalisation boursière officielle, proxy documenté du poids Euronext en flottant plafonné), affichées par groupes de 10. Pour chaque valeur : dernière clôture en premier, variation du jour, **écart vs le prévisionnel émis à J-1 pour l'indice** (variation de la valeur − milieu de l'intervalle 80 % prévu), sparkline et historique antichronologique complet avec l'écart par séance. Données : `docs/data/cac40.json` (composition, maintenue à chaque revue trimestrielle Euronext) et `docs/data/composants.json` (séries + rangs, alimenté par le collecteur).
+
 ## Déclenchement automatique
 
 La routine est intégrée comme la routine « Veille IA », via deux **Routines Claude planifiées** (jours de semaine, heures calées sur la mise à disposition des valeurs) :

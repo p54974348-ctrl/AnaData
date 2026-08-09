@@ -25,6 +25,7 @@ Sortie : code 0 (mis à jour ou rien à faire) ; 1 (erreur fatale).
 import argparse
 import datetime as dt
 import json
+import os
 import sys
 import time
 import urllib.request
@@ -280,6 +281,87 @@ def mechanical_metrics(records):
     }
 
 
+def update_composants(cac40_path, composants_path, seance):
+    """Historique + classement des 40 composantes du CAC (page composants.html).
+
+    - séries quotidiennes (close, var %) par valeur, ~45 dernières séances,
+      fusion non destructive (les dates existantes ne sont jamais écrasées) ;
+    - rang = capitalisation boursière officielle (proxy documenté du poids
+      d'indice, en flottant plafonné chez Euronext) — recalculé à chaque run ;
+      cap introuvable = rang en fin de classement, jamais estimée.
+    Nécessite yfinance ; sans lui, la mise à jour est sautée (le site garde
+    le dernier état publié).
+    """
+    try:
+        import yfinance as yf
+    except ImportError:
+        print("  composantes : yfinance absent, mise à jour sautée", file=sys.stderr)
+        return False
+    with open(cac40_path, encoding="utf-8") as f:
+        cac40 = json.load(f)
+    tickers = [c["ticker"] for c in cac40["composants"]]
+    noms = {c["ticker"]: c["nom"] for c in cac40["composants"]}
+
+    try:
+        with open(composants_path, encoding="utf-8") as f:
+            comp = json.load(f)
+    except FileNotFoundError:
+        comp = {"maj": None, "note": cac40.get("note_ordre", ""), "composants": {}}
+
+    df = yf.download(tickers, period="2mo", interval="1d", group_by="ticker",
+                     auto_adjust=False, progress=False, threads=True)
+    updated = 0
+    for t in tickers:
+        try:
+            sub = df[t].dropna(subset=["Close"])
+        except Exception:
+            continue
+        entry = comp["composants"].setdefault(t, {"nom": noms[t], "cap": None,
+                                                  "rang": None, "series": []})
+        entry["nom"] = noms[t]
+        have = {s["date"] for s in entry["series"]}
+        closes = [(idx.date().isoformat(), float(row["Close"])) for idx, row in sub.iterrows()]
+        for i, (date, close) in enumerate(closes):
+            if date in have:
+                continue
+            prev = closes[i - 1][1] if i > 0 else None
+            entry["series"].append({"date": date, "cloture": round(close, 2),
+                                    "var_pct": rnd(pct(close, prev))})
+            updated += 1
+        entry["series"].sort(key=lambda s: s["date"])
+        entry["series"] = entry["series"][-45:]
+
+    caps = {}
+    for i, t in enumerate(tickers):
+        try:
+            if i:
+                time.sleep(0.2)
+            cap = yf.Ticker(t).fast_info.get("marketCap") or yf.Ticker(t).fast_info.get("market_cap")
+            if cap:
+                caps[t] = float(cap)
+        except Exception:
+            pass
+    if caps:
+        ranked = sorted(tickers, key=lambda t: (-(caps.get(t) or 0), noms[t]))
+        for r, t in enumerate(ranked, 1):
+            e = comp["composants"].get(t)
+            if e:
+                e["cap"] = caps.get(t)
+                e["rang"] = r
+        comp["ordre_maj"] = seance
+    else:
+        print("  composantes : aucune capitalisation obtenue, rangs inchangés", file=sys.stderr)
+
+    if not updated and not caps:
+        return False
+    comp["maj"] = seance
+    with open(composants_path, "w", encoding="utf-8") as f:
+        json.dump(comp, f, ensure_ascii=False, indent=1)
+        f.write("\n")
+    print(f"  composantes : {updated} points ajoutés, {len(caps)}/40 capitalisations, rangs recalculés")
+    return True
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--history", default=HISTORY_DEFAULT)
@@ -436,8 +518,21 @@ def main():
             mh.sort(key=lambda e: e["date"])
             changed.append("metriques_historique")
 
+    # -- Composantes du CAC 40 (page composants.html) — indépendant du record
+    comp_changed = False
+    if not args.mock and not args.dry_run:
+        data_dir = os.path.dirname(args.history)
+        cac40_path = os.path.join(data_dir, "cac40.json")
+        if os.path.exists(cac40_path):
+            try:
+                comp_changed = update_composants(
+                    cac40_path, os.path.join(data_dir, "composants.json"), seance)
+            except Exception as e:
+                print(f"  composantes : échec non bloquant ({e})", file=sys.stderr)
+
     if not changed:
-        print(f"Rien à faire : {seance} déjà complet.")
+        print(f"Rien à faire sur l'indice : {seance} déjà complet."
+              + (" (composantes mises à jour)" if comp_changed else ""))
         return 0
 
     hist["derniere_maj"] = seance
