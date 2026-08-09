@@ -133,6 +133,7 @@
     display: inline-block; font-size: .74rem; padding: 2px 8px; border-radius: 999px;
     border: 1px solid var(--border); color: var(--text-secondary); margin-left: 6px;
   }
+  .badge-conf { border-color: var(--pos); color: var(--pos); font-weight: 600; }
 
   table { border-collapse: collapse; width: 100%; font-size: .8rem; }
   th, td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
@@ -204,7 +205,7 @@
   <div class="grid2">
     <section class="card">
       <h2>Hit rate directionnel cumulé</h2>
-      <p class="sub">Part de directions correctes ; repère : 50 % (pile ou face).</p>
+      <p class="sub">Part de directions correctes ; repères : 50 % (hasard), persistance (signe de la veille — seul benchmark implémentable ex ante) et « toujours hausse » (référence du régime, ex post).</p>
       <div class="chart-wrap" id="chartHitrate"></div>
     </section>
     <section class="card">
@@ -523,6 +524,14 @@
       const f = frame(ch, dates, 0, 100, { height: 190 });
       el('line', { x1: f.m.left, x2: f.W - f.m.right, y1: f.y(50), y2: f.y(50), stroke: css('--baseline'), 'stroke-width': 1, 'stroke-dasharray': '3 3' }, f.svg);
       el('text', { x: f.W - f.m.right + 4, y: f.y(50) + 3.5, 'font-size': 10, fill: css('--text-muted') }, f.svg).textContent = '50 %';
+      // Lignes de référence benchmarks (recalculées à chaque run dans metriques.benchmarks)
+      const bm = mtr.benchmarks || {};
+      [[bm.hit_rate_persistance, 'pers.'], [bm.hit_rate_toujours_hausse, 't.h.']].forEach(([v, lbl]) => {
+        if (v == null) return;
+        const yv = f.y(v * 100);
+        el('line', { x1: f.m.left, x2: f.W - f.m.right, y1: yv, y2: yv, stroke: css('--text-muted'), 'stroke-width': 1, 'stroke-dasharray': '6 4', opacity: 0.55 }, f.svg);
+        el('text', { x: f.W - f.m.right + 4, y: yv + 3.5, 'font-size': 10, fill: css('--text-muted') }, f.svg).textContent = lbl + ' ' + Math.round(v * 100) + ' %';
+      });
       drawMetricLine(f, hist, h => h.hit_rate * 100, css('--series-1'), (h, ev) =>
         showTip(`<div class="t-date">${h.date}</div><div class="t-row">Hit rate : <b>${Math.round(h.hit_rate * 100)} %</b> (n=${h.n})</div>`, ev));
     }
@@ -563,7 +572,8 @@
     document.getElementById('lessons').innerHTML = lessons.length
       ? '<ul style="margin-left:18px; font-size:.85rem;">' + lessons.map(l => {
           const s = typeof l === 'string' ? { texte: l } : l;
-          const badge = s.statut ? ` <span class="badge">${s.statut}</span>` : '';
+          const conf = s.statut && s.statut.indexOf('CONFIRMÉE') === 0;
+          const badge = s.statut ? ` <span class="badge${conf ? ' badge-conf' : ''}">${s.statut}</span>` : '';
           return `<li>${s.texte}${badge}</li>`;
         }).join('') + '</ul>'
       : '<div class="empty">Aucune leçon pour l\'instant (Jour 1).</div>';
