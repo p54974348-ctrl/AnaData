@@ -85,20 +85,34 @@
   .grp-title { font-size: 1.02rem; font-weight: 650; margin: 26px 0 10px; }
   .grp-title .badge { vertical-align: 2px; }
 
+  .seg { display: inline-flex; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .seg button {
+    border: none; background: var(--surface-1); color: var(--text-secondary);
+    padding: 6px 14px; cursor: pointer; font-size: .8rem; border-right: 1px solid var(--border);
+  }
+  .seg button:last-child { border-right: none; }
+  .seg button.on { background: var(--series-1); color: #fff; font-weight: 600; }
+  .toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 4px 0 14px; font-size: .8rem; color: var(--text-secondary); }
+
   .row {
-    display: grid; grid-template-columns: 34px minmax(140px, 1.3fr) minmax(100px, .85fr) minmax(72px, .5fr) minmax(72px, .5fr) minmax(72px, .5fr) minmax(110px, .75fr) 120px;
-    gap: 10px; align-items: center;
+    display: grid; gap: 10px; align-items: center;
     background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
     padding: 10px 14px; margin-bottom: 8px;
   }
+  body[data-period="all"] .row { grid-template-columns: 34px minmax(140px, 1.3fr) minmax(96px, .8fr) repeat(3, minmax(96px, .62fr)) 120px; }
+  body:not([data-period="all"]) .row { grid-template-columns: 34px minmax(140px, 1.3fr) minmax(96px, .8fr) minmax(120px, .7fr) 120px; }
+  body[data-period="jour"] .col-sem, body[data-period="jour"] .col-mois,
+  body[data-period="sem"] .col-jour, body[data-period="sem"] .col-mois,
+  body[data-period="mois"] .col-jour, body[data-period="mois"] .col-sem { display: none; }
   @media (max-width: 960px) {
-    .row { grid-template-columns: 30px 1fr auto auto; }
-    .row .c-ecart, .row .c-spark, .row .c-var { display: none; }
-    .row .c-per { text-align: right; }
+    .row .c-spark { display: none; }
+    body[data-period="all"] .row { grid-template-columns: 30px 1fr auto auto auto; }
+    body:not([data-period="all"]) .row { grid-template-columns: 30px 1fr auto; }
+    body[data-period="all"] .row .c-val { display: none; }
   }
-  @media (max-width: 560px) {
-    .row { grid-template-columns: 30px 1fr auto; }
-    .row .c-per { display: none; }
+  @media (max-width: 600px) {
+    body[data-period="all"] .row { grid-template-columns: 30px 1fr auto; }
+    body[data-period="all"] .col-sem, body[data-period="all"] .col-mois { display: none; }
   }
   .rank {
     width: 28px; height: 28px; border-radius: 8px; background: var(--page);
@@ -111,8 +125,9 @@
   .c-val { text-align: right; }
   .c-val .px { font-weight: 650; font-size: 1.02rem; font-variant-numeric: tabular-nums; }
   .c-val .dt { color: var(--text-muted); font-size: .7rem; }
-  .c-var, .c-ecart, .c-per { text-align: right; font-variant-numeric: tabular-nums; font-size: .88rem; }
-  .c-var .lbl, .c-ecart .lbl, .c-per .lbl { display: block; color: var(--text-muted); font-size: .68rem; font-weight: 400; }
+  .c-per { text-align: right; font-variant-numeric: tabular-nums; font-size: .88rem; }
+  .c-per .lbl { display: block; color: var(--text-muted); font-size: .68rem; font-weight: 400; }
+  .c-per .ec { display: block; font-size: .74rem; color: var(--text-muted); margin-top: 1px; }
   .v-up { color: var(--status-good); font-weight: 600; }
   .v-dn { color: var(--status-crit); font-weight: 600; }
   .v-nd { color: var(--text-muted); }
@@ -141,6 +156,16 @@
     <p class="sub" id="bannerSub">Chargement…</p>
   </section>
 
+  <div class="toolbar">
+    <span>Périodicité :</span>
+    <div class="seg" id="periodSeg">
+      <button data-p="all" class="on">Tout</button>
+      <button data-p="jour">Jour</button>
+      <button data-p="sem">Semaine</button>
+      <button data-p="mois">Mois</button>
+    </div>
+  </div>
+
   <div id="groups"><div class="empty">Chargement des composantes…</div></div>
 
   <footer id="foot"></footer>
@@ -159,8 +184,17 @@
   const pct = (v, d = 2) => v == null ? '—' : (v > 0 ? '+' : '') + fmt(v, d) + ' %';
   const cls = v => v == null ? 'v-nd' : v > 0 ? 'v-up' : v < 0 ? 'v-dn' : '';
 
+  document.body.dataset.period = 'all';
+  document.getElementById('periodSeg').addEventListener('click', ev => {
+    const b = ev.target.closest('button');
+    if (!b) return;
+    document.body.dataset.period = b.dataset.p;
+    document.querySelectorAll('#periodSeg button').forEach(x => x.classList.toggle('on', x === b));
+  });
+
   // variation calendaire : dernière clôture vs la dernière clôture datant
-  // d'au moins `days` jours avant la dernière séance
+  // d'au moins `days` jours avant la dernière séance ; renvoie aussi la date
+  // de base pour cumuler le prévisionnel de l'indice sur la même fenêtre
   function varSince(series, days) {
     const last = series[series.length - 1];
     if (!last) return null;
@@ -170,7 +204,7 @@
     let base = null;
     for (const s of series) { if (s.date <= refIso && s.cloture != null) base = s; }
     if (!base || !base.cloture) return null;
-    return (last.cloture / base.cloture - 1) * 100;
+    return { v: (last.cloture / base.cloture - 1) * 100, from: base.date, to: last.date };
   }
 
   function spark(series) {
@@ -222,7 +256,7 @@
       (pv
         ? `Prévision émise la veille (J-1) pour l'indice : <b>${pv.dir}</b> (p=${fmt(pv.p, 2)}), intervalle 80 % [${pct(pv.lo, 1)} ; ${pct(pv.hi, 1)}], milieu ${pct(pv.mid, 2)}${pv.source ? ' <span class="badge">⚙ mécanique</span>' : ''}. `
         : `Aucune prévision d'indice enregistrée pour cette séance. `) +
-      `L'<b>écart</b> de chaque valeur = sa variation du jour − le milieu de l'intervalle prévu à J-1 pour l'indice (sur/sous-performance vs le prévisionnel).`;
+      `L'<b>écart</b> de chaque valeur = sa variation − le prévisionnel de l'indice sur la même période : milieu de l'intervalle prévu à J-1 (jour), ou cumul des milieux prévus séance par séance (semaine, mois). Sur/sous-performance vs le prévisionnel — filtrable par périodicité ci-dessous.`;
 
     const groups = [];
     for (let i = 0; i < entries.length; i += 10) groups.push(entries.slice(i, i + 10));
@@ -235,7 +269,21 @@
           const last = rev[0], prevS = rev[1];
           const pvd = last ? prevByDate[last.date] : null;
           const ecart = last && last.var_pct != null && pvd ? last.var_pct - pvd.mid : null;
-          const vSem = varSince(e.series, 7), vMois = varSince(e.series, 30);
+          // écart de période = var de la valeur − cumul des milieux prévus (J-1)
+          // sur les séances de la fenêtre ayant eu une prévision d'indice
+          const sumMid = (from, to) => {
+            let s = 0, n = 0;
+            for (const [d, p] of Object.entries(prevByDate))
+              if (d > from && d <= to) { s += p.mid; n++; }
+            return n ? s : null;
+          };
+          const per = [last && last.var_pct != null
+              ? { v: last.var_pct, ec: ecart } : null]
+            .concat([varSince(e.series, 7), varSince(e.series, 30)].map(r => {
+              if (!r) return null;
+              const m = sumMid(r.from, r.to);
+              return { v: r.v, ec: m != null ? r.v - m : null };
+            }));
           const rows = rev.map(s => {
             const p = prevByDate[s.date];
             const ec = s.var_pct != null && p ? s.var_pct - p.mid : null;
@@ -247,10 +295,12 @@
             `<span class="rank">${e.rang ?? '·'}</span>` +
             `<span class="c-nom"><span class="nom"><a href="https://finance.yahoo.com/quote/${encodeURIComponent(e.ticker)}" target="_blank" rel="noopener">${e.nom}</a></span><span class="tick">${e.ticker}</span></span>` +
             `<span class="c-val"><span class="px">${last ? fmt(last.cloture) + ' €' : 'ND'}</span><br><span class="dt">${last ? last.date : ''}</span></span>` +
-            `<span class="c-var"><span class="lbl">var. jour</span><span class="${cls(last && last.var_pct)}">${last ? pct(last.var_pct) : '—'}</span></span>` +
-            `<span class="c-per"><span class="lbl">1 sem.</span><span class="${cls(vSem)}">${vSem != null ? pct(vSem, 1) : '—'}</span></span>` +
-            `<span class="c-per"><span class="lbl">1 mois</span><span class="${cls(vMois)}">${vMois != null ? pct(vMois, 1) : '—'}</span></span>` +
-            `<span class="c-ecart"><span class="lbl">écart vs prév. indice J-1</span><span class="${cls(ecart)}">${ecart != null ? pct(ecart) : '—'}</span></span>` +
+            [['col-jour', 'jour'], ['col-sem', '1 sem.'], ['col-mois', '1 mois']].map(([cc, lbl], i) => {
+              const p = per[i];
+              return `<span class="c-per ${cc}"><span class="lbl">var. ${lbl}</span>` +
+                `<span class="${cls(p && p.v)}">${p ? pct(p.v, i ? 1 : 2) : '—'}</span>` +
+                `<span class="ec">écart vs prév. : <span class="${cls(p && p.ec)}">${p && p.ec != null ? pct(p.ec, i ? 1 : 2) : '—'}</span></span></span>`;
+            }).join('') +
             spark(e.series) +
             `<details class="histo"><summary>Historique (${rev.length} séances, la plus récente en premier)</summary>` +
             `<div style="overflow-x:auto"><table><tr><th>Date</th><th>Clôture (€)</th><th>Var. jour</th><th>Écart vs prév. indice J-1</th></tr>${rows}</table></div></details>` +
