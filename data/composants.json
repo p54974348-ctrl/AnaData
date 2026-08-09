@@ -244,7 +244,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 45.0
+   }
   },
   "AI.PA": {
    "nom": "Air Liquide",
@@ -488,7 +492,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 157.8
+   }
   },
   "AIR.PA": {
    "nom": "Airbus",
@@ -732,7 +740,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 177.4
+   }
   },
   "MT.AS": {
    "nom": "ArcelorMittal",
@@ -976,7 +988,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 27.94
+   }
   },
   "CS.PA": {
    "nom": "AXA",
@@ -1220,7 +1236,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 41.57
+   }
   },
   "BNP.PA": {
    "nom": "BNP Paribas",
@@ -1464,7 +1484,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 79.5
+   }
   },
   "EN.PA": {
    "nom": "Bouygues",
@@ -1708,7 +1732,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 37.36
+   }
   },
   "BVI.PA": {
    "nom": "Bureau Veritas",
@@ -1952,7 +1980,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 26.94
+   }
   },
   "CAP.PA": {
    "nom": "Capgemini",
@@ -2196,7 +2228,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 123.8
+   }
   },
   "CA.PA": {
    "nom": "Carrefour",
@@ -2440,7 +2476,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 12.49
+   }
   },
   "ACA.PA": {
    "nom": "Crédit Agricole",
@@ -2684,7 +2724,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 16.4
+   }
   },
   "BN.PA": {
    "nom": "Danone",
@@ -2928,7 +2972,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 71.36
+   }
   },
   "DSY.PA": {
    "nom": "Dassault Systèmes",
@@ -3172,7 +3220,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 27.58
+   }
   },
   "FGR.PA": {
    "nom": "Eiffage",
@@ -3416,7 +3468,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 120.2
+   }
   },
   "ENGI.PA": {
    "nom": "Engie",
@@ -3660,7 +3716,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 18.83
+   }
   },
   "EL.PA": {
    "nom": "EssilorLuxottica",
@@ -3904,7 +3964,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 252.2
+   }
   },
   "ERF.PA": {
    "nom": "Eurofins Scientific",
@@ -4148,7 +4212,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 65.7
+   }
   },
   "RMS.PA": {
    "nom": "Hermès",
@@ -4392,7 +4460,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 2122.0
+   }
   },
   "KER.PA": {
    "nom": "Kering",
@@ -4636,7 +4708,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 213.1
+   }
   },
   "LR.PA": {
    "nom": "Legrand",
@@ -4880,7 +4956,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 130.15
+   }
   },
   "OR.PA": {
    "nom": "L'Oréal",
@@ -5124,7 +5204,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 382.15
+   }
   },
   "MC.PA": {
    "nom": "LVMH",
@@ -5368,7 +5452,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 461.1
+   }
   },
   "ML.PA": {
    "nom": "Michelin",
@@ -5612,7 +5700,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 31.29
+   }
   },
   "ORA.PA": {
    "nom": "Orange",
@@ -5856,7 +5948,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 13.81
+   }
   },
   "RI.PA": {
    "nom": "Pernod Ricard",
@@ -6100,7 +6196,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 95.28
+   }
   },
   "PUB.PA": {
    "nom": "Publicis",
@@ -6344,7 +6444,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 78.64
+   }
   },
   "RNO.PA": {
    "nom": "Renault",
@@ -6588,7 +6692,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 31.75
+   }
   },
   "SAF.PA": {
    "nom": "Safran",
@@ -6832,7 +6940,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 291.2
+   }
   },
   "SGO.PA": {
    "nom": "Saint-Gobain",
@@ -7076,7 +7188,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 96.56
+   }
   },
   "SAN.PA": {
    "nom": "Sanofi",
@@ -7320,7 +7436,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 80.84
+   }
   },
   "SU.PA": {
    "nom": "Schneider Electric",
@@ -7564,7 +7684,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 220.3
+   }
   },
   "GLE.PA": {
    "nom": "Société Générale",
@@ -7808,7 +7932,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 56.64
+   }
   },
   "STLAP.PA": {
    "nom": "Stellantis",
@@ -8052,7 +8180,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 7.9
+   }
   },
   "STMPA.PA": {
    "nom": "STMicroelectronics",
@@ -8296,7 +8428,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 21.36
+   }
   },
   "TEP.PA": {
    "nom": "Teleperformance",
@@ -8540,7 +8676,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 70.46
+   }
   },
   "HO.PA": {
    "nom": "Thales",
@@ -8784,7 +8924,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 231.2
+   }
   },
   "TTE.PA": {
    "nom": "TotalEnergies",
@@ -9028,7 +9172,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 52.38
+   }
   },
   "URW.PA": {
    "nom": "Unibail-Rodamco-Westfield",
@@ -9272,7 +9420,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 88.66
+   }
   },
   "VIE.PA": {
    "nom": "Veolia",
@@ -9516,7 +9668,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 30.06
+   }
   },
   "DG.PA": {
    "nom": "Vinci",
@@ -9760,7 +9916,11 @@
    "periode_12m": [
     "2025-08-07",
     "2026-08-07"
-   ]
+   ],
+   "cloture_12m_debut": {
+    "date": "2025-08-07",
+    "niveau": 122.8
+   }
   }
  },
  "ordre_maj": "2026-08-07"
