@@ -8,6 +8,7 @@ Suivi quotidien d'un exercice de prévision du rendement J+1 de l'indice CAC 40 
 - `rapports/AAAA-MM-JJ.md` — rapport quotidien de chaque exécution (trace auditable).
 - `INDICES.md` — fiche de référence des 8 indices suivis (cible `^FCHI` + 7 compagnons : `^GSPC`, `^VIX`, `^IXIC`, `^GDAXI`, `^STOXX50E`, `^N225`, `^HSI`) et leur rôle dans la routine.
 - `docs/` — tableau de bord GitHub Pages (graphiques prévision vs réalisé, métriques, leçons), alimenté par `docs/data/history.json` — **source unique de l'état de la routine** (records quotidiens, prévision active, métriques cumulées, suivi dynamique, leçons). Déployé automatiquement à chaque push sur `master` via `.github/workflows/pages.yml`.
+- `scripts/collect.py` — collecteur automatique sans IA (voir ci-dessous), lancé par `.github/workflows/collect.yml`.
 
 ## Tableau de bord
 
@@ -25,6 +26,18 @@ La routine est intégrée comme la routine « Veille IA », via deux **Routines 
 Chaque trigger committe directement sur `master` avec vérification du push (repli API GitHub en secours), ce qui redéploie le tableau de bord. Le record quotidien est unique : l'instantané le crée, la routine du soir le complète (jamais de doublon).
 
 En cas d'exécution manquée, relancer la routine à la main : demander l'exécution dans la session Claude liée au dépôt, ou coller `ROUTINE.md` + le dernier BLOC ÉTAT dans une nouvelle conversation.
+
+## Collecte automatique sans IA (filet de sécurité)
+
+Pour que le tableau de bord continue de fonctionner **même si les routines Claude sont arrêtées**, un collecteur autonome (`scripts/collect.py`, Python standard, zéro dépendance) tourne sur GitHub Actions (`.github/workflows/collect.yml`) les jours de semaine à 16h15 UTC (après la clôture Euronext) et 20h45 UTC (après la clôture US) — juste avant les runs Claude, qui trouvent ainsi les chiffres officiels déjà en place.
+
+Ce qu'il fait :
+- récupère les clôtures/ouvertures/volumes officiels (API Yahoo Finance, repli Stooq) du CAC 40 et des 7 indices compagnons ;
+- **fusion non destructive** de `docs/data/history.json` : crée le record du jour s'il manque, ne remplit que les champs `null`/ND, n'écrase jamais une valeur posée par la routine ; toute divergence > 0,1 % avec la clôture enregistrée est signalée en note (l'arbitrage reste à la routine) ;
+- **évaluation mécanique** : si la prévision active vise la séance collectée, il la consomme et calcule le verdict (direction, intervalle, erreur) et recalcule métriques et benchmarks — l'attribution corrigeable/irréductible, les leçons, le suivi dynamique et la prévision J+1 restent du ressort exclusif de la routine IA ;
+- committe sur `master` et redéploie Pages directement (un push `GITHUB_TOKEN` ne déclenche pas le workflow Pages).
+
+Répartition des rôles : le collecteur garantit des **données fraîches et officielles** ; les routines Claude apportent la lecture de l'actualité, l'arbitrage des sources, l'attribution des erreurs, les leçons et la prévision J+1. Sans routine, le site reste vivant (cours, contexte, verdicts mécaniques) mais aucune nouvelle prévision n'est émise.
 
 ## Avertissement
 

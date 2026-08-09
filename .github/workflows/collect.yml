@@ -1,0 +1,59 @@
+name: Collecte automatique des données de marché
+
+# Filet de sécurité sans IA : récupère les clôtures officielles (Yahoo, repli
+# Stooq), complète docs/data/history.json (fusion non destructive) et redéploie
+# le tableau de bord. Le site reste ainsi à jour même si les routines Claude
+# sont arrêtées. Horaires UTC : après la clôture d'Euronext (17h35 Paris) puis
+# après la clôture de Wall Street (16h00 New York) — avant les runs Claude de
+# 16h48 et 21h15 UTC, qui trouvent ainsi les chiffres officiels déjà en place.
+
+on:
+  schedule:
+    - cron: "15 16 * * 1-5"
+    - cron: "45 20 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Collecter et fusionner les données
+        run: python3 scripts/collect.py
+
+      - name: Commiter si changements
+        id: commit
+        run: |
+          if git diff --quiet docs/data/history.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Aucun changement."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/data/history.json
+            git commit -m "Collecte automatique — $(date -u +%F' '%H:%M) UTC"
+            git pull --rebase origin master
+            git push origin master
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Un push effectué avec GITHUB_TOKEN ne déclenche pas le workflow Pages :
+      # on redéploie donc directement ici.
+      - name: Redéployer GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          enable_jekyll: false

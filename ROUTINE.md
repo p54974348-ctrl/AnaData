@@ -19,6 +19,7 @@ Cherche le dernier « BLOC ÉTAT — ROUTINE CAC 40 » : soit collé en fin de c
 
 ## ÉTAPE 1 — COLLECTE (recherche web obligatoire)
 
+0. Un collecteur automatique sans IA (`scripts/collect.py`, GitHub Actions à 16h15 et 20h45 UTC) peut avoir déjà rempli le record du jour dans `docs/data/history.json` (clôtures officielles Yahoo/Stooq, note « Collecte automatique »). Ne pas dupliquer le record : le compléter. Vérifier la clôture collectée contre la presse (articles de clôture datés) ; en cas de divergence > 0,1 % — ou de note « ⚠ divergence collecteur » laissée par le script — arbitrer et documenter.
 1. CAC 40 (`^FCHI`) : clôture du jour J, clôture de J-1, ouverture du jour J (pour décomposer gap overnight vs séance), volume si disponible. Si l'ouverture est introuvable dans les articles de presse, la chercher sur les pages de données historiques (Yahoo Finance `^FCHI` Historical Data, Investing.com) — la décomposition gap/intraséance est nécessaire pour auditer l'hypothèse « gap hérité de Wall Street ».
 2. Contexte — les 7 indices compagnons de la fiche `INDICES.md` (niveau + variation %), plus EUR/USD, Brent et taux 10 ans (OAT ou Bund) :
    * Moteurs overnight US : S&P 500 (`^GSPC`), VIX (`^VIX`), Nasdaq Composite (`^IXIC`) — clôture du jour ou dernier niveau si la séance US est en cours.
@@ -37,6 +38,7 @@ Sources à privilégier : Boursorama, ABC Bourse, Yahoo Finance, Euronext, Inves
 
 ## ÉTAPE 3 — ÉVALUATION DE LA PRÉVISION D'HIER (sauter si Jour 1)
 
+* Si le collecteur automatique a déjà posé un verdict mécanique (champ `verdict.type` à `null`, cause « évaluation mécanique »), le vérifier puis le **compléter** : l'attribution corrigeable/irréductible et la cause précise restent à faire ici.
 * Compare la prévision d'hier (direction, probabilité, intervalle) au réalisé : direction correcte ? réalisé dans l'intervalle ? erreur en points de %.
 * Classe l'erreur — c'est le cœur de la routine :
   * CORRIGEABLE : un facteur connaissable hier soir a été ignoré ou mal pondéré. Lequel, précisément ? Reprends les hypothèses journalisées hier et dis laquelle a failli.
