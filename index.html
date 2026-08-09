@@ -346,6 +346,7 @@
         <div class="dir">${arrow} ${p.direction.toUpperCase()}
           <span class="badge">probabilité ${fmt(p.probabilite * 100, 0)} %</span>
           <span class="badge">intervalle 80 % : ${pct(p.intervalle_80pct[0], 1, true)} à ${pct(p.intervalle_80pct[1], 1, true)}</span>
+          ${p.source && p.source.indexOf('mécanique') !== -1 ? '<span class="badge">⚙ prévision mécanique (sans IA)</span>' : ''}
         </div>
         <ul>${(p.hypotheses || []).map(h => `<li>${h}</li>`).join('')}</ul>`;
     } else {
