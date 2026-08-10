@@ -7,7 +7,7 @@ Suivi quotidien d'un exercice de prévision du rendement J+1 de l'indice CAC 40 
 - `ROUTINE.md` — le prompt complet de la routine (référence normative ; pour une exécution manuelle hors dépôt, recopier le BLOC ÉTAT du dernier compte rendu).
 - `rapports/AAAA-MM-JJ.md` — rapport quotidien de chaque exécution (trace auditable).
 - `INDICES.md` — fiche de référence des 8 indices suivis (cible `^FCHI` + 7 compagnons : `^GSPC`, `^VIX`, `^IXIC`, `^GDAXI`, `^STOXX50E`, `^N225`, `^HSI`) et leur rôle dans la routine.
-- `docs/` — tableau de bord GitHub Pages (graphiques prévision vs réalisé, métriques, leçons), alimenté par `docs/data/history.json` — **source unique de l'état de la routine** (records quotidiens, prévision active, métriques cumulées, suivi dynamique, leçons). Déployé automatiquement à chaque push sur `master` via `.github/workflows/pages.yml`. Une fois publié par Pages, `data/history.json` est une **interface publique de lecture seule** à URL stable ; son schéma est un contrat : évolutions rétro-compatibles uniquement (ajout de champs autorisé, jamais de suppression/renommage/changement de type sans annonce ici).
+- `docs/` — tableau de bord GitHub Pages (graphiques prévision vs réalisé, métriques, leçons), alimenté par `docs/data/history.json` — **source unique de l'état de la routine** (records quotidiens, prévision active, métriques cumulées, suivi dynamique, leçons). Déployé automatiquement à chaque push sur `master` via `.github/workflows/pages.yml`. Une fois publié par Pages, `data/history.json` est une interface publique de lecture seule (voir §Gouvernance).
 - `scripts/collect.py` — collecteur automatique sans IA (voir ci-dessous), lancé par `.github/workflows/collect.yml`.
 
 ## Tableau de bord
@@ -39,6 +39,11 @@ Ce qu'il fait :
 - **prévision mécanique de secours** : si la prévision active est périmée et qu'aucune prévision IA n'a été émise, le collecteur en émet une lui-même en appliquant les règles codifiées par la routine — direction par persistance corrigée du signal US fort (L7), probabilité plafonnée à 0,55 (L5, binaires non analysables sans IA), intervalle 1,28 × σ20 élargi selon le régime VIX. Elle est marquée `source: mécanique` (badge « ⚙ sans IA » sur le tableau de bord et dans le record évalué) et la routine IA, dès qu'elle retourne, la remplace par sa prévision complète.
 
 Répartition des rôles : le collecteur garantit des **données fraîches et officielles** et une **continuité de prévision dégradée mais honnête** ; les routines Claude apportent la lecture de l'actualité, l'arbitrage des sources, l'attribution des erreurs, les leçons et la prévision J+1 informée. Sans routine, le cycle complet (collecte → prévision → verdict → métriques) continue en mode mécanique.
+
+## Gouvernance
+
+- Toute duplication de ce projet (copie, fork, migration) constitue une **lignée indépendante** : cycles de vie et définitions de besoin distincts. Aucune synchronisation, aucun re-mirroring, aucune fusion de branches ni de `history.json` entre dépôts après la duplication — une évolution faite ici n'impacte jamais une autre lignée, et réciproquement. Une fonctionnalité souhaitée dans une autre lignée y est ré-implémentée sur demande explicite dans la session de ce dépôt-là.
+- `docs/data/history.json`, une fois publié par GitHub Pages, est une **interface publique de lecture seule**, librement consommable par des applications tierces. Ce dépôt ne tient pas de registre de ses consommateurs et ne les mentionne nulle part. En contrepartie, son schéma est un **contrat stable** : l'ajout de champs est autorisé ; la suppression, le renommage ou le changement de type d'un champ existant sont interdits sans annonce préalable dans ce README. Cette contrainte s'impose à la routine IA comme au collecteur.
 
 ## Avertissement
 
