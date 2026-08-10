@@ -25,10 +25,7 @@ BOOTSTRAP.md                   # ce document
 rapports/AAAA-MM-JJ.md         # un rapport par exécution (trace auditable)
 analyses/                      # analyses ponctuelles (ex. validation du modèle)
 docs/index.html                # tableau de bord GitHub Pages (autonome, sans dépendance)
-docs/composants.html           # page dédiée aux 40 composantes (voir §6 bis)
 docs/data/history.json         # SOURCE UNIQUE DE L'ÉTAT (voir §4)
-docs/data/cac40.json           # composition officielle du CAC 40 (maintenue aux revues Euronext)
-docs/data/composants.json      # séries et rangs des 40 valeurs (alimenté par le collecteur)
 scripts/collect.py             # collecteur sans IA (voir §7)
 .github/workflows/pages.yml    # déploiement Pages
 .github/workflows/collect.yml  # collecte automatique planifiée
@@ -120,15 +117,6 @@ Page unique autonome (HTML/CSS/JS vanilla, SVG natif, **aucune dépendance exter
 * Leçons actives avec badges de statut (CONFIRMÉE en couleur d'accent).
 * Table de données détaillées (date, clôture, rendement, gap, intraséance, prévision, verdicts ✓/✗).
 * Design : thème clair/sombre (`prefers-color-scheme` + bascule `data-theme`), palette sobre (accent #2a78d6/#3987e5, rouge réservé aux baisses/erreurs), lignes 2 px, tooltips au survol, responsive mobile, avertissement « aucune recommandation d'investissement » en pied de page.
-
-### 6 bis. Page « Composantes du CAC 40 » (`docs/composants.html`)
-
-Page dédiée, liée depuis l'en-tête du tableau de bord, même système de design :
-* les 40 valeurs dans **l'ordre de l'indice**, affichées par **groupes de 10** (« Rangs 1–10 », … « 31–40 ») ; rang = capitalisation boursière officielle recalculée à chaque collecte (proxy documenté du poids Euronext en flottant plafonné, recalé par la routine IA aux revues trimestrielles) ;
-* par valeur : nom (lien vers sa fiche Yahoo Finance), ticker, **dernière clôture en premier** avec sa date, puis trois colonnes de périodicité — **jour, 1 semaine, 1 mois** (variations calendaires) — chacune avec son **écart vs prévisionnel** : variation de la valeur − prévisionnel de l'indice sur la même période (milieu de l'intervalle 80 % prévu à J-1 pour le jour ; **cumul des milieux prévus séance par séance** pour la semaine et le mois) ; sparkline ~45 séances, et historique déroulant **antichronologique** (date, clôture, variation, écart par séance) ;
-* **filtre de périodicité** (barre segmentée au-dessus des groupes) : Tout / Jour / Semaine / Mois — n'affiche que la ou les colonnes choisies ;
-* bannière expliquant l'écart et rappelant la prévision d'indice de la dernière séance (avec badge « ⚙ mécanique » le cas échéant) ;
-* composition dans `docs/data/cac40.json` (40 tickers Yahoo, source et date de la revue Euronext documentées) ; séries et rangs dans `docs/data/composants.json`, alimenté par le collecteur (§7) : fusion non destructive des séries (~45 séances conservées), capitalisations via yfinance, échec non bloquant pour la collecte de l'indice.
 
 Déploiement : workflow `pages.yml` (déclenché sur push `master` touchant `docs/**` + `workflow_dispatch`) publiant `./docs` sur la branche `gh-pages` via `peaceiris/actions-gh-pages@v4`. L'activation initiale de Pages (Settings → Pages → branche `gh-pages`) est une action manuelle du propriétaire — la demander explicitement.
 
