@@ -50,8 +50,11 @@ sed -i 's/au dépôt `AnaData`/au dépôt `CacWatch`/' ROUTINE.md
 git commit -am "Renommage CacWatch" && git push
 ```
 
-## Cohabitation des deux projets
+## Gouvernance : deux lignées indépendantes (règle actée le 09/08/2026)
 
-- Les deux collecteurs tournent indépendamment : les données divergeront naturellement (mêmes cours officiels, mais AnaData reçoit en plus les prévisions/rapports IA, CacWatch les prévisions mécaniques).
-- Ne jamais fusionner les `history.json` des deux dépôts après divergence (métriques incompatibles : prévisions IA vs mécaniques).
-- Pour re-synchroniser CacWatch depuis AnaData plus tard : re-pousser `master` d'AnaData (`git push --force-with-lease`), en acceptant d'écraser l'historique mécanique de CacWatch.
+**AnaData et CacWatch ont des cycles de vie et des définitions de besoin distincts.** La migration est un point de départ commun, pas un lien permanent :
+
+- **Aucune synchronisation après la migration** : une évolution (IHM, collecteur, routine, données) réalisée sur l'un des deux dépôts n'impacte jamais l'autre. Pas de re-mirroring, pas de force-push d'un dépôt vers l'autre, pas de fusion de branches entre dépôts.
+- **Jamais de fusion des `history.json`** des deux dépôts (états et métriques incompatibles : prévisions IA vs mécaniques, historiques divergents).
+- **Portage explicite uniquement** : si une fonctionnalité développée dans un projet est souhaitée dans l'autre, elle y est ré-implémentée par une demande explicite dans la session de CE dépôt-là (le commit d'origine peut servir de référence), puis vit sa propre vie.
+- **Sessions cloisonnées** : la session Claude liée à AnaData ne modifie qu'AnaData ; celle liée à CacWatch ne modifie que CacWatch. Chaque dépôt a son propre `BOOTSTRAP.md` (spécification de référence), qui évolue avec lui.
