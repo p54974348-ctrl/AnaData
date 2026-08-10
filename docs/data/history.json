@@ -1038,32 +1038,57 @@
     "type": null,
     "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
    },
-   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "note": "Collecte automatique (GitHub Actions) — source yfinance. Instantané européen 16h48 UTC : CAC 8 726,03 (+0,13 %) confirmé par Zonebourse (écart nul) ; séance calme, volumes d'août, STMicroelectronics +1,90 % ; pétrole en hausse ; semaine dominée par le CPI US (mercredi), PPI (jeudi), ventes au détail (vendredi). Prévision et évaluation éditoriale : routine du soir 21h15 UTC.",
    "contexte": {
     "sp500": {
      "niveau": 7746.79,
      "var_pct": -0.14,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h51 UTC (yfinance) ; presse mi-séance : S&P autour de l'équilibre, Nasdaq -0,3 %, attente CPI mercredi"
     },
     "vix": {
      "niveau": 15.2,
      "var_pct": 2.01,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h51 UTC (yfinance) ; presse mi-séance : S&P autour de l'équilibre, Nasdaq -0,3 %, attente CPI mercredi"
     },
     "nasdaq": {
      "niveau": 26561.68,
      "var_pct": -0.48,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h51 UTC (yfinance) ; presse mi-séance : S&P autour de l'équilibre, Nasdaq -0,3 %, attente CPI mercredi"
     },
     "dax": {
      "niveau": 26323.88,
      "var_pct": 0.02,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance) ; presse : +0,11 % env. en séance, quasi stable"
     },
     "stoxx50": {
      "niveau": 6535.62,
      "var_pct": 0.18,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance) ; presse : +0,4 % env. vers 6 530"
+    },
+    "nikkei": {
+     "niveau": 66970.0,
+     "var_pct": 2.08,
+     "note": "clôture 10/08 — bond de ~1 363 pts (>+2 %) à ~66 970 (presse US du matin ; niveau arrondi, clôture exacte yfinance ND ce jour)"
+    },
+    "hangseng": {
+     "niveau": 25937.0,
+     "var_pct": 1.05,
+     "note": "clôture 10/08 — +269 pts vs 25 668,03 vendredi (presse US du matin ; une source indique +0,9 %, niveau ~25 937 concordant)"
+    },
+    "eurusd": {
+     "niveau": 1.1547,
+     "var_pct": -0.1,
+     "note": "cours en séance 10/08 (Trading Economics via recherche web)"
+    },
+    "brent": {
+     "niveau": 84.18,
+     "var_pct": 0.75,
+     "note": "en séance 10/08 — 3e séance de hausse, incertitude sur la réouverture du détroit d'Ormuz (Trading Economics via recherche web)"
+    },
+    "taux10": {
+     "niveau": 4.65,
+     "var_pct": null,
+     "note": "T-note US 10 ans stable à 4,65 % le 10/08 ; OAT 10 ans ND ce jour"
     }
    },
    "ouverture": 8710.49
