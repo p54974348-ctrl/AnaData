@@ -7,7 +7,7 @@ Suivi quotidien d'un exercice de prévision du rendement J+1 de l'indice CAC 40 
 - `ROUTINE.md` — le prompt complet de la routine (référence normative ; pour une exécution manuelle hors dépôt, recopier le BLOC ÉTAT du dernier compte rendu).
 - `rapports/AAAA-MM-JJ.md` — rapport quotidien de chaque exécution (trace auditable).
 - `INDICES.md` — fiche de référence des 8 indices suivis (cible `^FCHI` + 7 compagnons : `^GSPC`, `^VIX`, `^IXIC`, `^GDAXI`, `^STOXX50E`, `^N225`, `^HSI`) et leur rôle dans la routine.
-- `docs/` — tableau de bord GitHub Pages (graphiques prévision vs réalisé, métriques, leçons), alimenté par `docs/data/history.json` — **source unique de l'état de la routine** (records quotidiens, prévision active, métriques cumulées, suivi dynamique, leçons). Déployé automatiquement à chaque push sur `master` via `.github/workflows/pages.yml`.
+- `docs/` — tableau de bord GitHub Pages (graphiques prévision vs réalisé, métriques, leçons), alimenté par `docs/data/history.json` — **source unique de l'état de la routine** (records quotidiens, prévision active, métriques cumulées, suivi dynamique, leçons). Déployé automatiquement à chaque push sur `master` via `.github/workflows/pages.yml`. Une fois publié par Pages, `data/history.json` est une **interface publique de lecture seule** à URL stable ; son schéma est un contrat : évolutions rétro-compatibles uniquement (ajout de champs autorisé, jamais de suppression/renommage/changement de type sans annonce ici).
 - `scripts/collect.py` — collecteur automatique sans IA (voir ci-dessous), lancé par `.github/workflows/collect.yml`.
 
 ## Tableau de bord
