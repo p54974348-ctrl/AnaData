@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-10",
+ "derniere_maj": "2026-08-11",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1106,37 +1106,86 @@
     }
    },
    "ouverture": 8710.49
+  },
+  {
+   "date": "2026-08-11",
+   "cloture": 8714.94,
+   "rendement_pct": -0.13,
+   "gap_pct": 0.0,
+   "intra_pct": -0.13,
+   "prevision": {
+    "direction": "hausse",
+    "probabilite": 0.52,
+    "intervalle_80pct": [
+     -1.5,
+     1.2
+    ],
+    "source": "routine IA du 10/08 21h15 UTC (remplace le modèle mécanique de secours du collecteur)"
+   },
+   "verdict": {
+    "direction_ok": false,
+    "dans_intervalle": true,
+    "erreur_pct": 0.02,
+    "type": null,
+    "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
+   },
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7736.0,
+     "var_pct": -0.22,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 15.47,
+     "var_pct": 0.06,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26469.36,
+     "var_pct": -0.51,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 26391.42,
+     "var_pct": 0.26,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6551.22,
+     "var_pct": 0.24,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8726.39
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-08-11",
-  "direction": "hausse",
-  "probabilite": 0.52,
+  "seance_cible": "2026-08-12",
+  "direction": "baisse",
+  "probabilite": 0.54,
   "intervalle_80pct": [
-   -1.5,
-   1.2
+   -1.1,
+   1.1
   ],
   "hypotheses": [
-   "H1 (L7/persistance) : 8 hausses consécutives, aucun signal négatif FORT avéré (S&P −0,06 % seulement, VIX ~15) → pas de « baisse » contrarienne ; conviction faible p=0,52",
-   "H2 (L4, pétrole en variation) : Brent +5 % sur 3 séances et escalade verbale du soir (mines navales, exigences iraniennes) → frein sur l'indice, TotalEnergies en amortisseur ; si Brent > +4 % mardi matin, le scénario baissier s'active",
-   "H3 (L2) : risque de queue pétrole en cours de matérialisation → borne basse élargie à −1,5 % (base VIX ±1,2 %)",
-   "H4 (agenda) : mardi creux — Tokyo fermé (Mountain Day), résultats mineurs en France (Vallourec, Viel, HEXAOM), pas de macro majeure ; attentisme pré-CPI (mercredi) → amplitude contenue",
-   "H5 (L6) : balayage du soir effectué — dépêches Ormuz intégrées ; pas d'autre catalyseur identifié"
+   "H1 (mécanique, persistance/L7) : rendement du jour -0.13 %, S&P 500 -0.22 % → direction « baisse »",
+   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.54",
+   "H3 (σ20/VIX) : σ des 16 derniers rendements × 1,28, élargi ×1.25 (VIX 15.47) → ±1.1 %"
   ],
-  "risques": "escalade Ormuz nocturne (mines navales → Brent >90 $ → gap franchement baissier) ; retournement de l'exubérance Kosdaq ; publication non recensée",
-  "source": "routine IA du 10/08 21h15 UTC (remplace le modèle mécanique de secours du collecteur)"
+  "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
  "metriques": {
-  "n": 14,
-  "hit_rate": 0.643,
-  "mae_pct": 0.68,
-  "mae_naif_pct": 0.62,
-  "couverture_intervalle": 0.857,
-  "brier": 0.2422,
+  "n": 15,
+  "hit_rate": 0.6,
+  "mae_pct": 0.64,
+  "mae_naif_pct": 0.59,
+  "couverture_intervalle": 0.867,
+  "brier": 0.2441,
   "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE (garde-fou d'amplitude, pas une mesure directionnelle)",
   "benchmarks": {
-   "hit_rate_persistance": 0.714,
-   "hit_rate_toujours_hausse": 0.857,
+   "hit_rate_persistance": 0.667,
+   "hit_rate_toujours_hausse": 0.8,
    "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 10/08 sur les 14 prévisions évaluées (persistance 10/14, toujours-hausse 12/14). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
   }
  },
@@ -1266,6 +1315,15 @@
    "mae_naif_pct": 0.62,
    "couverture": 0.857,
    "brier": 0.2422
+  },
+  {
+   "date": "2026-08-11",
+   "n": 15,
+   "hit_rate": 0.6,
+   "mae_pct": 0.64,
+   "mae_naif_pct": 0.59,
+   "couverture": 0.867,
+   "brier": 0.2441
   }
  ],
  "lecons": [
