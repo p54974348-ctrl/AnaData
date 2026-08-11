@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-11",
+ "derniere_maj": "2026-08-10",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1112,7 +1112,8 @@
      "note": "clôture 10/08 (Bloomingbit/Korea Times) — rebond sur survente : biotechs et équipementiers semi ; entré au suivi dynamique (≥ +2 %)"
     }
    },
-   "ouverture": 8710.49
+   "ouverture": 8710.49,
+   "volume": 42610800
   },
   {
    "date": "2026-08-11",
