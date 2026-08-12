@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-12",
+ "derniere_maj": "2026-08-11",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1154,7 +1154,7 @@
     },
     "vix": {
      "niveau": 15.4,
-     "var_pct": null,
+     "var_pct": -1.16,
      "note": "clôture exacte ND — ~15,4/15,5 selon sources (riskreversal 15,40 ; yfinance 15,47 à 16h49 UTC) ; régime toujours calme"
     },
     "nasdaq": {
@@ -1203,7 +1203,8 @@
      "note": "T-note US 10 ans > 4,7 %, proche du plus haut 2026 de juillet (CNBC) ; OAT 10 ans ND"
     }
    },
-   "ouverture": 8726.39
+   "ouverture": 8726.39,
+   "volume": 44554400
   },
   {
    "date": "2026-08-12",
