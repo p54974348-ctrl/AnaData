@@ -1219,32 +1219,62 @@
     "type": null,
     "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
    },
-   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "note": "Collecte automatique (GitHub Actions) — source yfinance. Instantané européen 16h48 UTC : Paris −0,46 % à 8 674,94 (gap nul, glissement intraséance) MALGRÉ un CPI US conforme (+0,1 % m/m, 3,4 % a/a, core 2,5 %) — le pétrole à ~90 $ (6e hausse, attaques en mer Rouge) et le luxe ont pesé ; les indices US, eux, rebondissent post-CPI (VIX −3,2 %). Pas de clôture presse contradictoire identifiée (yfinance seule source exacte). Clôtures US définitives, verdict et prévision : routine du soir 21h15 UTC.",
    "contexte": {
     "sp500": {
      "niveau": 7751.64,
      "var_pct": 0.3,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h50 UTC (yfinance) ; clôture au run de 21h15 ; rebond de soulagement post-CPI (+0,1 % m/m, 3,4 % a/a, conforme)"
     },
     "vix": {
      "niveau": 14.79,
      "var_pct": -3.21,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h50 UTC (yfinance) ; clôture au run de 21h15 ; détente marquée post-CPI (−3,2 %)"
     },
     "nasdaq": {
      "niveau": 26610.88,
      "var_pct": 0.63,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h50 UTC (yfinance) ; clôture au run de 21h15"
     },
     "dax": {
      "niveau": 26331.07,
      "var_pct": -0.23,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance) — Europe en repli malgré le CPI conforme (pétrole, inflation allemande en accélération)"
     },
     "stoxx50": {
      "niveau": 6533.99,
      "var_pct": -0.26,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance) — presse : « European stocks close lower », Stoxx sous pression pétrole"
+    },
+    "nikkei": {
+     "niveau": 67524.06,
+     "var_pct": 0.83,
+     "note": "clôture 12/08 (Trading Economics) — réouverture après Mountain Day, poursuite du rallye"
+    },
+    "hangseng": {
+     "niveau": 25418.53,
+     "var_pct": -0.91,
+     "note": "clôture 12/08 (Trading Economics) — 2e repli consécutif"
+    },
+    "kosdaq": {
+     "niveau": 858.91,
+     "var_pct": 0.12,
+     "note": "clôture 12/08 (Seoul Economic Daily/BigGo) — stable ; à noter : Kospi +3,68 % à 6 579,04 (Samsung +6,7 %, SK Hynix +5,5 %, achats étrangers ~2 Mds$) — hors noyau, à examiner par la routine du soir (règle ≥ +2 %)"
+    },
+    "eurusd": {
+     "niveau": null,
+     "var_pct": null,
+     "note": "cours exact ND à cette heure — dollar affaibli post-CPI (taux US en baisse sur toute la courbe, NBC/CNBC)"
+    },
+    "brent": {
+     "niveau": 89.5,
+     "var_pct": null,
+     "note": "≈89,5 $ (+0,8 à +2 % selon sources, 6e séance de hausse) — nouvelles attaques contre des navires en mer Rouge ; frôle les 90 $"
+    },
+    "taux10": {
+     "niveau": null,
+     "var_pct": null,
+     "note": "en baisse sur toute la courbe après le CPI conforme (NBC) ; niveau de clôture ND à cette heure (>4,7 % la veille)"
     }
    },
    "ouverture": 8714.27
