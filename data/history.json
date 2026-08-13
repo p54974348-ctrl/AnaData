@@ -1310,32 +1310,67 @@
     "type": null,
     "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
    },
-   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "note": "Collecte automatique (GitHub Actions) — source yfinance. Instantané européen 16h48 UTC : Paris −0,28 % à 8 650,56 — gap positif (+0,32 %) sur le PPI US à 0,0 % (vs +0,2 % attendu) puis repli intraséance (−0,60 %) : le soulagement inflation n'a pas tenu face au luxe et à la prudence estivale, alors que Wall Street inscrit un record en séance au-dessus de 7 800. PPI + inscriptions chômage digérés ; Applied Materials après clôture US. Aucune divergence de sources sur la clôture CAC (yfinance = Zonebourse). Clôtures US définitives, verdict et prévision : routine du soir 21h15 UTC.",
    "contexte": {
     "sp500": {
      "niveau": 7789.21,
      "var_pct": 0.53,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15 ; PPI juillet à 0,0 % (vs +0,2 % attendu) → record en séance au-dessus de 7 800 (pic 7 815)"
     },
     "vix": {
      "niveau": 14.71,
      "var_pct": 1.1,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15"
     },
     "nasdaq": {
      "niveau": 26768.74,
      "var_pct": 0.68,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15 ; Cisco −6 % en pré-marché malgré son beat (dégonflement des attentes)"
     },
     "dax": {
      "niveau": 26299.74,
      "var_pct": -0.12,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance, −0,12 %) — une dépêche matinale donnait +140 pts à 26 471 : niveau intraday, yfinance fait foi"
     },
     "stoxx50": {
      "niveau": 6545.47,
      "var_pct": 0.18,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance)"
+    },
+    "nikkei": {
+     "niveau": 68308.0,
+     "var_pct": 1.16,
+     "note": "clôture 13/08 (+784 pts, presse US du matin ; niveau arrondi) — poursuite du rallye"
+    },
+    "hangseng": {
+     "niveau": 25396.0,
+     "var_pct": -0.17,
+     "note": "clôture 13/08 (−43 pts, presse US du matin ; niveau arrondi) — 3e repli"
+    },
+    "kospi": {
+     "niveau": 6813.34,
+     "var_pct": 3.56,
+     "note": "clôture 13/08 (Korea Times) — 4e hausse consécutive, rallye semi-conducteurs (SK Hynix +6 %, Samsung +5 %) ; entré en marché haussier (CNBC) ; au suivi dynamique depuis le 12/08"
+    },
+    "kosdaq": {
+     "niveau": null,
+     "var_pct": null,
+     "note": "clôture 13/08 ND dans la presse à cette heure (au suivi dynamique ; dernier connu 858,91 le 12/08)"
+    },
+    "eurusd": {
+     "niveau": 1.15,
+     "var_pct": null,
+     "note": "au-dessus de 1,1500 en séance 13/08 (FXStreet) — dollar affaibli post-PPI, aversion au risque géopolitique en soutien du dollar"
+    },
+    "brent": {
+     "niveau": 87.3,
+     "var_pct": null,
+     "note": "≈87,3 $ en séance 13/08 (ts2/TheStreet) — détente pour la 2e journée après le pic ~90 $ ; Ormuz toujours fermé"
+    },
+    "taux10": {
+     "niveau": 4.657,
+     "var_pct": null,
+     "note": "T-note US 10 ans 4,657 % après le PPI (−1 pb, Investing) ; rallye obligataire bridé par le pétrole ; OAT 10 ans ND"
     }
    },
    "ouverture": 8702.54
