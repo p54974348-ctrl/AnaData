@@ -140,6 +140,13 @@
    "ticker": "^KS11",
    "var_pct": 3.68,
    "note": "Kospi +3,68 % à 6 579,04 (Samsung +6,7 %, SK Hynix +5,5 %, achats étrangers ~2 Mds$) — règle ≥ +2 % hors noyau ; ^KQ11 conservé (+0,12 % à 858,91)"
+  },
+  {
+   "date": "2026-08-13",
+   "action": "aucun",
+   "ticker": null,
+   "var_pct": null,
+   "note": "^KS11 conservé (+3,56 % à 6 813,34, 4e hausse — déjà en liste) ; ^KQ11 conservé (clôture ND ce jour, pas de règle applicable sans donnée) ; aucun autre hors-noyau ≥ +2 % vérifié"
   }
  ],
  "records": [
@@ -1236,9 +1243,9 @@
      "note": "clôture (Barchart : +19,51 pts, +0,25 % ; TheStreet/CNBC indiquent +0,30 % — écart de source mineur) ; Dow +0,11 % ; paris Fed « on hold » renforcés après le CPI conforme"
     },
     "vix": {
-     "niveau": 14.8,
+     "niveau": 14.45,
      "var_pct": null,
-     "note": "clôture exacte ND — ~14,8 (yfinance 14,79 à 16h50 UTC, détente post-CPI −3 %) ; une source donne 15,28 en « previous close » (ambigu)"
+     "note": "clôture officielle 14,45 — plus bas depuis janvier (ts2, publié le 13/08) ; corrige l'estimation ~14,8 de la routine du 12/08"
     },
     "nasdaq": {
      "niveau": 26601.0,
@@ -1307,25 +1314,25 @@
     "direction_ok": false,
     "dans_intervalle": true,
     "erreur_pct": 0.23,
-    "type": null,
-    "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
+    "type": "corrigeable (partielle) — pattern d'érosion intraséance sous-pondéré → nouvelle L8",
+    "cause": "Direction incorrecte (−0,28 %) : le gap d'ouverture positif (+0,32 %) a bien matérialisé H1 (rattrapage du rebond US post-CPI), mais l'érosion intraséance (−0,60 %) l'a effacé — prises de bénéfices après les records et luxe sous pression (Kering, LVMH) pour la 2e séance, malgré PPI froid ET pétrole en détente. CORRIGEABLE (partielle) : c'est la 3e séance consécutive où un gap ⩾ 0 s'érode en séance (intra −0,13/−0,45/−0,60) — pattern observable dès hier soir et sous-pondéré par H1. Codifié en L8 : pas de pari « rattrapage US » tant que la pression vendeuse intraséance (luxe) n'a pas cessé. Part irréductible : l'ampleur du repli du luxe du jour restait difficile à dater."
    },
-   "note": "Collecte automatique (GitHub Actions) — source yfinance. Instantané européen 16h48 UTC : Paris −0,28 % à 8 650,56 — gap positif (+0,32 %) sur le PPI US à 0,0 % (vs +0,2 % attendu) puis repli intraséance (−0,60 %) : le soulagement inflation n'a pas tenu face au luxe et à la prudence estivale, alors que Wall Street inscrit un record en séance au-dessus de 7 800. PPI + inscriptions chômage digérés ; Applied Materials après clôture US. Aucune divergence de sources sur la clôture CAC (yfinance = Zonebourse). Clôtures US définitives, verdict et prévision : routine du soir 21h15 UTC.",
+   "note": "Instantané 16h48 UTC + routine du soir 21h15 UTC. Paris −0,28 % à 8 650,56 (gap +0,32 % érodé, intra −0,60 %) — prises de bénéfices et luxe (Kering/LVMH), banques en forme, malgré PPI US à 0,0 % et Brent en détente ; Wall Street au record (S&P 7 799, >7 800 en séance). Après clôture US : AMAT −2,5/−3 % malgré beat + guidance relevée — 2e « sell the news » semi en 24 h après Cisco. Demain : ventes au détail US 12h30 UTC, inflation France définitive 06h45 UTC.",
    "contexte": {
     "sp500": {
-     "niveau": 7789.21,
-     "var_pct": 0.53,
-     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15 ; PPI juillet à 0,0 % (vs +0,2 % attendu) → record en séance au-dessus de 7 800 (pic 7 815)"
+     "niveau": 7799.0,
+     "var_pct": 0.7,
+     "note": "clôture RECORD (+0,7 %, proactiveinvestors/CNBC) — premier passage au-dessus de 7 800 en séance (pic 7 815) ; Dow +0,1 % (53 840)"
     },
     "vix": {
      "niveau": 14.71,
-     "var_pct": 1.1,
-     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15"
+     "var_pct": null,
+     "note": "clôture exacte ND — 14,71 à 16h59 UTC (yfinance) ; la veille 14,45 en clôture, plus bas depuis janvier (ts2)"
     },
     "nasdaq": {
-     "niveau": 26768.74,
-     "var_pct": 0.68,
-     "note": "séance US en cours — dernier niveau vers 16h59 UTC (yfinance) ; clôture au run de 21h15 ; Cisco −6 % en pré-marché malgré son beat (dégonflement des attentes)"
+     "niveau": 26803.0,
+     "var_pct": 0.8,
+     "note": "clôture (+0,8 %) — Cisco −6 % en séance malgré son beat ; après clôture : Applied Materials −2,5/−3 % malgré CA 9,12 Mds$ > attentes et guidance relevée (« sell the news » semi)"
     },
     "dax": {
      "niveau": 26299.74,
@@ -1381,15 +1388,18 @@
   "direction": "hausse",
   "probabilite": 0.52,
   "intervalle_80pct": [
-   -1.1,
-   1.1
+   -1.3,
+   1.3
   ],
   "hypotheses": [
-   "H1 (mécanique, persistance/L7) : rendement du jour -0.28 %, S&P 500 +0.53 % → direction « hausse »",
-   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.52",
-   "H3 (σ20/VIX) : σ des 18 derniers rendements × 1,28, élargi ×1.25 (VIX 14.71) → ±1.1 %"
+   "H1 (L4, canal dominant) : Brent en détente pour la 2e journée (~87,3 $ vs pic ~90 $) → le frein de la semaine s'inverse ; historiquement (23-27/07), la détente pétrole a porté l'indice",
+   "H2 (L8, nouvelle) : PAS de pari « rattrapage » sur les records US (3 gaps positifs érodés de suite) → conviction minimale p=0,52 ; le gap d'ouverture peut être positif, la séance reste fragile tant que le luxe ne s'est pas stabilisé",
+   "H3 (L6) : AMAT −2,5/−3 % et Cisco −6 % malgré des beats — fatigue du complexe semi → STMicro/tech UE sous pression à l'ouverture, tempère H1",
+   "H4 (L5) : ventes au détail US à 12h30 UTC = binaire non résolu → p plafonnée, intervalle large des deux côtés ; inflation France définitive (06h45 UTC, mineur)",
+   "H5 (L2) : Ormuz toujours fermé → borne basse conservée à −1,3 % malgré la détente du Brent (base VIX ~14,7 → ±1,2 %)"
   ],
-  "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
+  "risques": "rechute du luxe (3e séance) → érosion à nouveau ; ré-accélération du Brent ; ventes au détail fortes → remontée des taux ; vendredi d'août illiquide amplifiant les mouvements ; à la hausse, stabilisation luxe + détente pétrole → au-delà de +1,3 %",
+  "source": "routine IA du 13/08 21h15 UTC (remplace le modèle mécanique de secours du collecteur)"
  },
  "metriques": {
   "n": 17,
@@ -1402,7 +1412,7 @@
   "benchmarks": {
    "hit_rate_persistance": 0.706,
    "hit_rate_toujours_hausse": 0.706,
-   "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 12/08 sur les 16 prévisions évaluées (persistance 11/16, toujours-hausse 12/16). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
+   "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 13/08 sur les 17 prévisions évaluées (persistance 12/17, toujours-hausse 12/17 — à égalité : le régime n'est plus uniformément haussier). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
   }
  },
  "metriques_historique": [
@@ -1584,6 +1594,10 @@
   {
    "texte": "Biais contrarien en régime de rallye : ne prédire « baisse » contre une série de hausses que sur signal négatif FORT (gap US < −0,5 %, choc identifié) — un simple essoufflement ou l'argument « prises de bénéfices » ne suffit pas. Les 4 erreurs directionnelles du cycle (24/07, 30/07, 06/08, 07/08) sont toutes des « baisse » prédites pendant le rallye.",
    "statut": "OBSERVÉE ×1, CONTREDITE ×1 partiellement (11/08 : refus de la « baisse » → direction ratée de justesse −0,13 % ; critère « signal fort » discutable face à Brent +3 % et menaces de mines navales la veille au soir ; retrait à la 2e contradiction)"
+  },
+  {
+   "texte": "L8 — Érosion intraséance en régime « records US / luxe faible » : trois séances consécutives (11-13/08) ont vu un gap d'ouverture ⩾ 0 (porté par la clôture US de la veille) s'éroder en séance (intra −0,13/−0,45/−0,60), sous la pression du luxe (Kering, LVMH) et des prises de bénéfices d'août. Ne PAS fonder la direction sur le « rattrapage » du rebond US tant que la pression vendeuse intraséance n'a pas cessé (1re clôture > ouverture) ; pondérer le gap attendu, pas la séance entière.",
+   "statut": "OBSERVÉE (formalisée le 13/08 sur 3 cas rétrospectifs : 11, 12, 13/08)"
   }
  ]
 }
