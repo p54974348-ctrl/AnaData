@@ -1421,7 +1421,7 @@
     },
     "vix": {
      "niveau": 14.5,
-     "var_pct": null,
+     "var_pct": -2.6,
      "note": "clôture exacte ND — 14,47 à 17h01 UTC (yfinance), régime calme malgré les données conso faibles"
     },
     "nasdaq": {
