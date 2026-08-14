@@ -1405,32 +1405,67 @@
     "type": null,
     "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
    },
-   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "note": "Collecte automatique (GitHub Actions) — source yfinance. Instantané européen 16h48 UTC : Paris −0,16 % à 8 636,80 (4e baisse ; gap +0,08 %, intra −0,24 %) — fin de semaine calme, volumes réduits avant le 15 août ; semaine à −0,6 %. Ventes au détail US juillet −0,6 % m/m (1re baisse en 9 mois) + confiance conso en berne → Wall Street recule depuis son record en séance. Washington menace Téhéran d'un isolement économique ; DAX +0,53 % en surperformance. Presse (−0,2 %) et yfinance (−0,16 %) concordent sur 8 636,80. Clôtures US définitives, verdict et prévision : routine du soir 21h15 UTC.",
    "contexte": {
     "sp500": {
      "niveau": 7779.23,
      "var_pct": -0.25,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 17h01 UTC (yfinance) ; clôture au run de 21h15 ; ventes au détail juillet −0,6 % m/m (1re baisse en 9 mois, pire depuis >1 an) + confiance conso 51 (vs 55,2) → repli depuis le record"
     },
     "vix": {
      "niveau": 14.47,
      "var_pct": -1.09,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 17h01 UTC (yfinance) ; clôture au run de 21h15"
     },
     "nasdaq": {
      "niveau": 26675.9,
      "var_pct": -0.47,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "séance US en cours — dernier niveau vers 17h01 UTC (yfinance) ; clôture au run de 21h15"
     },
     "dax": {
      "niveau": 26440.31,
      "var_pct": 0.53,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance, +0,53 %) — surperformance vs CAC"
     },
     "stoxx50": {
      "niveau": 6539.59,
      "var_pct": -0.09,
-     "note": "clôture officielle (yfinance, collecte automatique)"
+     "note": "clôture officielle (yfinance)"
+    },
+    "nikkei": {
+     "niveau": 69400.0,
+     "var_pct": 1.7,
+     "note": "clôture 14/08 (Trading Economics : « +1,7 % au-dessus de 69 400 » ; niveau arrondi) — rallye ininterrompu"
+    },
+    "hangseng": {
+     "niveau": 25137.87,
+     "var_pct": -1.0,
+     "note": "clôture 14/08 (STL.News) — 4e repli, ~−1 %"
+    },
+    "kospi": {
+     "niveau": 6977.94,
+     "var_pct": 2.42,
+     "note": "clôture 14/08 (Korea Times) — 5e hausse, a brièvement repris 7 000 en séance ; +11,5 % sur la semaine (semi-conducteurs, achats étrangers) ; au suivi dynamique"
+    },
+    "kosdaq": {
+     "niveau": null,
+     "var_pct": null,
+     "note": "clôture 14/08 ND dans la presse à cette heure (au suivi dynamique ; dernier connu 858,91 le 12/08)"
+    },
+    "eurusd": {
+     "niveau": 1.1523,
+     "var_pct": -0.2,
+     "note": "en séance 14/08 (riotimes) — dollar en repli général après les ventes au détail faibles"
+    },
+    "brent": {
+     "niveau": 87.18,
+     "var_pct": 0.13,
+     "note": "≈87,2 $ (Trading Economics) — stabilisation après la détente ; Washington menace Téhéran d'un « isolement économique » (BFM)"
+    },
+    "taux10": {
+     "niveau": 4.647,
+     "var_pct": null,
+     "note": "T-note US 10 ans 4,647 % (riotimes) — détente prolongée après les ventes au détail ratées ; OAT ND"
     }
    },
    "ouverture": 8657.59
