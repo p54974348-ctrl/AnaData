@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-14",
+ "derniere_maj": "2026-08-17",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1476,37 +1476,86 @@
     }
    },
    "ouverture": 8657.59
+  },
+  {
+   "date": "2026-08-17",
+   "cloture": 8579.6,
+   "rendement_pct": -0.66,
+   "gap_pct": -0.09,
+   "intra_pct": -0.57,
+   "prevision": {
+    "direction": "baisse",
+    "probabilite": 0.53,
+    "intervalle_80pct": [
+     -1.5,
+     1.3
+    ],
+    "source": "routine IA du 14/08 21h15 UTC (remplace le modèle mécanique de secours du collecteur)"
+   },
+   "verdict": {
+    "direction_ok": true,
+    "dans_intervalle": true,
+    "erreur_pct": 0.56,
+    "type": null,
+    "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
+   },
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7765.42,
+     "var_pct": -0.26,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 15.2,
+     "var_pct": 6.67,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26684.47,
+     "var_pct": -0.17,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 26338.61,
+     "var_pct": -0.38,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6530.45,
+     "var_pct": -0.14,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8628.62
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-08-17",
+  "seance_cible": "2026-08-18",
   "direction": "baisse",
-  "probabilite": 0.53,
+  "probabilite": 0.54,
   "intervalle_80pct": [
-   -1.5,
-   1.3
+   -1.1,
+   1.1
   ],
   "hypotheses": [
-   "H1 (persistance + L8 confirmée) : 4 baisses consécutives et régime vendeur intraséance intact (aucune clôture > ouverture depuis le 10/08) ; la persistance est le meilleur benchmark du cycle (72 %) → baisse, conviction modérée",
-   "H2 (L5, binaire de week-end) : Ormuz — conditions iraniennes maximalistes vs menaces US d'« isolement économique » ; tout peut basculer dans les deux sens avant lundi → p plafonnée à 0,53, intervalle large",
-   "H3 (L4) : Brent stabilisé (~87,2 $, +0,13 %) — canal neutre vendredi ; ré-accélération > +2 % = accélération baissière, détente < −2 % = soutien",
-   "H4 (US) : Wall Street a quitté son record sur des ventes au détail faibles (−0,6 %) et une confiance conso à 51 — signal conso négatif pour l'ouverture européenne, partiellement compensé par la détente des taux (4,647 %)",
-   "H5 (L2) : queue Ormuz toujours ouverte → borne basse à −1,5 % (base VIX ~14,5 → ±1,2 %) ; dernière prévision sur proxy VIX — l'historique atteint 20 rendements lundi, passage à l'écart-type réalisé dès la prochaine routine"
+   "H1 (mécanique, persistance/L7) : rendement du jour -0.66 %, S&P 500 -0.26 % → direction « baisse »",
+   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.54",
+   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 15.2) → ±1.1 %"
   ],
-  "risques": "désescalade surprise du week-end (accord Ormuz) → gap haussier au-delà de +1,3 % ; escalade (mines, incident naval) → sous −1,5 % ; lundi d'août illiquide amplifiant ; données Empire State non recensées",
-  "source": "routine IA du 14/08 21h15 UTC (remplace le modèle mécanique de secours du collecteur)"
+  "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
  "metriques": {
-  "n": 18,
-  "hit_rate": 0.556,
+  "n": 19,
+  "hit_rate": 0.579,
   "mae_pct": 0.57,
-  "mae_naif_pct": 0.54,
-  "couverture_intervalle": 0.889,
-  "brier": 0.2469,
+  "mae_naif_pct": 0.55,
+  "couverture_intervalle": 0.895,
+  "brier": 0.2456,
   "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE (garde-fou d'amplitude, pas une mesure directionnelle)",
   "benchmarks": {
-   "hit_rate_persistance": 0.722,
-   "hit_rate_toujours_hausse": 0.667,
+   "hit_rate_persistance": 0.737,
+   "hit_rate_toujours_hausse": 0.632,
    "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 14/08 sur les 18 prévisions évaluées (persistance 13/18, toujours-hausse 12/18 — la persistance repasse devant avec la série baissière). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
   }
  },
@@ -1672,6 +1721,15 @@
    "mae_naif_pct": 0.54,
    "couverture": 0.889,
    "brier": 0.2469
+  },
+  {
+   "date": "2026-08-17",
+   "n": 19,
+   "hit_rate": 0.579,
+   "mae_pct": 0.57,
+   "mae_naif_pct": 0.55,
+   "couverture": 0.895,
+   "brier": 0.2456
   }
  ],
  "lecons": [
