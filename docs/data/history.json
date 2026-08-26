@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-25",
+ "derniere_maj": "2026-08-26",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1840,34 +1840,86 @@
     }
    },
    "ouverture": 8499.2
+  },
+  {
+   "date": "2026-08-26",
+   "cloture": 8462.39,
+   "rendement_pct": 0.27,
+   "gap_pct": 0.35,
+   "intra_pct": -0.08,
+   "prevision": {
+    "direction": "baisse",
+    "probabilite": 0.54,
+    "intervalle_80pct": [
+     -0.9,
+     0.9
+    ],
+    "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
+   },
+   "verdict": {
+    "direction_ok": false,
+    "dans_intervalle": true,
+    "erreur_pct": 0.27,
+    "type": null,
+    "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
+   },
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7664.86,
+     "var_pct": -0.16,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 15.71,
+     "var_pct": 1.68,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26056.49,
+     "var_pct": -0.36,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 26285.96,
+     "var_pct": 0.08,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6470.74,
+     "var_pct": 0.23,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8468.79
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-08-26",
-  "direction": "baisse",
+  "seance_cible": "2026-08-27",
+  "direction": "hausse",
   "probabilite": 0.54,
   "intervalle_80pct": [
-   -0.9,
-   0.9
+   -0.8,
+   0.8
   ],
   "hypotheses": [
-   "H1 (mécanique, persistance/L7) : rendement du jour -0.16 %, S&P 500 +0.25 % → direction « baisse »",
+   "H1 (mécanique, persistance/L7) : rendement du jour +0.27 %, S&P 500 -0.16 % → direction « hausse »",
    "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.54",
-   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 15.46) → ±0.9 %"
+   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 15.71) → ±0.8 %"
   ],
   "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
  "metriques": {
-  "n": 25,
-  "hit_rate": 0.6,
-  "mae_pct": 0.53,
-  "mae_naif_pct": 0.51,
-  "couverture_intervalle": 0.92,
-  "brier": 0.2438,
+  "n": 26,
+  "hit_rate": 0.577,
+  "mae_pct": 0.52,
+  "mae_naif_pct": 0.5,
+  "couverture_intervalle": 0.923,
+  "brier": 0.2456,
   "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE (garde-fou d'amplitude, pas une mesure directionnelle)",
   "benchmarks": {
-   "hit_rate_persistance": 0.72,
-   "hit_rate_toujours_hausse": 0.52,
+   "hit_rate_persistance": 0.692,
+   "hit_rate_toujours_hausse": 0.538,
    "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 14/08 sur les 18 prévisions évaluées (persistance 13/18, toujours-hausse 12/18 — la persistance repasse devant avec la série baissière). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
   }
  },
@@ -2096,6 +2148,15 @@
    "mae_naif_pct": 0.51,
    "couverture": 0.92,
    "brier": 0.2438
+  },
+  {
+   "date": "2026-08-26",
+   "n": 26,
+   "hit_rate": 0.577,
+   "mae_pct": 0.52,
+   "mae_naif_pct": 0.5,
+   "couverture": 0.923,
+   "brier": 0.2456
   }
  ],
  "lecons": [
