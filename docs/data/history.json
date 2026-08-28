@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-26",
+ "derniere_maj": "2026-08-27",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1914,34 +1914,97 @@
    },
    "ouverture": 8468.79,
    "volume": 44775900
+  },
+  {
+   "date": "2026-08-27",
+   "cloture": 8319.87,
+   "rendement_pct": -1.68,
+   "gap_pct": -0.02,
+   "intra_pct": -1.67,
+   "prevision": {
+    "direction": "hausse",
+    "probabilite": 0.54,
+    "intervalle_80pct": [
+     -0.8,
+     0.8
+    ],
+    "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
+   },
+   "verdict": {
+    "direction_ok": false,
+    "dans_intervalle": false,
+    "erreur_pct": 1.68,
+    "type": null,
+    "cause": "évaluation mécanique (collecte automatique) — attribution corrigeable/irréductible à faire par la routine"
+   },
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7730.99,
+     "var_pct": 0.72,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 14.51,
+     "var_pct": -4.6,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26541.35,
+     "var_pct": 1.57,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 26367.24,
+     "var_pct": 0.31,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6424.73,
+     "var_pct": -0.71,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nikkei": {
+     "niveau": 66131.98,
+     "var_pct": -0.2,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "hangseng": {
+     "niveau": 25565.74,
+     "var_pct": -0.34,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8460.91,
+   "volume": 75924400
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-08-27",
+  "seance_cible": "2026-08-28",
   "direction": "hausse",
-  "probabilite": 0.54,
+  "probabilite": 0.52,
   "intervalle_80pct": [
-   -0.8,
-   0.8
+   -1.0,
+   1.0
   ],
   "hypotheses": [
-   "H1 (mécanique, persistance/L7) : rendement du jour +0.27 %, S&P 500 -0.16 % → direction « hausse »",
-   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.54",
-   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 15.71) → ±0.8 %"
+   "H1 (mécanique, persistance/L7) : rendement du jour -1.68 %, S&P 500 +0.72 % → direction « hausse »",
+   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.52",
+   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 14.51) → ±1.0 %"
   ],
   "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
  "metriques": {
-  "n": 26,
-  "hit_rate": 0.577,
-  "mae_pct": 0.52,
-  "mae_naif_pct": 0.5,
-  "couverture_intervalle": 0.923,
-  "brier": 0.2456,
+  "n": 27,
+  "hit_rate": 0.556,
+  "mae_pct": 0.56,
+  "mae_naif_pct": 0.55,
+  "couverture_intervalle": 0.889,
+  "brier": 0.2473,
   "note_convention": "prévision ponctuelle = milieu de l'intervalle 80 % pour le calcul de la MAE (garde-fou d'amplitude, pas une mesure directionnelle)",
   "benchmarks": {
-   "hit_rate_persistance": 0.692,
-   "hit_rate_toujours_hausse": 0.538,
+   "hit_rate_persistance": 0.667,
+   "hit_rate_toujours_hausse": 0.519,
    "note": "persistance = prédire le signe de la veille (implémentable ex ante) ; toujours-hausse = référence de régime (ex post). Mis à jour le 14/08 sur les 18 prévisions évaluées (persistance 13/18, toujours-hausse 12/18 — la persistance repasse devant avec la série baissière). Le modèle n'a de valeur directionnelle démontrée que s'il bat durablement la persistance."
   }
  },
@@ -2179,6 +2242,15 @@
    "mae_naif_pct": 0.5,
    "couverture": 0.923,
    "brier": 0.2456
+  },
+  {
+   "date": "2026-08-27",
+   "n": 27,
+   "hit_rate": 0.556,
+   "mae_pct": 0.56,
+   "mae_naif_pct": 0.55,
+   "couverture": 0.889,
+   "brier": 0.2473
   }
  ],
  "lecons": [
