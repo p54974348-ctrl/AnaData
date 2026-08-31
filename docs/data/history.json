@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-08-27",
+ "derniere_maj": "2026-08-31",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -1977,10 +1977,48 @@
    },
    "ouverture": 8460.91,
    "volume": 75924400
+  },
+  {
+   "date": "2026-08-31",
+   "cloture": 8334.5,
+   "rendement_pct": 0.18,
+   "gap_pct": 1.02,
+   "intra_pct": -0.84,
+   "prevision": null,
+   "verdict": null,
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7686.14,
+     "var_pct": -0.58,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 14.92,
+     "var_pct": 2.83,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26370.89,
+     "var_pct": -0.64,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 26258.11,
+     "var_pct": -0.41,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6420.16,
+     "var_pct": -0.07,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8404.73
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-08-28",
+  "seance_cible": "2026-09-01",
   "direction": "hausse",
   "probabilite": 0.52,
   "intervalle_80pct": [
@@ -1988,9 +2026,9 @@
    1.0
   ],
   "hypotheses": [
-   "H1 (mécanique, persistance/L7) : rendement du jour -1.68 %, S&P 500 +0.72 % → direction « hausse »",
+   "H1 (mécanique, persistance/L7) : rendement du jour +0.18 %, S&P 500 -0.58 % → direction « hausse »",
    "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.52",
-   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 14.51) → ±1.0 %"
+   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.25 (VIX 14.92) → ±1.0 %"
   ],
   "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
