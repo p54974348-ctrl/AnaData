@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-09-29",
+ "derniere_maj": "2026-09-28",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -3241,6 +3241,55 @@
    },
    "ouverture": 8134.06,
    "volume": 50628100
+  },
+  {
+   "date": "2026-09-28",
+   "cloture": 8078.48,
+   "rendement_pct": 0.01,
+   "gap_pct": 0.41,
+   "intra_pct": -0.4,
+   "prevision": null,
+   "verdict": null,
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 7683.69,
+     "var_pct": -0.77,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 16.07,
+     "var_pct": 8.07,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 26820.38,
+     "var_pct": -0.92,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 25374.42,
+     "var_pct": -0.13,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 6301.28,
+     "var_pct": -0.02,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nikkei": {
+     "niveau": 65877.62,
+     "var_pct": -0.73,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "hangseng": {
+     "niveau": 24642.51,
+     "var_pct": 0.54,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8110.92,
+   "volume": 48380800
   },
   {
    "date": "2026-09-29",
