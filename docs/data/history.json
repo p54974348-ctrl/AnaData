@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-11-04",
+ "derniere_maj": "2026-11-03",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -4857,9 +4857,15 @@
      "niveau": 6144.56,
      "var_pct": -0.51,
      "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "hangseng": {
+     "niveau": 23525.97,
+     "var_pct": 0.57,
+     "note": "clôture officielle (yfinance, collecte automatique)"
     }
    },
-   "ouverture": 7997.91
+   "ouverture": 7997.91,
+   "volume": 57846600
   },
   {
    "date": "2026-11-04",
