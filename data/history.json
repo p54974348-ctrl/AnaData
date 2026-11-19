@@ -5545,9 +5545,20 @@
      "niveau": 6154.39,
      "var_pct": -0.93,
      "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nikkei": {
+     "niveau": 59024.28,
+     "var_pct": 0.28,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "hangseng": {
+     "niveau": 23294.75,
+     "var_pct": -0.91,
+     "note": "clôture officielle (yfinance, collecte automatique)"
     }
    },
-   "ouverture": 8216.08
+   "ouverture": 8216.08,
+   "volume": 55659200
   }
  ],
  "prevision_active": {
