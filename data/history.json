@@ -1,7 +1,7 @@
 {
  "indice": "CAC 40 (PX1)",
  "routine": "CAC40_J+1",
- "derniere_maj": "2026-11-18",
+ "derniere_maj": "2026-11-20",
  "suivi_noyau": [
   "^FCHI",
   "^GSPC",
@@ -5559,20 +5559,58 @@
    },
    "ouverture": 8216.08,
    "volume": 55659200
+  },
+  {
+   "date": "2026-11-20",
+   "cloture": 7927.75,
+   "rendement_pct": -1.89,
+   "gap_pct": -0.75,
+   "intra_pct": -1.15,
+   "prevision": null,
+   "verdict": null,
+   "note": "Collecte automatique (GitHub Actions) — source yfinance.",
+   "contexte": {
+    "sp500": {
+     "niveau": 6910.39,
+     "var_pct": -3.7,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "vix": {
+     "niveau": 35.89,
+     "var_pct": 26.2,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "nasdaq": {
+     "niveau": 22617.73,
+     "var_pct": -5.28,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "dax": {
+     "niveau": 24802.78,
+     "var_pct": -2.6,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    },
+    "stoxx50": {
+     "niveau": 5941.95,
+     "var_pct": -2.81,
+     "note": "clôture officielle (yfinance, collecte automatique)"
+    }
+   },
+   "ouverture": 8020.19
   }
  ],
  "prevision_active": {
-  "seance_cible": "2026-11-19",
+  "seance_cible": "2026-11-23",
   "direction": "baisse",
-  "probabilite": 0.54,
+  "probabilite": 0.55,
   "intervalle_80pct": [
-   -1.6,
-   1.6
+   -2.2,
+   2.2
   ],
   "hypotheses": [
-   "H1 (mécanique, persistance/L7) : rendement du jour -0.85 %, S&P 500 -0.23 % → direction « baisse »",
-   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.54",
-   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.4 (VIX 24.56) → ±1.6 %"
+   "H1 (mécanique, persistance/L7) : rendement du jour -1.89 %, S&P 500 -3.70 % → direction « baisse »",
+   "H2 (L5) : agenda et binaires du lendemain non analysables sans IA → probabilité plafonnée à 0.55",
+   "H3 (σ20/VIX) : σ des 20 derniers rendements × 1,28, élargi ×1.8 (VIX 35.89) → ±2.2 %"
   ],
   "source": "mécanique (collecteur automatique) — modèle de secours codifié par la routine IA ; remplacée par la prévision IA si la routine tourne"
  },
